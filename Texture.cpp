@@ -9,6 +9,7 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
 
 	glGenTextures(1, &ID);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	glActiveTexture(GL_TEXTURE0 + slot);
 	unit = slot;

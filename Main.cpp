@@ -31,7 +31,7 @@ int main()
 	Shader shaderProgram("default.vert", "default.frag");
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 lightPos = glm::vec3(0.5f, -1.5f, 0.5f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -46,12 +46,12 @@ int main()
 
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-	Model model("models/sword/scene.gltf");
+	Model model("models/door/door.gltf");
 
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
+		glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		camera.Inputs(window);
