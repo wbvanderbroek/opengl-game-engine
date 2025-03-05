@@ -179,9 +179,9 @@
     <ResourceCompile Include="opengl-game-engine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\pop_cat.png" />
     <Image Include="planks.png" />
     <Image Include="planksSpec.png" />
+    <Image Include="pop_cat.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
