@@ -75,8 +75,8 @@
     <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\include;$(IncludePath)</IncludePath>
