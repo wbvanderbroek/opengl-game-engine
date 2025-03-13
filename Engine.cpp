@@ -1,0 +1,55 @@
+#include "Engine.h"
+
+Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
+	: m_width(width),
+	m_height(height),
+	m_window(window),
+	m_shaderProgram("default.vert", "default.frag"),
+	m_camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f)),
+	m_model("models/door/door.gltf")
+{
+	m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	m_lightPos = glm::vec3(0.5f, -1.5f, 0.5f);
+	m_lightModel = glm::mat4(1.0f);
+	m_lightModel = glm::translate(m_lightModel, m_lightPos);
+
+	m_shaderProgram.Activate();
+	glUniform4f(glGetUniformLocation(m_shaderProgram.ID, "lightColor"), m_lightColor.x, m_lightColor.y, m_lightColor.z, m_lightColor.w);
+	glUniform3f(glGetUniformLocation(m_shaderProgram.ID, "lightPos"), m_lightPos.x, m_lightPos.y, m_lightPos.z);
+
+	glEnable(GL_DEPTH_TEST);
+}
+
+void Engine::Start()
+{
+	m_shaderProgram.Activate();
+	glUniform4f(glGetUniformLocation(m_shaderProgram.ID, "lightColor"),
+		m_lightColor.x, m_lightColor.y, m_lightColor.z, m_lightColor.w);
+	glUniform3f(glGetUniformLocation(m_shaderProgram.ID, "lightPos"),
+		m_lightPos.x, m_lightPos.y, m_lightPos.z);
+
+	glEnable(GL_DEPTH_TEST);
+}
+
+void Engine::Update()
+{
+	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	m_camera.Inputs(m_window);
+	m_camera.updateMatrix(45.0f, 0.1f, 100.0f);
+
+	m_model.Draw(m_shaderProgram, m_camera);
+
+	glfwSwapBuffers(m_window);
+	glfwPollEvents();
+}
+
+void Engine::Quit()
+{
+	m_shaderProgram.Delete();
+
+
+	glfwDestroyWindow(m_window);
+	glfwTerminate();
+}
