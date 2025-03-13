@@ -31,14 +31,14 @@ int main()
 
 
 	Engine engine(width, height, window);
-	engine.Start();
+	engine.StartInternal();
 
 	while (!glfwWindowShouldClose(window))
 	{
-		engine.Update();
+		engine.UpdateInternal();
 	}
 
-	engine.Quit();
+	engine.QuitInternal();
 
 	return 0;
 }

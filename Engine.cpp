@@ -1,4 +1,6 @@
 #include "Engine.h"
+#include "Player.h"
+#include <chrono>
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	: m_width(width),
@@ -20,7 +22,7 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Engine::Start()
+void Engine::StartInternal()
 {
 	m_shaderProgram.Activate();
 	glUniform4f(glGetUniformLocation(m_shaderProgram.ID, "lightColor"),
@@ -29,10 +31,35 @@ void Engine::Start()
 		m_lightPos.x, m_lightPos.y, m_lightPos.z);
 
 	glEnable(GL_DEPTH_TEST);
+
+	Player player = Player();
+
+	AddGameObject(std::make_shared<Player>(player));
+
+	for (auto& obj : m_objects)
+	{
+		obj->Start();
+	}
 }
 
-void Engine::Update()
+void Engine::UpdateInternal()
 {
+	// delta time
+	auto currentTime = std::chrono::system_clock::now();
+	auto elapsedSeconds = std::chrono::duration<double>();
+
+	if (m_previousTime.time_since_epoch().count())
+		elapsedSeconds = currentTime - m_previousTime;
+
+	m_previousTime = currentTime;
+
+	auto deltaTime = (float)elapsedSeconds.count();
+
+	for (auto& obj : m_objects)
+		obj->Update(deltaTime);
+
+
+	// Complete the rendering after the game logic is run
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -43,13 +70,22 @@ void Engine::Update()
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+
+
 }
 
-void Engine::Quit()
+void Engine::QuitInternal()
 {
+	for (auto& obj : m_objects)
+		obj->Quit();
+
 	m_shaderProgram.Delete();
 
 
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
+}
+void Engine::AddGameObject(std::shared_ptr<GameObject> object)
+{
+	m_objects.push_back(object);
 }

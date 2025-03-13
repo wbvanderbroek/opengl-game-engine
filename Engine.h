@@ -10,17 +10,24 @@
 #include "Camera.h"
 #include "Model.h"
 #include "ShaderClass.h"
-
+#include <chrono>
+class GameObject;
 class Engine
 {
 public:
 	Engine(unsigned int width, unsigned int height, GLFWwindow* window);
+	void StartInternal();
 
-	void Start();
+	void UpdateInternal();
 
-	void Update();
+	void QuitInternal();
 
-	void Quit();
+	void AddGameObject(std::shared_ptr<GameObject> object);
+
+protected:
+	virtual void Start() {}
+	virtual void Update(float deltaTime) {}
+	virtual void Quit() {}
 
 private:
 	unsigned int m_width;
@@ -29,11 +36,15 @@ private:
 
 	Shader m_shaderProgram;
 	Camera m_camera;
-	Model  m_model;
+	Model m_model;
+
+	std::chrono::system_clock::time_point m_previousTime;
 
 	glm::vec4 m_lightColor;
 	glm::vec3 m_lightPos;
 	glm::mat4 m_lightModel;
+
+	std::vector<std::shared_ptr<GameObject>> m_objects;
 };
 
 #endif
