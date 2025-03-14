@@ -20,6 +20,8 @@ public:
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
+	GLFWwindow* m_window;
+	
 	bool firstClick = true;
 
 	int width;
@@ -28,11 +30,11 @@ public:
 	float speed = 0.1f;
 	float sensitivity = 100.0f;
 
-	Camera(ObjectStorage* storage, int width, int height, glm::vec3 position);
+	Camera(ObjectStorage* storage, int width, int height, glm::vec3 position, GLFWwindow* window);
 
 	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
 	void Matrix(Shader& shader, const char* uniform);
-	void Inputs(GLFWwindow* window);
+	void Inputs();
 
 	void OnCreate() override;
 	void Start() override;
