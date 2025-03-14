@@ -1,6 +1,6 @@
 #include "Engine.h"
-#include "Player.h"
 #include <chrono>
+#include "ObjectStorage.h"
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	: m_width(width),
@@ -32,11 +32,9 @@ void Engine::StartInternal()
 
 	glEnable(GL_DEPTH_TEST);
 
-	Player player = Player();
+	m_storage = ObjectStorage();
 
-	AddGameObject(std::make_shared<Player>(player));
-
-	for (auto& obj : m_objects)
+	for (auto& obj : m_storage.m_objects)
 	{
 		obj->Start();
 	}
@@ -55,7 +53,7 @@ void Engine::UpdateInternal()
 
 	auto deltaTime = (float)elapsedSeconds.count();
 
-	for (auto& obj : m_objects)
+	for (auto& obj : m_storage.m_objects)
 		obj->Update(deltaTime);
 
 
@@ -76,7 +74,7 @@ void Engine::UpdateInternal()
 
 void Engine::QuitInternal()
 {
-	for (auto& obj : m_objects)
+	for (auto& obj : m_storage.m_objects)
 		obj->Quit();
 
 	m_shaderProgram.Delete();
@@ -85,7 +83,4 @@ void Engine::QuitInternal()
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
 }
-void Engine::AddGameObject(std::shared_ptr<GameObject> object)
-{
-	m_objects.push_back(object);
-}
+

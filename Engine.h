@@ -5,12 +5,13 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
 
 #include "Camera.h"
 #include "Model.h"
 #include "ShaderClass.h"
 #include <chrono>
+#include "ObjectStorage.h"
+
 class GameObject;
 class Engine
 {
@@ -21,9 +22,6 @@ public:
 	void UpdateInternal();
 
 	void QuitInternal();
-
-	void AddGameObject(std::shared_ptr<GameObject> object);
-
 protected:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
@@ -44,7 +42,7 @@ private:
 	glm::vec3 m_lightPos;
 	glm::mat4 m_lightModel;
 
-	std::vector<std::shared_ptr<GameObject>> m_objects;
+	ObjectStorage m_storage;
 };
 
 #endif
