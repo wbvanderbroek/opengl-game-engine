@@ -6,10 +6,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <chrono>
 #include <Engine/Camera.h>
 #include <Engine/Model.h>
 #include <Engine/Shader.h>
-#include <chrono>
 #include <Game/ObjectStorage.h>
 
 class GameObject;
@@ -33,7 +33,7 @@ private:
 	GLFWwindow* m_window;
 
 	Shader m_shaderProgram;
-	Camera m_camera;
+	std::shared_ptr<Camera> m_camera;
 	Model m_model;
 
 	std::chrono::system_clock::time_point m_previousTime;

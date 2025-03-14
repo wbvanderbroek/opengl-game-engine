@@ -7,9 +7,10 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	m_height(height),
 	m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
-	m_camera(&m_storage , width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window),
 	m_model("Assets/models/door/door.gltf")
 {
+	m_camera = std::make_shared<Camera>(&m_storage, width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window);
+
 	m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_lightPos = glm::vec3(0.5f, -1.5f, 0.5f);
 	m_lightModel = glm::mat4(1.0f);
@@ -20,9 +21,6 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	glUniform3f(glGetUniformLocation(m_shaderProgram.ID, "lightPos"), m_lightPos.x, m_lightPos.y, m_lightPos.z);
 
 	glEnable(GL_DEPTH_TEST);
-
-	std::shared_ptr<Camera> camera = std::make_shared<Camera>(m_camera);
-	m_storage.AddGameObject(camera);
 }
 
 void Engine::StartInternal()
@@ -36,6 +34,7 @@ void Engine::StartInternal()
 	glEnable(GL_DEPTH_TEST);
 
 	m_storage = ObjectStorage();
+	m_storage.AddGameObject(m_camera);
 
 	for (auto& obj : m_storage.m_objects)
 	{
@@ -64,7 +63,8 @@ void Engine::UpdateInternal()
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_model.Draw(m_shaderProgram, m_camera);
+
+	m_model.Draw(m_shaderProgram, *m_camera);
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
