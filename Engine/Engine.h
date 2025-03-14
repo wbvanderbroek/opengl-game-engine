@@ -17,16 +17,14 @@ class Engine
 {
 public:
 	Engine(unsigned int width, unsigned int height, GLFWwindow* window);
+
 	void StartInternal();
-
 	void UpdateInternal();
-
 	void QuitInternal();
 protected:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
 	virtual void Quit() {}
-
 private:
 	unsigned int m_width;
 	unsigned int m_height;
@@ -43,6 +41,19 @@ private:
 	glm::mat4 m_lightModel;
 
 	ObjectStorage m_storage;
+
+	float CalculateDeltaTime()
+	{
+		auto currentTime = std::chrono::system_clock::now();
+		auto elapsedSeconds = std::chrono::duration<double>();
+
+		if (m_previousTime.time_since_epoch().count())
+			elapsedSeconds = currentTime - m_previousTime;
+
+		m_previousTime = currentTime;
+
+		return (float)elapsedSeconds.count();
+	}
 };
 
 #endif

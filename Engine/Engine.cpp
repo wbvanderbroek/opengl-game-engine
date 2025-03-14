@@ -44,20 +44,8 @@ void Engine::StartInternal()
 
 void Engine::UpdateInternal()
 {
-	// delta time
-	auto currentTime = std::chrono::system_clock::now();
-	auto elapsedSeconds = std::chrono::duration<double>();
-
-	if (m_previousTime.time_since_epoch().count())
-		elapsedSeconds = currentTime - m_previousTime;
-
-	m_previousTime = currentTime;
-
-	auto deltaTime = (float)elapsedSeconds.count();
-
 	for (auto& obj : m_storage.m_objects)
-		obj->Update(deltaTime);
-
+		obj->Update(CalculateDeltaTime());
 
 	// Complete the rendering after the game logic is run
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
