@@ -6,11 +6,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Camera.h"
-#include "Model.h"
-#include "Shader.h"
+#include <Engine/Camera.h>
+#include <Engine/Model.h>
+#include <Engine/Shader.h>
 #include <chrono>
-#include "ObjectStorage.h"
+#include <Game/ObjectStorage.h>
 
 class GameObject;
 class Engine

@@ -1,4 +1,4 @@
-#include "Player.h"
+#include <Game/Player.h>
 #include <iostream>
 
 Player::Player(ObjectStorage* storage) : GameObject(storage)

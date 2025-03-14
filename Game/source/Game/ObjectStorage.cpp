@@ -1,7 +1,7 @@
-#include "ObjectStorage.h"
-#include "GameObject.h"
+#include <Game/ObjectStorage.h>
+#include <Engine/GameObject.h>
 #include <iostream>
-#include "Player.h"
+#include <Game/Player.h>
 
 ObjectStorage::ObjectStorage()
 {

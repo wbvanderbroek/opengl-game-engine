@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include <chrono>
-#include "ObjectStorage.h"
+#include <Game/ObjectStorage.h>
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	: m_width(width),

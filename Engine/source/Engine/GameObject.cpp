@@ -1,5 +1,5 @@
-#include "GameObject.h"
-#include "ObjectStorage.h"
+#include <Engine/GameObject.h>
+#include <Game/ObjectStorage.h>
 
 void GameObject::Destroy()
 {
