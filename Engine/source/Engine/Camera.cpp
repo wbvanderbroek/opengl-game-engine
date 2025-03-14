@@ -1,6 +1,7 @@
 #include <Engine/Camera.h>
 
-Camera::Camera(int width, int height, glm::vec3 position)
+Camera::Camera(ObjectStorage* storage, int width, int height, glm::vec3 position)
+	: GameObject(storage), width(width), height(height), Position(position)
 {
 	Camera::width = width;
 	Camera::height = height;
@@ -78,4 +79,26 @@ void Camera::Inputs(GLFWwindow* window)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		firstClick = true;
 	}
+}
+
+void Camera::OnCreate()
+{
+	std::cout << "oncreate called in camera" << std::endl;
+
+}
+
+void Camera::Start()
+{
+}
+
+void Camera::Update(float deltaTime)
+{
+}
+
+void Camera::OnDestroy()
+{
+}
+
+void Camera::Quit()
+{
 }
