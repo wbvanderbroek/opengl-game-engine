@@ -8,7 +8,7 @@
 
 #include "Camera.h"
 #include "Model.h"
-#include "ShaderClass.h"
+#include "Shader.h"
 #include <chrono>
 #include "ObjectStorage.h"
 

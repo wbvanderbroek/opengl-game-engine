@@ -27,7 +27,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderClass.cpp">
+    <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VBO.cpp">
@@ -76,7 +76,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ShaderClass.h">
+    <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VBO.h">
