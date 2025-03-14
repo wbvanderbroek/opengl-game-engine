@@ -163,10 +163,8 @@
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.frag" />
-    <None Include="default.vert" />
-    <None Include="light.frag" />
-    <None Include="light.vert" />
+    <None Include="Assets\Shaders\default.frag" />
+    <None Include="Assets\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -185,11 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="planks.png" />
-    <Image Include="planksSpec.png" />
-    <Image Include="pop_cat.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

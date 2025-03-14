@@ -6,9 +6,9 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	: m_width(width),
 	m_height(height),
 	m_window(window),
-	m_shaderProgram("default.vert", "default.frag"),
+	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
 	m_camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f)),
-	m_model("models/door/door.gltf")
+	m_model("Assets/models/door/door.gltf")
 {
 	m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_lightPos = glm::vec3(0.5f, -1.5f, 0.5f);
