@@ -150,9 +150,9 @@
   <ItemGroup>
     <ClCompile Include="Engine\source\Engine\Camera.cpp" />
     <ClCompile Include="Engine\source\Engine\EBO.cpp" />
-    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\source\Engine\Engine.cpp" />
     <ClCompile Include="Engine\source\Engine\GameObject.cpp" />
-    <ClCompile Include="Engine\include\Engine\glad.c" />
+    <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\source\Engine\Mesh.cpp" />
     <ClCompile Include="Engine\source\Engine\Model.cpp" />
@@ -171,7 +171,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\include\Engine\Camera.h" />
     <ClInclude Include="Engine\include\Engine\EBO.h" />
-    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\include\Engine\Engine.h" />
     <ClInclude Include="Engine\include\Engine\GameObject.h" />
     <ClInclude Include="Engine\include\Engine\Mesh.h" />
     <ClInclude Include="Engine\include\Engine\Model.h" />

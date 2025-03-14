@@ -1,5 +1,5 @@
-#include "Engine.h"
 #include <chrono>
+#include <Engine/Engine.h>
 #include <Game/ObjectStorage.h>
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
