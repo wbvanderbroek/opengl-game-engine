@@ -24,26 +24,26 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-void Camera::Inputs()
+void Camera::Inputs(float deltaTime)
 {
 	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		Position += speed * Orientation;
+		Position += deltaTime * speed * Orientation;
 	if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		Position += speed * -glm::normalize(glm::cross(Orientation, Up));
+		Position += deltaTime * speed * -glm::normalize(glm::cross(Orientation, Up));
 	if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-		Position += speed * -Orientation;
+		Position += deltaTime * speed * -Orientation;
 	if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-		Position += speed * glm::normalize(glm::cross(Orientation, Up));;
+		Position += deltaTime * speed * glm::normalize(glm::cross(Orientation, Up));;
 
 
 	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		Position += speed * Up;
+		Position += deltaTime * speed * Up;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		Position += speed * -Up;
+		Position += deltaTime * speed * -Up;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		speed = 0.06f;
+		speed = 10000;
 	else if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		speed = 0.03f;
+		speed = 5000;
 
 	if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
@@ -94,8 +94,7 @@ void Camera::Start()
 
 void Camera::Update(float deltaTime)
 {
-	std::cout << "update in cam" << std::endl;
-	Inputs();
+	Inputs(deltaTime);
 	updateMatrix(45.0f, 0.1f, 100.0f);
 }
 
