@@ -1,6 +1,6 @@
 #include <Game/ObjectStorage.h>
 #include <Engine/GameObject.h>
-#include <iostream>
+#include <algorithm> 
 #include <Game/Player.h>
 
 ObjectStorage::ObjectStorage()
@@ -17,10 +17,10 @@ void ObjectStorage::AddGameObject(std::shared_ptr<GameObject> object)
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
 {
-    auto it = std::remove(m_objects.begin(), m_objects.end(), object);
+    auto it = std::find(m_objects.begin(), m_objects.end(), object);
     if (it != m_objects.end())
     {
         (*it)->OnDestroy();
-        m_objects.erase(it, m_objects.end());
+        m_objects.erase(it);
     }
 }
