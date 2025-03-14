@@ -1,4 +1,4 @@
-file(GLOB GAME_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/source/Game/*.cpp")
+file(GLOB GAME_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
 add_library(Game ${GAME_SOURCES})
 

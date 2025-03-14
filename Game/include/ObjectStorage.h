@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
+#include <GameObject.h>
 #include <memory>
-#include <Engine/GameObject.h>
+#include <vector>
 
 class GameObject;
 class ObjectStorage

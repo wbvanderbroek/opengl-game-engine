@@ -24,43 +24,43 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Shader.cpp">
+    <ClCompile Include="Engine\source\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\VBO.cpp">
+    <ClCompile Include="Engine\source\VBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\EBO.cpp">
+    <ClCompile Include="Engine\source\EBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\VAO.cpp">
+    <ClCompile Include="Engine\source\VAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\stb.cpp">
+    <ClCompile Include="Engine\source\stb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Texture.cpp">
+    <ClCompile Include="Engine\source\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Camera.cpp">
+    <ClCompile Include="Engine\source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Mesh.cpp">
+    <ClCompile Include="Engine\source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Model.cpp">
+    <ClCompile Include="Engine\source\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\Engine.cpp">
+    <ClCompile Include="Engine\source\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\Game\Player.cpp">
+    <ClCompile Include="Game\source\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\Game\ObjectStorage.cpp">
+    <ClCompile Include="Game\source\ObjectStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine\GameObject.cpp">
+    <ClCompile Include="Engine\source\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\include\glad\glad.c">
@@ -76,43 +76,43 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\include\Engine\Shader.h">
+    <ClInclude Include="Engine\include\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\VBO.h">
+    <ClInclude Include="Engine\include\VBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\EBO.h">
+    <ClInclude Include="Engine\include\EBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\VAO.h">
+    <ClInclude Include="Engine\include\VAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\resource.h">
+    <ClInclude Include="Engine\include\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\Texture.h">
+    <ClInclude Include="Engine\include\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\Camera.h">
+    <ClInclude Include="Engine\include\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\Mesh.h">
+    <ClInclude Include="Engine\include\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\Model.h">
+    <ClInclude Include="Engine\include\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\Engine.h">
+    <ClInclude Include="Engine\include\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\Game\Player.h">
+    <ClInclude Include="Game\include\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine\GameObject.h">
+    <ClInclude Include="Engine\include\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\Game\ObjectStorage.h">
+    <ClInclude Include="Game\include\ObjectStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

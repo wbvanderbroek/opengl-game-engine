@@ -1,7 +1,7 @@
 #pragma once
-#include <Game/ObjectStorage.h>
 #include <iostream>
 #include <memory>
+#include <ObjectStorage.h>
 
 class ObjectStorage;
 class GameObject

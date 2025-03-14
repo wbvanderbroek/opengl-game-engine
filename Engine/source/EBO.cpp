@@ -1,4 +1,4 @@
-#include <Engine/EBO.h>
+#include <EBO.h>
 
 EBO::EBO(std::vector<GLuint>& indices)
 {

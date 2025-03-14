@@ -148,40 +148,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\source\Engine\Camera.cpp" />
-    <ClCompile Include="Engine\source\Engine\EBO.cpp" />
-    <ClCompile Include="Engine\source\Engine\Engine.cpp" />
-    <ClCompile Include="Engine\source\Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\source\Camera.cpp" />
+    <ClCompile Include="Engine\source\EBO.cpp" />
+    <ClCompile Include="Engine\source\Engine.cpp" />
+    <ClCompile Include="Engine\source\GameObject.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Engine\source\Engine\Mesh.cpp" />
-    <ClCompile Include="Engine\source\Engine\Model.cpp" />
-    <ClCompile Include="Game\source\Game\ObjectStorage.cpp" />
-    <ClCompile Include="Game\source\Game\Player.cpp" />
-    <ClCompile Include="Engine\source\Engine\Shader.cpp" />
-    <ClCompile Include="Engine\source\Engine\stb.cpp" />
-    <ClCompile Include="Engine\source\Engine\Texture.cpp" />
-    <ClCompile Include="Engine\source\Engine\VAO.cpp" />
-    <ClCompile Include="Engine\source\Engine\VBO.cpp" />
+    <ClCompile Include="Engine\source\Mesh.cpp" />
+    <ClCompile Include="Engine\source\Model.cpp" />
+    <ClCompile Include="Game\source\ObjectStorage.cpp" />
+    <ClCompile Include="Game\source\Player.cpp" />
+    <ClCompile Include="Engine\source\Shader.cpp" />
+    <ClCompile Include="Engine\source\stb.cpp" />
+    <ClCompile Include="Engine\source\Texture.cpp" />
+    <ClCompile Include="Engine\source\VAO.cpp" />
+    <ClCompile Include="Engine\source\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\default.frag" />
     <None Include="Assets\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\include\Engine\Camera.h" />
-    <ClInclude Include="Engine\include\Engine\EBO.h" />
-    <ClInclude Include="Engine\include\Engine\Engine.h" />
-    <ClInclude Include="Engine\include\Engine\GameObject.h" />
-    <ClInclude Include="Engine\include\Engine\Mesh.h" />
-    <ClInclude Include="Engine\include\Engine\Model.h" />
-    <ClInclude Include="Game\include\Game\ObjectStorage.h" />
-    <ClInclude Include="Game\include\Game\Player.h" />
-    <ClInclude Include="Engine\include\Engine\resource.h" />
-    <ClInclude Include="Engine\include\Engine\Shader.h" />
-    <ClInclude Include="Engine\include\Engine\Texture.h" />
-    <ClInclude Include="Engine\include\Engine\VAO.h" />
-    <ClInclude Include="Engine\include\Engine\VBO.h" />
+    <ClInclude Include="Engine\include\Camera.h" />
+    <ClInclude Include="Engine\include\EBO.h" />
+    <ClInclude Include="Engine\include\Engine.h" />
+    <ClInclude Include="Engine\include\GameObject.h" />
+    <ClInclude Include="Engine\include\Mesh.h" />
+    <ClInclude Include="Engine\include\Model.h" />
+    <ClInclude Include="Game\include\ObjectStorage.h" />
+    <ClInclude Include="Game\include\Player.h" />
+    <ClInclude Include="Engine\include\resource.h" />
+    <ClInclude Include="Engine\include\Shader.h" />
+    <ClInclude Include="Engine\include\Texture.h" />
+    <ClInclude Include="Engine\include\VAO.h" />
+    <ClInclude Include="Engine\include\VBO.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc" />

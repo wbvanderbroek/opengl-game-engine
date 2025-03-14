@@ -1,4 +1,4 @@
-#include <Engine/VBO.h>
+#include <VBO.h>
 
 VBO::VBO(std::vector<Vertex>& vertices)
 {

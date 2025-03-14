@@ -1,4 +1,4 @@
-#include <Engine/Texture.h>
+#include <Texture.h>
 
 Texture::Texture(const char* image, const char* texType, GLuint slot)
 {

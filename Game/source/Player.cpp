@@ -1,5 +1,5 @@
-#include <Game/Player.h>
 #include <iostream>
+#include <Player.h>
 
 Player::Player(ObjectStorage* storage) : GameObject(storage)
 {

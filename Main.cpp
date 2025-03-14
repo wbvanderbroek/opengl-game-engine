@@ -1,5 +1,5 @@
-#include "Engine/Engine.h"
-#include <Engine/Model.h>
+#include "Engine.h"
+#include <Model.h>
 
 const unsigned int width = 800;
 const unsigned int height = 800;

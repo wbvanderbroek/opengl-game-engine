@@ -1,4 +1,4 @@
-#include <Engine/Camera.h>
+#include <Camera.h>
 
 Camera::Camera(ObjectStorage* storage, int width, int height, glm::vec3 position, GLFWwindow* window)
 	: GameObject(storage), width(width), height(height), Position(position), m_window(window)
@@ -83,13 +83,10 @@ void Camera::Inputs(float deltaTime)
 
 void Camera::OnCreate()
 {
-	std::cout << "oncreate called in camera" << std::endl;
-
 }
 
 void Camera::Start()
 {
-	std::cout << "start called in camera" << std::endl;
 }
 
 void Camera::Update(float deltaTime)
