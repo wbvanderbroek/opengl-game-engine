@@ -4,12 +4,15 @@ project(opengl-game-engine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+
 add_subdirectory(Libraries)
 add_subdirectory(Engine)
 add_subdirectory(Game)
 
 add_executable(opengl-game-engine Main.cpp)
-target_link_libraries(opengl-game-engine PRIVATE Engine)
+target_link_libraries(opengl-game-engine PRIVATE Engine glfw OpenGL::GL)
 
 add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

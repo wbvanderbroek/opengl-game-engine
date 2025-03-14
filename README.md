@@ -2,6 +2,15 @@
 
 ## First time
 
+If you are not on windows do this first
+```bash
+git clone https://github.com/glfw/glfw.git
+cd glfw
+cmake -S . -B build -DBUILD_SHARED_LIBS=ON
+cmake --build build
+sudo cmake --install build
+```
+
 ```bash
 mkdir build && cd build && cmake .. && cmake --build .
 ```
