@@ -102,6 +102,6 @@ void Camera::OnDestroy()
 {
 }
 
-void Camera::Quit()
+void Camera::OnQuit()
 {
 }

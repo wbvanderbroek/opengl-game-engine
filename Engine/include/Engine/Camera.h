@@ -40,7 +40,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 	void OnDestroy() override;
-	void Quit() override;
+	void OnQuit() override;
 };
 
 #endif

@@ -21,6 +21,6 @@ void Player::OnDestroy()
 {
 }
 
-void Player::Quit()
+void Player::OnQuit()
 {
 }

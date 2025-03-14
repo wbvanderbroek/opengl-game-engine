@@ -61,7 +61,7 @@ void Engine::UpdateInternal()
 void Engine::QuitInternal()
 {
 	for (auto& obj : m_storage.m_objects)
-		obj->Quit();
+		obj->OnQuit();
 
 	m_shaderProgram.Delete();
 

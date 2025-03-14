@@ -16,7 +16,7 @@ public:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
 	virtual void OnDestroy() {}
-	virtual void Quit() {}
+	virtual void OnQuit() {}
 
 	void Destroy();
 };
