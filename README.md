@@ -2,7 +2,8 @@
 
 ## First time
 
-If you are not on windows do this first
+### Linux (and mac?)
+
 ```bash
 git clone https://github.com/glfw/glfw.git
 cd glfw
@@ -10,7 +11,10 @@ cmake -S . -B build -DBUILD_SHARED_LIBS=ON
 cmake --build build
 sudo cmake --install build
 cd ..
+mkdir build && cd build && cmake .. && cmake --build .
 ```
+
+### Windows
 
 ```bash
 mkdir build && cd build && cmake .. && cmake --build .
@@ -22,8 +26,9 @@ mkdir build && cd build && cmake .. && cmake --build .
 cd build && cmake .. && cmake --build .
 ```
 
-The build can be found and run in `/build/Debug/`
+The build can be found and run in `/build/Debug/` when on Windows.
+On Linux it can simply be found at `/build/`
 
 # Running the build
 
-This should be as simple as going into `/build/Debug/` and running the .exe since all neccessary files should be copied over.
+This should be as simple as going into `/build/Debug/` or `/build/` and running the executable since all neccessary files should be copied over.
