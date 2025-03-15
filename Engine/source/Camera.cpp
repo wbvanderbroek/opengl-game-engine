@@ -14,7 +14,7 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(Position, Position + Orientation, Up);
-	projection = glm::perspective(glm::radians(FOVdeg), (float)(width / height), nearPlane, farPlane);
+	projection = glm::perspective(glm::radians(FOVdeg), static_cast<float>(width) / static_cast<float>(height), nearPlane, farPlane);
 
 	cameraMatrix = projection * view;
 }
@@ -86,3 +86,11 @@ void Camera::Update(float deltaTime)
 	Inputs(deltaTime);
 	updateMatrix(45.0f, 0.1f, 100.0f);
 }
+
+void Camera::SetDimensions(unsigned int newWidth, unsigned int newHeight)
+{
+	width = newWidth;
+	height = newHeight;
+	updateMatrix(45.0f, 0.1f, 100.0f);
+}
+

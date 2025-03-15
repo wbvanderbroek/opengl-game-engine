@@ -4,6 +4,16 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	Engine* engine = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+	if (engine) {
+		engine->UpdateCameraSize(width, height);
+	}
+}
+
 int main()
 {
 	glfwInit();
@@ -31,6 +41,10 @@ int main()
 
 
 	Engine engine(width, height, window);
+
+	glfwSetWindowUserPointer(window, &engine);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 	engine.StartInternal();
 
 	while (!glfwWindowShouldClose(window))

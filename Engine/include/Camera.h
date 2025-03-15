@@ -37,6 +37,8 @@ public:
 	void Inputs(float deltaTime);
 
 	void Update(float deltaTime) override;
+
+	void SetDimensions(unsigned int width, unsigned int height);
 };
 
 #endif

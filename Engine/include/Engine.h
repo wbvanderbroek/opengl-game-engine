@@ -21,6 +21,7 @@ public:
 	void StartInternal();
 	void UpdateInternal();
 	void QuitInternal();
+	void UpdateCameraSize(unsigned int width, unsigned int height);
 
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
