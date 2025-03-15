@@ -1,5 +1,5 @@
-#include "Engine.h"
 #include "Model.h"
+#include <Engine.h>
 #include <iostream>
 #include <stb/stb_image.h>
 
@@ -75,6 +75,29 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh(vertices, indices, textures);
 }
 
+void Model::Draw(Shader& shader, Camera& camera)
+{
+	glm::mat4 trans = glm::mat4(1.0f);
+	glm::mat4 rot = glm::mat4(1.0f);
+	glm::mat4 sca = glm::mat4(1.0f);
+
+	trans = glm::translate(trans, translation);
+	rot = glm::mat4_cast(rotation);
+	sca = glm::scale(sca, scale);
+
+	glm::mat4 modelMatrix = trans * rot * sca;
+
+	for (auto& mesh : meshes)
+	{
+		mesh.Draw(shader, camera, modelMatrix, translation, rotation, scale);
+	}
+}
+
+void Model::LateUpdate(float deltaTime)
+{
+	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
+}
+
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
 {
 	std::vector<Texture> textures;
@@ -87,15 +110,4 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 		textures.push_back(Texture(filename.c_str(), typeName.c_str(), 0));
 	}
 	return textures;
-}
-
-void Model::Draw(Shader& shader, Camera& camera)
-{
-	for (auto& mesh : meshes)
-		mesh.Draw(shader, camera);
-}
-
-void Model::LateUpdate(float deltaTime)
-{
-	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
