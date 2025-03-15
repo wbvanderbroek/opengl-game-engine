@@ -108,13 +108,21 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 
 		std::string texturePath = std::string(str.C_Str());
 
-		if (texturePath.find("C:") == std::string::npos)
+		if (texturePath.find(":") != std::string::npos || texturePath.find("/") == 0)
+		{
+
+			size_t lastSlash = texturePath.find_last_of("/\\");
+			std::string filenameOnly = (lastSlash != std::string::npos) ? texturePath.substr(lastSlash + 1) : texturePath;
+
+			texturePath = directory + "/" + filenameOnly;
+		}
+		else
 		{
 			texturePath = directory + "/" + texturePath;
 		}
 
-		std::cout << "Loading texture: " << texturePath << std::endl;
 		textures.push_back(Texture(texturePath.c_str(), typeName.c_str(), 0));
+
 
 	}
 	return textures;
