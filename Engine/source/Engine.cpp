@@ -7,7 +7,7 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	m_height(height),
 	m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
-	m_model("Assets/models/door/door.gltf")
+	m_storage(this)
 {
 	m_camera = std::make_shared<Camera>(&m_storage, width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window);
 
@@ -33,7 +33,6 @@ void Engine::StartInternal()
 
 	glEnable(GL_DEPTH_TEST);
 
-	m_storage = ObjectStorage();
 	m_storage.AddGameObject(m_camera);
 
 	for (auto& obj : m_storage.m_objects)
@@ -51,8 +50,8 @@ void Engine::UpdateInternal()
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-	m_model.Draw(m_shaderProgram, *m_camera);
+	for (auto& obj : m_storage.m_objects)
+		obj->LateUpdate(CalculateDeltaTime());
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();

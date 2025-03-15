@@ -1,6 +1,5 @@
 #include <Model.h>
-
-Model::Model(const char* file)
+Model::Model(ObjectStorage* storage, const char* file) : GameObject(storage)
 {
 	std::string text = get_file_contents(file);
 	JSON = json::parse(text);
@@ -17,6 +16,11 @@ void Model::Draw(Shader& shader, Camera& camera)
 	{
 		meshes[i].Mesh::Draw(shader, camera, matricesMesh[i]);
 	}
+}
+
+void Model::LateUpdate(float deltaTime)
+{
+	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
 
 void Model::loadMesh(unsigned int indMesh)

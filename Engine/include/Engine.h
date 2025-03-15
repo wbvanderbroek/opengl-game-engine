@@ -8,10 +8,10 @@
 
 #include <Camera.h>
 #include <chrono>
-#include <Model.h>
 #include <ObjectStorage.h>
 #include <Shader.h>
 
+class Model;
 class GameObject;
 class Engine
 {
@@ -21,6 +21,9 @@ public:
 	void StartInternal();
 	void UpdateInternal();
 	void QuitInternal();
+
+	Shader m_shaderProgram;
+	std::shared_ptr<Camera> m_camera;
 protected:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
@@ -30,9 +33,6 @@ private:
 	unsigned int m_height;
 	GLFWwindow* m_window;
 
-	Shader m_shaderProgram;
-	std::shared_ptr<Camera> m_camera;
-	Model m_model;
 
 	std::chrono::system_clock::time_point m_previousTime;
 

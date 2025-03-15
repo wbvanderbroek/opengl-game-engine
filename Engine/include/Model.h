@@ -2,17 +2,20 @@
 #define MODEL_CLASS_H
 
 #include "Mesh.h"
+#include <Engine.h>
+#include <GameObject.h>
 #include <json/json.h>
 
 using json = nlohmann::json;
 
-class Model
+class Model : public GameObject
 {
 public:
-	Model(const char* file);
+	Model(ObjectStorage* storage, const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
 
+	void LateUpdate(float deltaTime) override;
 private:
 	const char* file;
 	std::vector<unsigned char> data;

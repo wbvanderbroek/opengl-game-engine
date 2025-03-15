@@ -36,11 +36,7 @@ public:
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(float deltaTime);
 
-	void OnCreate() override;
-	void Start() override;
 	void Update(float deltaTime) override;
-	void OnDestroy() override;
-	void OnQuit() override;
 };
 
 #endif

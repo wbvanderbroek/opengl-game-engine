@@ -81,24 +81,8 @@ void Camera::Inputs(float deltaTime)
 	}
 }
 
-void Camera::OnCreate()
-{
-}
-
-void Camera::Start()
-{
-}
-
 void Camera::Update(float deltaTime)
 {
 	Inputs(deltaTime);
 	updateMatrix(45.0f, 0.1f, 100.0f);
-}
-
-void Camera::OnDestroy()
-{
-}
-
-void Camera::OnQuit()
-{
 }
