@@ -41,9 +41,9 @@ void Camera::Inputs(float deltaTime)
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		Position += deltaTime * speed * -Up;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		speed = 10000;
+		speed = 30000;
 	else if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		speed = 5000;
+		speed = 15000;
 
 	if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{

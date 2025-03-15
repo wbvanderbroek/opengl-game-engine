@@ -46,7 +46,6 @@ void Engine::UpdateInternal()
 	for (auto& obj : m_storage.m_objects)
 		obj->Update(CalculateDeltaTime());
 
-	// Complete the rendering after the game logic is run
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

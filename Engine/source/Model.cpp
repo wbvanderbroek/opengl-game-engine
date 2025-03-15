@@ -14,7 +14,7 @@ void Model::Draw(Shader& shader, Camera& camera)
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Mesh::Draw(shader, camera, matricesMesh[i]);
+		meshes[i].Mesh::Draw(shader, camera, matricesMesh[i], translation, rotation, scale);
 	}
 }
 
