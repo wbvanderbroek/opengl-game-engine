@@ -106,8 +106,16 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 		aiString str;
 		mat->GetTexture(type, i, &str);
 
-		std::string filename = directory + "/" + std::string(str.C_Str());
-		textures.push_back(Texture(filename.c_str(), typeName.c_str(), 0));
+		std::string texturePath = std::string(str.C_Str());
+
+		if (texturePath.find("C:") == std::string::npos)
+		{
+			texturePath = directory + "/" + texturePath;
+		}
+
+		std::cout << "Loading texture: " << texturePath << std::endl;
+		textures.push_back(Texture(texturePath.c_str(), typeName.c_str(), 0));
+
 	}
 	return textures;
 }
