@@ -4,6 +4,10 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
+bool isFullscreen = false;
+bool f11Pressed = false;
+int windowedX, windowedY, windowedWidth, windowedHeight;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -49,6 +53,33 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
+		if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
+		{
+			if (!f11Pressed)
+			{
+				f11Pressed = true;
+				if (!isFullscreen)
+				{
+					glfwGetWindowPos(window, &windowedX, &windowedY);
+					glfwGetWindowSize(window, &windowedWidth, &windowedHeight);
+
+					GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+					const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+					glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+				}
+				else
+				{
+					glfwSetWindowMonitor(window, nullptr, windowedX, windowedY, windowedWidth, windowedHeight, 0);
+				}
+				isFullscreen = !isFullscreen;
+			}
+		}
+		else
+		{
+			f11Pressed = false;
+		}
+
 		engine.UpdateInternal();
 	}
 
