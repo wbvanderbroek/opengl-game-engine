@@ -49,7 +49,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		Vertex vertex;
 		vertex.position = glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 		vertex.normal = mesh->mNormals ? glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z) : glm::vec3(0.0f);
-		vertex.texUV = mesh->mTextureCoords[0] ? glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : glm::vec2(0.0f);
+		vertex.texUV = glm::vec2(mesh->mTextureCoords[0][i].y, mesh->mTextureCoords[0][i].x);
 
 		vertices.push_back(vertex);
 	}
