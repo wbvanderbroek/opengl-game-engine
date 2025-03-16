@@ -27,7 +27,7 @@ public:
 	int width;
 	int height;
 
-	int speed = 150000;
+	int speed = 15;
 	float sensitivity = 100.0f;
 
 	Camera(ObjectStorage* storage, int width, int height, glm::vec3 position, GLFWwindow* window);

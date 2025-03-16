@@ -42,17 +42,34 @@ void Engine::StartInternal()
 
 void Engine::UpdateInternal()
 {
+	static auto lastTime = std::chrono::high_resolution_clock::now();
+	static int frameCount = 0;
+
+	float deltaTime = CalculateDeltaTime();
+
 	for (auto& obj : m_storage.m_objects)
-		obj->Update(CalculateDeltaTime());
+		obj->Update(deltaTime);
 
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto& obj : m_storage.m_objects)
-		obj->LateUpdate(CalculateDeltaTime());
+		obj->LateUpdate(deltaTime);
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+
+	// Fps calculator
+	frameCount++;
+	auto currentTime = std::chrono::high_resolution_clock::now();
+	float elapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - lastTime).count();
+
+	if (elapsedTime >= 1.0f)
+	{
+		std::cout << "FPS: " << frameCount << std::endl;
+		frameCount = 0;
+		lastTime = currentTime;
+	}
 }
 
 void Engine::QuitInternal()

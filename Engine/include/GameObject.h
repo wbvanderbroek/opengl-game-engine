@@ -38,5 +38,12 @@ public:
 		glm::quat qz = glm::angleAxis(glm::radians(rotAngles.z), glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::quat q = qz * qy * qx;
 		this->rotation = q * this->rotation;
+		this->rotation = glm::normalize(this->rotation);
+
+	}
+	glm::vec3 GetRotation() const
+	{
+		glm::vec3 euler = glm::degrees(glm::eulerAngles(rotation));
+		return euler;
 	}
 };
