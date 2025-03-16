@@ -20,7 +20,7 @@ uniform mat4 scale;
 
 void main()
 {
-	crntPos = vec3(model * translation * -rotation * scale * vec4(aPos, 1.0f));
+	crntPos = vec3(model * translation * rotation * scale * vec4(aPos, 1.0f));
 	Normal = aNormal;
 	color = aColor;
 	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTex;

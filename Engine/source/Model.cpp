@@ -81,6 +81,8 @@ void Model::Draw(Shader& shader, Camera& camera)
 	glm::mat4 rot = glm::mat4(1.0f);
 	glm::mat4 sca = glm::mat4(1.0f);
 
+	std::cout << GetRotation().x << " " << GetRotation().y << " " << GetRotation().z << std::endl;
+
 	trans = glm::translate(trans, translation);
 	rot = glm::mat4_cast(rotation);
 	sca = glm::scale(sca, scale);
@@ -95,6 +97,8 @@ void Model::Draw(Shader& shader, Camera& camera)
 
 void Model::LateUpdate(float deltaTime)
 {
+	SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+
 	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
 

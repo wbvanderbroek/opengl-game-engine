@@ -11,6 +11,9 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 {
 	m_camera = std::make_shared<Camera>(&m_storage, width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window);
 
+	//activate shaders but if lighting is not added to scene everything will still be black
+	m_shaderProgram.Activate();
+
 	glEnable(GL_DEPTH_TEST);
 }
 

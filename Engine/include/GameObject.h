@@ -34,17 +34,21 @@ public:
 
 	void SetRotation(glm::vec3 rotAngles)
 	{
-		glm::quat qx = glm::angleAxis(glm::radians(rotAngles.x), glm::vec3(1.0f, 0.0f, 0.0f));
-		glm::quat qy = glm::angleAxis(glm::radians(rotAngles.y), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::quat qz = glm::angleAxis(glm::radians(rotAngles.z), glm::vec3(0.0f, 0.0f, 1.0f));
-		glm::quat q = qz * qy * qx;
-		this->rotation = q * this->rotation;
-		this->rotation = glm::normalize(this->rotation);
-
+		this->rotation = glm::quat(glm::radians(rotAngles));
 	}
+
 	glm::vec3 GetRotation() const
 	{
 		glm::vec3 euler = glm::degrees(glm::eulerAngles(rotation));
+
+		if (glm::abs(euler.x) < 0.0001f) euler.x = 0.0f;
+		if (glm::abs(euler.y) < 0.0001f) euler.y = 0.0f;
+		if (glm::abs(euler.z) < 0.0001f) euler.z = 0.0f;
+
+		euler.x = fmod(euler.x + 360.0f, 360.0f);
+		euler.y = fmod(euler.y + 360.0f, 360.0f);
+		euler.z = fmod(euler.z + 360.0f, 360.0f);
+
 		return euler;
 	}
 };
