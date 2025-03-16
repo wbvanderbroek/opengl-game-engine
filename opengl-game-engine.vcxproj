@@ -153,6 +153,7 @@
     <ClCompile Include="Engine\source\Engine.cpp" />
     <ClCompile Include="Engine\source\GameObject.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
+    <ClCompile Include="Engine\source\Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\source\Mesh.cpp" />
     <ClCompile Include="Engine\source\Model.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Engine\include\Texture.h" />
     <ClInclude Include="Engine\include\VAO.h" />
     <ClInclude Include="Engine\include\VBO.h" />
+    <ClInclude Include="Engine\include\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc" />

@@ -10,28 +10,10 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	m_storage(this)
 {
 	m_camera = std::make_shared<Camera>(&m_storage, width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window);
-	m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	m_lightPos = glm::vec3(0.5f, -1.5f, 0.5f);
-	m_lightModel = glm::mat4(1.0f);
-	m_lightModel = glm::translate(m_lightModel, m_lightPos);
-
-	m_shaderProgram.Activate();
-	glUniform4f(glGetUniformLocation(m_shaderProgram.ID, "lightColor"), m_lightColor.x, m_lightColor.y, m_lightColor.z, m_lightColor.w);
-	glUniform3f(glGetUniformLocation(m_shaderProgram.ID, "lightPos"), m_lightPos.x, m_lightPos.y, m_lightPos.z);
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Engine::StartInternal()
 {
-	m_shaderProgram.Activate();
-	glUniform4f(glGetUniformLocation(m_shaderProgram.ID, "lightColor"),
-		m_lightColor.x, m_lightColor.y, m_lightColor.z, m_lightColor.w);
-	glUniform3f(glGetUniformLocation(m_shaderProgram.ID, "lightPos"),
-		m_lightPos.x, m_lightPos.y, m_lightPos.z);
-
-	glEnable(GL_DEPTH_TEST);
-
 	m_storage.AddGameObject(m_camera);
 
 	for (auto& obj : m_storage.m_objects)

@@ -37,10 +37,6 @@ private:
 
 	std::chrono::system_clock::time_point m_previousTime;
 
-	glm::vec4 m_lightColor;
-	glm::vec3 m_lightPos;
-	glm::mat4 m_lightModel;
-
 	ObjectStorage m_storage;
 
 	float CalculateDeltaTime()
