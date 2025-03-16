@@ -31,7 +31,6 @@ void Mesh::Draw
 	glm::vec3 scale
 )
 {
-	shader.Activate();
 	Vao.Bind();
 
 	unsigned int numDiffuse = 0;

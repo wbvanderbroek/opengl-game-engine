@@ -10,6 +10,8 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	m_storage(this)
 {
 	m_camera = std::make_shared<Camera>(&m_storage, width, height, glm::vec3(0.0f, 0.0f, 2.0f), m_window);
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Engine::StartInternal()
