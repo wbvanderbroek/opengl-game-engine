@@ -39,7 +39,9 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(0); // 0 = Disable VSync, 1 = Enable VSync
 	gladLoadGL();
+
 	// Tell opengl the size of the rendering window
 	glViewport(0, 0, width, height);
 
