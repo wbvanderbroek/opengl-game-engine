@@ -12,4 +12,5 @@ target_link_libraries(Engine PUBLIC
     glad
     glfw3
     Game
+    assimp
 )
