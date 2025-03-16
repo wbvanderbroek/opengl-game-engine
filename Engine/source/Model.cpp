@@ -92,14 +92,12 @@ void Model::Draw(Shader& shader, Camera& camera)
 
 	for (auto& mesh : meshes)
 	{
-		mesh.Draw(shader, camera, modelMatrix, translation, halfRotation, scale);
+		mesh.Draw(shader, camera, modelMatrix, trans, rot, sca);
 	}
 }
 
 void Model::LateUpdate(float deltaTime)
 {
-	SetRotation(glm::vec3(270.0f, 0.0f, 0.0f));
-
 	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
 
