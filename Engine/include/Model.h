@@ -1,15 +1,14 @@
 #ifndef MODEL_CLASS_H
 #define MODEL_CLASS_H
 
+#include "GameObject.h"
+#include "Mesh.h"
+#include "Shader.h"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <string>
 #include <vector>
-
-#include "GameObject.h"
-#include "Mesh.h"
-#include "Shader.h"
 
 class Model : public GameObject
 {

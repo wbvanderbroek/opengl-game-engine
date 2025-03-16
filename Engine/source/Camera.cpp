@@ -93,4 +93,3 @@ void Camera::SetDimensions(unsigned int newWidth, unsigned int newHeight)
 	height = newHeight;
 	updateMatrix(45.0f, 0.1f, 100.0f);
 }
-

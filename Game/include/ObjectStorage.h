@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-
 class Engine;
 class GameObject;
 class ObjectStorage
@@ -15,5 +14,4 @@ public:
 
 	Engine* m_engine;
 	std::vector<std::shared_ptr<GameObject>> m_objects;
-
 };

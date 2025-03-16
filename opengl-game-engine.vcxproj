@@ -158,7 +158,6 @@
     <ClCompile Include="Engine\source\Mesh.cpp" />
     <ClCompile Include="Engine\source\Model.cpp" />
     <ClCompile Include="Game\source\ObjectStorage.cpp" />
-    <ClCompile Include="Game\source\Player.cpp" />
     <ClCompile Include="Engine\source\Shader.cpp" />
     <ClCompile Include="Engine\source\stb.cpp" />
     <ClCompile Include="Engine\source\Texture.cpp" />
@@ -177,7 +176,6 @@
     <ClInclude Include="Engine\include\Mesh.h" />
     <ClInclude Include="Engine\include\Model.h" />
     <ClInclude Include="Game\include\ObjectStorage.h" />
-    <ClInclude Include="Game\include\Player.h" />
     <ClInclude Include="Engine\include\resource.h" />
     <ClInclude Include="Engine\include\Shader.h" />
     <ClInclude Include="Engine\include\Texture.h" />

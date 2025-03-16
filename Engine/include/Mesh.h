@@ -1,12 +1,11 @@
 #ifndef MESH_CLASS_H
 #define MESH_CLASS_H
 
-#include<string>
-
 #include"Camera.h"
 #include"EBO.h"
 #include"Texture.h"
 #include"VAO.h"
+#include<string>
 
 class Mesh
 {
@@ -28,4 +27,5 @@ public:
 		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
 	);
 };
+
 #endif

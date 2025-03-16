@@ -17,5 +17,4 @@ public:
 	Light(ObjectStorage* storage);
 
 	void OnCreate() override;
-
 };

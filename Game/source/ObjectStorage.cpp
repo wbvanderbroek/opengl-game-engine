@@ -3,7 +3,6 @@
 #include <Light.h>
 #include <Model.h>
 #include <ObjectStorage.h>
-#include <Player.h>
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
@@ -18,11 +17,6 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 
 	std::shared_ptr<Light> light = std::make_shared<Light>(this);
 	AddGameObject(light);
-
-
-
-	std::shared_ptr<Player> player = std::make_shared<Player>(this);
-	AddGameObject(player);
 }
 
 void ObjectStorage::AddGameObject(std::shared_ptr<GameObject> object)
