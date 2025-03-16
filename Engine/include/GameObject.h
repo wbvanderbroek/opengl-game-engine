@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <iostream>
@@ -32,10 +33,19 @@ public:
 	glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	void SetRotation(glm::vec3 rotAngles)
+	// Add a method to set rotation via Euler angles (in degrees)
+	void SetRotation(const glm::vec3& eulerAngles)
 	{
-		this->rotation = glm::quat(glm::radians(rotAngles));
+		// Convert degrees to radians for GLM
+		glm::vec3 radAngles = glm::radians(eulerAngles);
+
+		// Create quaternion from Euler angles
+		rotation = glm::quat(radAngles);
+
+		// Normalize to prevent numerical drift
+		rotation = glm::normalize(rotation);
 	}
+
 
 	glm::vec3 GetRotation() const
 	{
