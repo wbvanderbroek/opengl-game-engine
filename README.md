@@ -14,6 +14,8 @@ cd ..
 mkdir build && cd build && cmake .. && cmake --build .
 ```
 
+except that it somehow broke during https://github.com/wbvanderbroek/opengl-game-engine/commit/ebc372265fc46729faacc27881d1630b575a80cd
+
 ### Windows
 
 ```bash
