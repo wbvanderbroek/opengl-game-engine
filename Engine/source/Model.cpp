@@ -82,22 +82,23 @@ void Model::Draw(Shader& shader, Camera& camera)
 	glm::mat4 sca = glm::mat4(1.0f);
 
 	std::cout << GetRotation().x << " " << GetRotation().y << " " << GetRotation().z << std::endl;
+	glm::quat halfRotation = glm::quat(glm::radians(GetRotation() * 0.5f));
 
 	trans = glm::translate(trans, translation);
-	rot = glm::mat4_cast(rotation);
+	rot = glm::mat4_cast(halfRotation);
 	sca = glm::scale(sca, scale);
 
 	glm::mat4 modelMatrix = trans * rot * sca;
 
 	for (auto& mesh : meshes)
 	{
-		mesh.Draw(shader, camera, modelMatrix, translation, rotation, scale);
+		mesh.Draw(shader, camera, modelMatrix, translation, halfRotation, scale);
 	}
 }
 
 void Model::LateUpdate(float deltaTime)
 {
-	SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+	SetRotation(glm::vec3(270.0f, 0.0f, 0.0f));
 
 	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
