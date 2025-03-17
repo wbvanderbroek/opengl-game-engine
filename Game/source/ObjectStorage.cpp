@@ -8,7 +8,7 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
 	std::shared_ptr<Model> model = std::make_shared<Model>(this, "Assets/models/building/MetalMineBuilding.fbx");
 	AddGameObject(model);
-	model->SetRotation(glm::vec3(0.0f, 0.0f, 75.0f));
+	model->translation = glm::vec3(5.0f, 0.0f, -25.0f);
 
 	//std::shared_ptr<Model> model2 = std::make_shared<Model>(this, "Assets/models/door2/door.fbx");
 	//model2->translation = glm::vec3(0.0f, 0.0f, 2.0f);
