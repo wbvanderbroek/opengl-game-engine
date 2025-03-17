@@ -33,17 +33,31 @@ public:
 	glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	// Add a method to set rotation via Euler angles (in degrees)
 	void SetRotation(const glm::vec3& eulerAngles)
 	{
-		// Convert degrees to radians for GLM
-		glm::vec3 radAngles = glm::radians(eulerAngles);
+		// Wikipedia calculations of euler to quaternion
+		glm::vec3 rads = glm::radians(eulerAngles);
 
-		// Create quaternion from Euler angles
-		rotation = glm::quat(radAngles);
+		double cr = cos(rads.x * 0.5);
+		double sr = sin(rads.x * 0.5);
+		double cp = cos(rads.y * 0.5);
+		double sp = sin(rads.y * 0.5);
+		double cy = cos(rads.z * 0.5);
+		double sy = sin(rads.z * 0.5);
 
-		// Normalize to prevent numerical drift
-		rotation = glm::normalize(rotation);
+		glm::quat q;
+		q.w = cr * cp * cy + sr * sp * sy;
+		q.x = sr * cp * cy - cr * sp * sy;
+		q.y = cr * sp * cy + sr * cp * sy;
+		q.z = cr * cp * sy - sr * sp * cy;
+
+		this->rotation = q;
+
+		std::cout << "Quaternion: ("
+			<< rotation.w << ", "
+			<< rotation.x << ", "
+			<< rotation.y << ", "
+			<< rotation.z << ")\n";
 	}
 
 
