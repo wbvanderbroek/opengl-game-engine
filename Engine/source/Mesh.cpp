@@ -25,10 +25,7 @@ void Mesh::Draw
 (
 	Shader& shader,
 	Camera& camera,
-	glm::mat4 matrix,
-	glm::mat4 trans,
-	glm::mat4 rot,
-	glm::mat4 sca
+	glm::mat4 matrix
 )
 {
 	Vao.Bind();
@@ -53,9 +50,6 @@ void Mesh::Draw
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 	camera.Matrix(shader, "camMatrix");
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "translation"), 1, GL_FALSE, glm::value_ptr(trans));
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "rotation"), 1, GL_FALSE, glm::value_ptr(rot));
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "scale"), 1, GL_FALSE, glm::value_ptr(sca));
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

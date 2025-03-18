@@ -30,49 +30,35 @@ public:
 	void Destroy();
 
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+	glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	void SetRotation(const glm::vec3& eulerAngles)
-	{
-		// Wikipedia calculations of euler to quaternion
-		glm::vec3 rads = glm::radians(eulerAngles);
-
-		double cr = cos(rads.x * 0.5);
-		double sr = sin(rads.x * 0.5);
-		double cp = cos(rads.y * 0.5);
-		double sp = sin(rads.y * 0.5);
-		double cy = cos(rads.z * 0.5);
-		double sy = sin(rads.z * 0.5);
-
-		glm::quat q;
-		q.w = cr * cp * cy + sr * sp * sy;
-		q.x = sr * cp * cy - cr * sp * sy;
-		q.y = cr * sp * cy + sr * cp * sy;
-		q.z = cr * cp * sy - sr * sp * cy;
-
-		this->rotation = q;
-
-		std::cout << "Quaternion: ("
-			<< rotation.w << ", "
-			<< rotation.x << ", "
-			<< rotation.y << ", "
-			<< rotation.z << ")\n";
-	}
-
-
-	glm::vec3 GetRotation() const
-	{
-		glm::vec3 euler = glm::degrees(glm::eulerAngles(rotation));
-
-		if (glm::abs(euler.x) < 0.0001f) euler.x = 0.0f;
-		if (glm::abs(euler.y) < 0.0001f) euler.y = 0.0f;
-		if (glm::abs(euler.z) < 0.0001f) euler.z = 0.0f;
-
-		euler.x = fmod(euler.x + 360.0f, 360.0f);
-		euler.y = fmod(euler.y + 360.0f, 360.0f);
-		euler.z = fmod(euler.z + 360.0f, 360.0f);
-
-		return euler;
+	glm::mat4 GetModelMatrix() {
+		const float c3 = glm::cos(rotation.z);
+		const float s3 = glm::sin(rotation.z);
+		const float c2 = glm::cos(rotation.x);
+		const float s2 = glm::sin(rotation.x);
+		const float c1 = glm::cos(rotation.y);
+		const float s1 = glm::sin(rotation.y);
+		return glm::mat4{
+			{
+				scale.x * (c1 * c3 + s1 * s2 * s3),
+				scale.x * (c2 * s3),
+				scale.x * (c1 * s2 * s3 - c3 * s1),
+				0.0f,
+			},
+			{
+				scale.y * (c3 * s1 * s2 - c1 * s3),
+				scale.y * (c2 * c3),
+				scale.y * (c1 * c3 * s2 + s1 * s3),
+				0.0f,
+			},
+			{
+				scale.z * (c2 * s1),
+				scale.z * (-s2),
+				scale.z * (c1 * c2),
+				0.0f,
+			},
+			{translation.x, translation.y, translation.z, 1.0f} };
 	}
 };
