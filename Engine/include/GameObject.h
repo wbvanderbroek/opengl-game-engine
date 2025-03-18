@@ -38,12 +38,12 @@ public:
 		// Wikipedia calculations of euler to quaternion
 		glm::vec3 rads = glm::radians(eulerAngles);
 
-		double cr = cos(rads.x * 0.5);
-		double sr = sin(rads.x * 0.5);
-		double cp = cos(rads.y * 0.5);
-		double sp = sin(rads.y * 0.5);
-		double cy = cos(rads.z * 0.5);
-		double sy = sin(rads.z * 0.5);
+		double cr = cos(rads.x * 0.25);
+		double sr = sin(rads.x * 0.25);
+		double cp = cos(rads.y * 0.25);
+		double sp = sin(rads.y * 0.25);
+		double cy = cos(rads.z * 0.25);
+		double sy = sin(rads.z * 0.25);
 
 		glm::quat q;
 		q.w = cr * cp * cy + sr * sp * sy;
@@ -53,11 +53,11 @@ public:
 
 		this->rotation = q;
 
-		std::cout << "Quaternion: ("
-			<< rotation.w << ", "
-			<< rotation.x << ", "
-			<< rotation.y << ", "
-			<< rotation.z << ")\n";
+		//std::cout << "Quaternion: ("
+		//	<< rotation.w << ", "
+		//	<< rotation.x << ", "
+		//	<< rotation.y << ", "
+		//	<< rotation.z << ")\n";
 	}
 
 
