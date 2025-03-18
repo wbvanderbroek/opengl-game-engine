@@ -14,6 +14,9 @@
 class ObjectStorage;
 class GameObject
 {
+private:
+	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
+
 protected:
 	ObjectStorage* m_storage;
 public:
@@ -30,16 +33,23 @@ public:
 	void Destroy();
 
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
+	void SetRotation(const glm::vec3& degrees) {
+		rotationInRads = glm::radians(degrees);
+	}
+
+	glm::vec3 GetRotation() const {
+		return glm::degrees(rotationInRads);
+	}
+
 	glm::mat4 GetModelMatrix() {
-		const float c3 = glm::cos(rotation.z);
-		const float s3 = glm::sin(rotation.z);
-		const float c2 = glm::cos(rotation.x);
-		const float s2 = glm::sin(rotation.x);
-		const float c1 = glm::cos(rotation.y);
-		const float s1 = glm::sin(rotation.y);
+		const float c3 = glm::cos(rotationInRads.z);
+		const float s3 = glm::sin(rotationInRads.z);
+		const float c2 = glm::cos(rotationInRads.x);
+		const float s2 = glm::sin(rotationInRads.x);
+		const float c1 = glm::cos(rotationInRads.y);
+		const float s1 = glm::sin(rotationInRads.y);
 		return glm::mat4{
 			{
 				scale.x * (c1 * c3 + s1 * s2 * s3),

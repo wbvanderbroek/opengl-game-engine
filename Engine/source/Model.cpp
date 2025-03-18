@@ -77,9 +77,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 void Model::Draw(Shader& shader, Camera& camera)
 {
-	//std::cout << GetRotation().x << " " << GetRotation().y << " " << GetRotation().z << std::endl;
-	//glm::quat halfRotation = glm::quat(glm::radians(GetRotation() * 0.5f));
-
 	glm::mat4 modelMatrix = GetModelMatrix();
 
 	for (auto& mesh : meshes)
@@ -87,12 +84,9 @@ void Model::Draw(Shader& shader, Camera& camera)
 		mesh.Draw(shader, camera, modelMatrix);
 	}
 }
-float x;
 
 void Model::LateUpdate(float deltaTime)
 {
-	x += deltaTime * 8;
-	rotation = glm::vec3(270 * (3.14f / 180), 90 * (3.14f / 180), 180 * (3.14f / 180));
 	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
 }
 
