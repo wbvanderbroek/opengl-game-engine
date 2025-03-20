@@ -6,19 +6,17 @@
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
-	std::shared_ptr<Model> model = std::make_shared<Model>(this, "Assets/models/building/MetalMineBuilding.fbx");
-	AddGameObject(model);
-	model->translation = glm::vec3(0.0f, 0.0f, 0.0f);
+	CreateAndAdd<Model>("Assets/models/building/MetalMineBuilding.fbx");
+	CreateAndAdd<Model>("Assets/models/character/char.fbx");
+	CreateAndAdd<Light>();
+}
 
-	//std::shared_ptr<Model> model2 = std::make_shared<Model>(this, "Assets/models/door2/door.fbx");
-	//model2->translation = glm::vec3(0.0f, 0.0f, 2.0f);
-	//AddGameObject(model2);
-	std::shared_ptr<Model> model3 = std::make_shared<Model>(this, "Assets/models/character/char.fbx");
-
-	AddGameObject(model3);
-
-	std::shared_ptr<Light> light = std::make_shared<Light>(this);
-	AddGameObject(light);
+template<typename T, typename... Args>
+std::shared_ptr<T> ObjectStorage::CreateAndAdd(Args&&... args)
+{
+	auto object = std::make_shared<T>(this, std::forward<Args>(args)...);
+	AddGameObject(object);
+	return object;
 }
 
 void ObjectStorage::AddGameObject(std::shared_ptr<GameObject> object)
