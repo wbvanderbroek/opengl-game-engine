@@ -9,7 +9,7 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
 	m_storage(this)
 {
-	m_camera = std::make_shared<Camera>(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+	m_camera = m_storage.Instantiate(Camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f)));
 
 	//activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
@@ -19,8 +19,6 @@ Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 
 void Engine::StartInternal()
 {
-	m_storage.AddGameObject(m_camera);
-
 	for (auto& obj : m_storage.m_objects)
 	{
 		obj->Start();

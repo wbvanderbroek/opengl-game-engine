@@ -16,14 +16,9 @@ std::shared_ptr<T> ObjectStorage::Instantiate(T&& obj)
 {
 	auto object = std::make_shared<std::decay_t<T>>(std::forward<T>(obj));
 	object->SetStorage(this);
-	AddGameObject(object);
-	return object;
-}
-
-void ObjectStorage::AddGameObject(std::shared_ptr<GameObject> object)
-{
 	m_objects.push_back(object);
 	object->OnCreate();
+	return object;
 }
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)

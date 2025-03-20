@@ -9,7 +9,6 @@ class ObjectStorage
 {
 public:
 	ObjectStorage(Engine* engine);
-	void AddGameObject(std::shared_ptr<GameObject> object);
 	void RemoveGameObject(std::shared_ptr<GameObject> object);
 
 	template<typename T>
