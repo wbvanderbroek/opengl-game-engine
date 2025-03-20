@@ -1,8 +1,9 @@
 #include <Camera.h>
 
-Camera::Camera(int width, int height, glm::vec3 position, GLFWwindow* window)
-	: width(width), height(height), Position(position), m_window(window)
+Camera::Camera(int width, int height, glm::vec3 position)
+	: width(width), height(height), Position(position)
 {
+	m_window = glfwGetCurrentContext();
 	Camera::width = width;
 	Camera::height = height;
 	Camera::Position = position;
@@ -84,12 +85,12 @@ void Camera::Inputs(float deltaTime)
 void Camera::Update(float deltaTime)
 {
 	Inputs(deltaTime);
-	updateMatrix(45.0f, 0.1f, 100.0f);
+	updateMatrix(45.0f, 0.1f, 300.0f);
 }
 
 void Camera::SetDimensions(unsigned int newWidth, unsigned int newHeight)
 {
 	width = newWidth;
 	height = newHeight;
-	updateMatrix(45.0f, 0.1f, 100.0f);
+	updateMatrix(45.0f, 0.1f, 300.0f);
 }
