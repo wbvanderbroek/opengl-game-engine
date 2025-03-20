@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stb/stb_image.h>
 
-Model::Model(ObjectStorage* storage, const std::string& path) : GameObject(storage)
+Model::Model(const std::string& path)
 {
 	LoadModel(path);
 }

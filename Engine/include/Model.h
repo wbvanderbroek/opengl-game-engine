@@ -13,7 +13,7 @@
 class Model : public GameObject
 {
 public:
-	Model(ObjectStorage* storage, const std::string& path);
+	Model(const std::string& path);
 
 	void Draw(Shader& shader, Camera& camera);
 	void LateUpdate(float deltaTime) override;

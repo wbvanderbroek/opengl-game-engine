@@ -151,7 +151,6 @@
     <ClCompile Include="Engine\source\Camera.cpp" />
     <ClCompile Include="Engine\source\EBO.cpp" />
     <ClCompile Include="Engine\source\Engine.cpp" />
-    <ClCompile Include="Engine\source\GameObject.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Engine\source\Light.cpp" />
     <ClCompile Include="Main.cpp" />

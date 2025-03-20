@@ -14,7 +14,7 @@ private:
 	glm::mat4 m_lightModel;
 
 public:
-	Light(ObjectStorage* storage);
+	Light();
 
 	void OnCreate() override;
 };

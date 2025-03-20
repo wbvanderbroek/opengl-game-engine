@@ -1,6 +1,6 @@
 #include <Light.h>
 
-Light::Light(ObjectStorage* storage) : GameObject(storage)
+Light::Light()
 {
 	m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_lightPos = glm::vec3(0.5f, -1.5f, 0.5f);

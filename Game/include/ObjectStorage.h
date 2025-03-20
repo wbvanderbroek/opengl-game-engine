@@ -12,8 +12,8 @@ public:
 	void AddGameObject(std::shared_ptr<GameObject> object);
 	void RemoveGameObject(std::shared_ptr<GameObject> object);
 
-	template<typename T, typename... Args>
-	std::shared_ptr<T> CreateAndAdd(Args&&... args);
+	template<typename T>
+	std::shared_ptr<T> CreateAndAdd(T&& obj);
 
 	Engine* m_engine;
 	std::vector<std::shared_ptr<GameObject>> m_objects;

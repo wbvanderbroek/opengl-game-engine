@@ -20,9 +20,8 @@ private:
 protected:
 	ObjectStorage* m_storage;
 public:
-	explicit GameObject(ObjectStorage* storage) : m_storage(storage) {}
+	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
 
-	virtual ~GameObject() = default;
 	virtual void OnCreate() {}
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
@@ -30,7 +29,13 @@ public:
 	virtual void OnDestroy() {}
 	virtual void OnQuit() {}
 
-	void Destroy();
+	void Destroy()
+	{
+		if (m_storage)
+		{
+			m_storage->RemoveGameObject(std::shared_ptr<GameObject>(this, [](GameObject*) {}));
+		}
+	}
 
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);

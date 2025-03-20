@@ -6,15 +6,16 @@
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
-	CreateAndAdd<Model>("Assets/models/building/MetalMineBuilding.fbx");
-	CreateAndAdd<Model>("Assets/models/character/char.fbx");
-	CreateAndAdd<Light>();
+	auto model = CreateAndAdd(Model("Assets/models/building/MetalMineBuilding.fbx"));
+	CreateAndAdd(Model("Assets/models/character/char.fbx"));
+	CreateAndAdd(Light());
 }
 
-template<typename T, typename... Args>
-std::shared_ptr<T> ObjectStorage::CreateAndAdd(Args&&... args)
+template<typename T>
+std::shared_ptr<T> ObjectStorage::CreateAndAdd(T&& obj)
 {
-	auto object = std::make_shared<T>(this, std::forward<Args>(args)...);
+	auto object = std::make_shared<std::decay_t<T>>(std::forward<T>(obj));
+	object->SetStorage(this);
 	AddGameObject(object);
 	return object;
 }

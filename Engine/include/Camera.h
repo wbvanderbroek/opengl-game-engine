@@ -30,7 +30,7 @@ public:
 	int speed = 15;
 	float sensitivity = 100.0f;
 
-	Camera(ObjectStorage* storage, int width, int height, glm::vec3 position, GLFWwindow* window);
+	Camera(int width, int height, glm::vec3 position, GLFWwindow* window);
 
 	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
 	void Matrix(Shader& shader, const char* uniform);

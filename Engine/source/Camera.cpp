@@ -1,7 +1,7 @@
 #include <Camera.h>
 
-Camera::Camera(ObjectStorage* storage, int width, int height, glm::vec3 position, GLFWwindow* window)
-	: GameObject(storage), width(width), height(height), Position(position), m_window(window)
+Camera::Camera(int width, int height, glm::vec3 position, GLFWwindow* window)
+	: width(width), height(height), Position(position), m_window(window)
 {
 	Camera::width = width;
 	Camera::height = height;
