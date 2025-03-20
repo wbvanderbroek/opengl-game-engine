@@ -34,3 +34,5 @@ On Linux it can simply be found at `/build/`
 # Running the build
 
 This should be as simple as going into `/build/Debug/` or `/build/` and running the executable since all neccessary files should be copied over.
+
+If you are running it in Visual Studio you might have to copy the assimp dll from the libraries folder into the debug/release folder.
