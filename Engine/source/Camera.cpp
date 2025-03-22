@@ -1,20 +1,19 @@
 #include <Camera.h>
 
-Camera::Camera(int width, int height)
-	: width(width), height(height)
+Camera::Camera(int width, int height) : width(width), height(height)
 {
 	m_window = glfwGetCurrentContext();
 	Camera::width = width;
 	Camera::height = height;
 }
 
-void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
+void Camera::updateMatrix()
 {
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(translation, translation + Orientation, Up);
-	projection = glm::perspective(glm::radians(FOVdeg), static_cast<float>(width) / static_cast<float>(height), nearPlane, farPlane);
+	projection = glm::perspective(glm::radians(m_fieldOfView), static_cast<float>(width) / static_cast<float>(height), m_nearPlane, m_farPlane);
 
 	cameraMatrix = projection * view;
 }
@@ -84,12 +83,12 @@ void Camera::Inputs(float deltaTime)
 void Camera::Update(float deltaTime)
 {
 	Inputs(deltaTime);
-	updateMatrix(45.0f, 0.1f, 300.0f);
+	updateMatrix();
 }
 
 void Camera::SetDimensions(unsigned int newWidth, unsigned int newHeight)
 {
 	width = newWidth;
 	height = newHeight;
-	updateMatrix(45.0f, 0.1f, 300.0f);
+	updateMatrix();
 }

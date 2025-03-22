@@ -19,6 +19,9 @@ public:
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
+	float m_fieldOfView = 45.0f;
+	float m_nearPlane = 0.1f;
+	float m_farPlane = 500.0f;
 	GLFWwindow* m_window;
 
 	bool firstClick = true;
@@ -31,7 +34,7 @@ public:
 
 	Camera(int width, int height);
 
-	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
+	void updateMatrix();
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(float deltaTime);
 
