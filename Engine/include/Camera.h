@@ -15,7 +15,6 @@
 class Camera : public GameObject
 {
 public:
-	glm::vec3 Position;
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
@@ -30,7 +29,7 @@ public:
 	int speed = 15;
 	float sensitivity = 100.0f;
 
-	Camera(int width, int height, glm::vec3 position);
+	Camera(int width, int height);
 
 	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
 	void Matrix(Shader& shader, const char* uniform);

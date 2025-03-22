@@ -69,7 +69,7 @@ void Mesh::Draw
 	}
 
 
-	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
+	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.translation.x, camera.translation.y, camera.translation.z);
 	camera.Matrix(shader, "camMatrix");
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
