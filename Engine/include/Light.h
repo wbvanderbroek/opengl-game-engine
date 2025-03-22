@@ -1,6 +1,5 @@
 #include <Engine.h>
 #include <GameObject.h>
-#include <GameObject.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,11 +8,10 @@
 class Light : public GameObject
 {
 private:
-	glm::vec4 m_lightColor;
-	glm::mat4 m_lightModel;
+	glm::vec4 m_lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // RGBA, leave the alpha as 1.0f
 
 public:
-	Light();
+	Light() {}
 
-	void OnCreate() override;
+	void Update(float deltaTime) override;
 };

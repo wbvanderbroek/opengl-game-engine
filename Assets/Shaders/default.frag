@@ -25,7 +25,7 @@ vec4 pointLight()
 
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightVec);
-	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	float diffuse = dot(normal, lightDirection) * 0.5 + 0.5;
 
 	float specularLight = 0.50f;
 	vec3 viewDirection = normalize(camPos - crntPos);
@@ -41,7 +41,7 @@ vec4 directLight()
 
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(vec3(1.0f, 1.0f, 1.0f));
-	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	float diffuse = dot(normal, lightDirection) * 0.5 + 0.5;
 
 	float specularLight = 0.50f;
 	vec3 viewDirection = normalize(camPos - crntPos);
@@ -61,7 +61,7 @@ vec4 spotLight()
 
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightPos - crntPos);
-	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	float diffuse = dot(normal, lightDirection) * 0.5 + 0.5;
 
 	float specularLight = 0.50f;
 	vec3 viewDirection = normalize(camPos - crntPos);
@@ -74,6 +74,7 @@ vec4 spotLight()
 
 	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
+
 void main()
 {
 	FragColor = pointLight();
