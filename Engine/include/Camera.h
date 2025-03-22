@@ -15,22 +15,22 @@
 class Camera : public GameObject
 {
 public:
-	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::mat4 cameraMatrix = glm::mat4(1.0f);
+	glm::vec3 m_orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 m_upDirection = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::mat4 m_cameraMatrix = glm::mat4(1.0f);
 
 	float m_fieldOfView = 45.0f;
 	float m_nearPlane = 0.1f;
 	float m_farPlane = 500.0f;
 	GLFWwindow* m_window;
 
-	bool firstClick = true;
+	bool m_firstMouseClick = true;
 
-	int width;
-	int height;
+	int m_windowWidth;
+	int m_windowHeight;
 
-	int speed = 15;
-	float sensitivity = 100.0f;
+	int m_movementSpeed = 15;
+	float m_mouseSensitivity = 100.0f;
 
 	Camera(int width, int height);
 

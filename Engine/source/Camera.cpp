@@ -1,10 +1,10 @@
 #include <Camera.h>
 
-Camera::Camera(int width, int height) : width(width), height(height)
+Camera::Camera(int width, int height) : m_windowWidth(width), m_windowHeight(height)
 {
 	m_window = glfwGetCurrentContext();
-	Camera::width = width;
-	Camera::height = height;
+	Camera::m_windowWidth = width;
+	Camera::m_windowHeight = height;
 }
 
 void Camera::updateMatrix()
@@ -13,45 +13,45 @@ void Camera::updateMatrix()
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(translation, translation + Orientation, Up);
-	projection = glm::perspective(glm::radians(m_fieldOfView), static_cast<float>(width) / static_cast<float>(height), m_nearPlane, m_farPlane);
+	projection = glm::perspective(glm::radians(m_fieldOfView), static_cast<float>(m_windowWidth) / static_cast<float>(m_windowHeight), m_nearPlane, m_farPlane);
 
-	cameraMatrix = projection * view;
+	m_cameraMatrix = projection * view;
 }
 
 void Camera::Matrix(Shader& shader, const char* uniform)
 {
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(m_cameraMatrix));
 }
 
 void Camera::Inputs(float deltaTime)
 {
 	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		translation += deltaTime * speed * Orientation;
+		translation += deltaTime * m_movementSpeed * Orientation;
 	if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		translation += deltaTime * speed * -glm::normalize(glm::cross(Orientation, Up));
+		translation += deltaTime * m_movementSpeed * -glm::normalize(glm::cross(Orientation, Up));
 	if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-		translation += deltaTime * speed * -Orientation;
+		translation += deltaTime * m_movementSpeed * -Orientation;
 	if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-		translation += deltaTime * speed * glm::normalize(glm::cross(Orientation, Up));;
+		translation += deltaTime * m_movementSpeed * glm::normalize(glm::cross(Orientation, Up));;
 
 
 	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		translation += deltaTime * speed * Up;
+		translation += deltaTime * m_movementSpeed * Up;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		translation += deltaTime * speed * -Up;
+		translation += deltaTime * m_movementSpeed * -Up;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		speed = 30;
+		m_movementSpeed = 30;
 	else if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		speed = 15;
+		m_movementSpeed = 15;
 
 	if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-		if (firstClick)
+		if (m_firstMouseClick)
 		{
-			glfwSetCursorPos(m_window, (width / 2), (height / 2));
-			firstClick = false;
+			glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
+			m_firstMouseClick = false;
 		}
 
 		double mouseX;
@@ -59,8 +59,8 @@ void Camera::Inputs(float deltaTime)
 
 		glfwGetCursorPos(m_window, &mouseX, &mouseY);
 
-		float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
-		float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
+		float rotX = m_mouseSensitivity * (float)(mouseY - (m_windowHeight / 2)) / m_windowHeight;
+		float rotY = m_mouseSensitivity * (float)(mouseX - (m_windowWidth / 2)) / m_windowWidth;
 
 		glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
 
@@ -71,12 +71,12 @@ void Camera::Inputs(float deltaTime)
 
 		Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
 
-		glfwSetCursorPos(m_window, (width / 2), (height / 2));
+		glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
 	}
 	else if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 	{
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		firstClick = true;
+		m_firstMouseClick = true;
 	}
 }
 
@@ -88,7 +88,7 @@ void Camera::Update(float deltaTime)
 
 void Camera::SetDimensions(unsigned int newWidth, unsigned int newHeight)
 {
-	width = newWidth;
-	height = newHeight;
+	m_windowWidth = newWidth;
+	m_windowHeight = newHeight;
 	updateMatrix();
 }
