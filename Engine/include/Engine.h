@@ -20,26 +20,25 @@ class Engine
 public:
 	Engine(unsigned int width, unsigned int height, GLFWwindow* window);
 
+	Shader m_shaderProgram;
+	std::shared_ptr<Camera> m_camera;
+
 	void StartInternal();
 	void UpdateInternal();
 	void QuitInternal();
 	void UpdateCameraSize(unsigned int width, unsigned int height);
 
-	Shader m_shaderProgram;
-	std::shared_ptr<Camera> m_camera;
 protected:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
 	virtual void Quit() {}
+
 private:
 	unsigned int m_width;
 	unsigned int m_height;
 	GLFWwindow* m_window;
-
-
-	std::chrono::system_clock::time_point m_previousTime;
-
 	ObjectStorage m_storage;
+	std::chrono::system_clock::time_point m_previousTime;
 
 	float CalculateDeltaTime()
 	{

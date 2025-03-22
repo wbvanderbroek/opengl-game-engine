@@ -53,7 +53,7 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 
 void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 {
-	GLuint texUni = glGetUniformLocation(shader.ID, uniform);
+	GLuint texUni = glGetUniformLocation(shader.m_id, uniform);
 	glUniform1i(texUni, unit);
 }
 

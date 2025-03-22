@@ -9,13 +9,14 @@
 class Texture
 {
 public:
-	GLuint ID;
-	const char* type;
-	GLuint unit;
-
 	Texture(const char* image, const char* texType, GLuint slot);
 
-	void texUnit(Shader& shader, const char* uniform, GLuint unit);
+	GLuint m_id;
+	GLuint m_unit;
+
+	const char* m_type;
+
+	void TexUnit(Shader& shader, const char* uniform, GLuint unit);
 	void Bind();
 	void Unbind();
 	void Delete();

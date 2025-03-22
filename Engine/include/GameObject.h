@@ -19,8 +19,10 @@ private:
 
 protected:
 	ObjectStorage* m_storage;
+
 public:
-	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
+	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	virtual void OnCreate() {}
 	virtual void Start() {}
@@ -29,24 +31,10 @@ public:
 	virtual void OnDestroy() {}
 	virtual void OnQuit() {}
 
-	void Destroy()
-	{
-		if (m_storage)
-		{
-			m_storage->RemoveGameObject(std::shared_ptr<GameObject>(this, [](GameObject*) {}));
-		}
-	}
-
-	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
-
-	void SetRotation(const glm::vec3& degrees) {
-		rotationInRads = glm::radians(degrees);
-	}
-
-	glm::vec3 GetRotation() const {
-		return glm::degrees(rotationInRads);
-	}
+	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
+	void Destroy() { if (m_storage) m_storage->RemoveGameObject(std::shared_ptr<GameObject>(this, [](GameObject*) {})); }
+	void SetRotation(const glm::vec3& degrees) { rotationInRads = glm::radians(degrees); }
+	glm::vec3 GetRotation() const { return glm::degrees(rotationInRads); }
 
 	glm::mat4 GetModelMatrix() {
 		const float c3 = glm::cos(rotationInRads.z);

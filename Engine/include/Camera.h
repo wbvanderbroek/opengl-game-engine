@@ -15,6 +15,8 @@
 class Camera : public GameObject
 {
 public:
+	Camera(int width, int height);
+
 	glm::vec3 m_orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 m_upDirection = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 m_cameraMatrix = glm::mat4(1.0f);
@@ -22,24 +24,20 @@ public:
 	float m_fieldOfView = 45.0f;
 	float m_nearPlane = 0.1f;
 	float m_farPlane = 500.0f;
-	GLFWwindow* m_window;
-
-	bool m_firstMouseClick = true;
+	float m_mouseSensitivity = 100.0f;
 
 	int m_windowWidth;
 	int m_windowHeight;
-
 	int m_movementSpeed = 15;
-	float m_mouseSensitivity = 100.0f;
 
-	Camera(int width, int height);
+	bool m_firstMouseClick = true;
 
-	void updateMatrix();
+	GLFWwindow* m_window;
+
+	void UpdateMatrix();
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(float deltaTime);
-
 	void Update(float deltaTime) override;
-
 	void SetDimensions(unsigned int width, unsigned int height);
 };
 

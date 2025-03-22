@@ -69,10 +69,10 @@ void Mesh::Draw
 	}
 
 
-	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.translation.x, camera.translation.y, camera.translation.z);
+	glUniform3f(glGetUniformLocation(shader.m_id, "camPos"), camera.translation.x, camera.translation.y, camera.translation.z);
 	camera.Matrix(shader, "camMatrix");
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader.m_id, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
