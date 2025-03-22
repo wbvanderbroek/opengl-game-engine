@@ -10,7 +10,6 @@ class Light : public GameObject
 {
 private:
 	glm::vec4 m_lightColor;
-	glm::vec3 m_lightPos;
 	glm::mat4 m_lightModel;
 
 public:

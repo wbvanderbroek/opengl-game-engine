@@ -30,22 +30,44 @@ void Mesh::Draw
 {
 	Vao.Bind();
 
-	unsigned int numDiffuse = 0;
-	unsigned int numSpecular = 0;
 
-	for (unsigned int i = 0; i < textures.size(); i++)
+	if (textures.size() == 0)
 	{
-		std::string num;
-		std::string type = textures[i].type;
-
-		if (type == "diffuse")
-			num = std::to_string(numDiffuse++);
-		else if (type == "specular")
-			num = std::to_string(numSpecular++);
-
-		textures[i].texUnit(shader, (type + num).c_str(), i);
-		textures[i].Bind();
+		static GLuint fallbackTextureID = 0;
+		if (fallbackTextureID == 0)
+		{
+			glGenTextures(1, &fallbackTextureID);
+			glBindTexture(GL_TEXTURE_2D, fallbackTextureID);
+			unsigned char pink[3] = { 255, 255, 255 };
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, pink);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
+		else
+		{
+			glBindTexture(GL_TEXTURE_2D, fallbackTextureID);
+		}
 	}
+	else
+	{
+		unsigned int numDiffuse = 0;
+		unsigned int numSpecular = 0;
+
+		for (unsigned int i = 0; i < textures.size(); i++)
+		{
+			std::string num;
+			std::string type = textures[i].type;
+
+			if (type == "diffuse")
+				num = std::to_string(numDiffuse++);
+			else if (type == "specular")
+				num = std::to_string(numSpecular++);
+
+			textures[i].texUnit(shader, (type + num).c_str(), i);
+			textures[i].Bind();
+		}
+	}
+
 
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 	camera.Matrix(shader, "camMatrix");

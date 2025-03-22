@@ -30,7 +30,7 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 
 
 	auto light = Instantiate(Light());
-	light->translation = glm::vec3(0, 0, -35);
+	light->translation = glm::vec3(0, 0, 0);
 
 	Instantiate(Light());
 }
