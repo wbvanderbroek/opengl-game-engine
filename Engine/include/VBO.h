@@ -1,9 +1,9 @@
-#ifndef VBO_CLASS_H
-#define VBO_CLASS_H
+#pragma once
+
+#include <vector>
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
-#include <vector>
 
 struct Vertex
 {
@@ -24,5 +24,3 @@ public:
 	void Unbind();
 	void Delete();
 };
-
-#endif

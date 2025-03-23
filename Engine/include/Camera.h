@@ -1,7 +1,5 @@
-#ifndef CAMERA_CLASS_H
-#define CAMERA_CLASS_H
+#pragma once
 
-#include <GameObject.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -10,7 +8,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "Shader.h"
+#include <GameObject.h>
+#include <Shader.h>
 
 class Camera : public GameObject
 {
@@ -40,5 +39,3 @@ public:
 	void Update(float deltaTime) override;
 	void SetDimensions(unsigned int width, unsigned int height);
 };
-
-#endif

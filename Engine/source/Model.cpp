@@ -1,7 +1,9 @@
-#include "Model.h"
-#include <Engine.h>
 #include <iostream>
+
 #include <stb/stb_image.h>
+
+#include <Engine.h>
+#include <Model.h>
 
 Model::Model(const std::string& path)
 {

@@ -1,5 +1,6 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
+
+#include <chrono>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -7,7 +8,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Camera.h>
-#include <chrono>
 #include <ObjectStorage.h>
 #include <Shader.h>
 
@@ -53,5 +53,3 @@ private:
 		return (float)elapsedSeconds.count();
 	}
 };
-
-#endif

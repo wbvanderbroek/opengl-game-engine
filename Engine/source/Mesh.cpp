@@ -56,14 +56,14 @@ void Mesh::Draw
 		for (unsigned int i = 0; i < textures.size(); i++)
 		{
 			std::string num;
-			std::string type = textures[i].type;
+			std::string type = textures[i].m_type;
 
 			if (type == "diffuse")
 				num = std::to_string(numDiffuse++);
 			else if (type == "specular")
 				num = std::to_string(numSpecular++);
 
-			textures[i].texUnit(shader, (type + num).c_str(), i);
+			textures[i].TexUnit(shader, (type + num).c_str(), i);
 			textures[i].Bind();
 		}
 	}

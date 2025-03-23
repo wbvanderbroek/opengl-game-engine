@@ -1,14 +1,15 @@
-#ifndef MODEL_CLASS_H
-#define MODEL_CLASS_H
+#pragma once
 
-#include "GameObject.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include <string>
+#include <vector>
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <string>
-#include <vector>
+
+#include <GameObject.h>
+#include <Mesh.h>
+#include <Shader.h>
 
 class Model : public GameObject
 {
@@ -27,5 +28,3 @@ private:
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };
-
-#endif
