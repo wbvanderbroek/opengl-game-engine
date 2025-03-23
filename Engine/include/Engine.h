@@ -11,8 +11,6 @@
 #include <ObjectStorage.h>
 #include <Shader.h>
 
-template std::shared_ptr<Camera> ObjectStorage::Instantiate(Camera&&);
-
 class Model;
 class GameObject;
 class Engine
