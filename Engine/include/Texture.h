@@ -1,10 +1,9 @@
-#ifndef TEXTURE_CLASS_H
-#define TEXTURE_CLASS_H
+#pragma once
 
-#include<glad/glad.h>
-#include<stb/stb_image.h>
+#include <glad/glad.h>
+#include <stb/stb_image.h>
 
-#include"Shader.h"
+#include <Shader.h>
 
 class Texture
 {
@@ -21,4 +20,3 @@ public:
 	void Unbind();
 	void Delete();
 };
-#endif

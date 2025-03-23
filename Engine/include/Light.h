@@ -1,8 +1,11 @@
-#include <Engine.h>
-#include <GameObject.h>
+#pragma once
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include <Engine.h>
+#include <GameObject.h>
 #include <ObjectStorage.h>
 
 class Light : public GameObject

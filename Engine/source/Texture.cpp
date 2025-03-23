@@ -2,20 +2,20 @@
 
 Texture::Texture(const char* image, const char* texType, GLuint slot)
 {
-	type = texType;
+	m_type = texType;
 
 	int widthImg, heightImg, numColCh;
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
 
-	glGenTextures(1, &ID);
+	glGenTextures(1, &m_id);
 
 	//fixes really really small textures
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	glActiveTexture(GL_TEXTURE0 + slot);
-	unit = slot;
-	glBindTexture(GL_TEXTURE_2D, ID);
+	m_unit = slot;
+	glBindTexture(GL_TEXTURE_2D, m_id);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -51,7 +51,7 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
+void Texture::TexUnit(Shader& shader, const char* uniform, GLuint unit)
 {
 	GLuint texUni = glGetUniformLocation(shader.m_id, uniform);
 	glUniform1i(texUni, unit);
@@ -59,9 +59,9 @@ void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 
 void Texture::Bind()
 {
-	glActiveTexture(GL_TEXTURE0 + unit);
+	glActiveTexture(GL_TEXTURE0 + m_unit);
 
-	glBindTexture(GL_TEXTURE_2D, ID);
+	glBindTexture(GL_TEXTURE_2D, m_id);
 }
 
 void Texture::Unbind()
@@ -71,5 +71,5 @@ void Texture::Unbind()
 
 void Texture::Delete()
 {
-	glDeleteTextures(1, &ID);
+	glDeleteTextures(1, &m_id);
 }
