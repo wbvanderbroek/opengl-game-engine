@@ -29,7 +29,10 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 	plane->translation = glm::vec3(0, -10, 0);
 
 
+	Instantiate(Light());
+
 	auto light = Instantiate(Light());
+	light->translation = glm::vec3(30, 0, 30);
 }
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)

@@ -1,6 +1,7 @@
 #include <chrono>
 
 #include <Engine.h>
+#include <Light.h>
 #include <ObjectStorage.h>
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
@@ -33,8 +34,37 @@ void Engine::UpdateInternal()
 
 	float deltaTime = CalculateDeltaTime();
 
+	std::vector<Light*> lightsList;
+
 	for (auto& obj : m_storage.m_objects)
+	{
 		obj->Update(deltaTime);
+
+		if (Light* lightObj = dynamic_cast<Light*>(obj.get()))
+		{
+			lightsList.push_back(lightObj);
+		}
+	}
+	glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, "numLights"), static_cast<int>(lightsList.size()));
+
+	for (size_t i = 0; i < lightsList.size(); i++) {
+		char uniformName[128];
+
+		snprintf(uniformName, sizeof(uniformName), "lights[%zu].color", i);
+		glUniform4f(
+			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
+			lightsList[i]->m_lightColor.x, lightsList[i]->m_lightColor.y,
+			lightsList[i]->m_lightColor.z, lightsList[i]->m_lightColor.w
+		);
+
+		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
+		glUniform3f(
+			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
+			lightsList[i]->translation.x, lightsList[i]->translation.y, lightsList[i]->translation.z
+		);
+
+	}
+
 
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
