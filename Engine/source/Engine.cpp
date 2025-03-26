@@ -1,8 +1,4 @@
-#include <chrono>
-
 #include <Engine.h>
-#include <Light.h>
-#include <ObjectStorage.h>
 
 Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
 	: m_width(width),
@@ -45,25 +41,9 @@ void Engine::UpdateInternal()
 			lightsList.push_back(lightObj);
 		}
 	}
-	glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, "numLights"), static_cast<int>(lightsList.size()));
 
-	for (size_t i = 0; i < lightsList.size(); i++) {
-		char uniformName[128];
+	UpdateLighting(lightsList);
 
-		snprintf(uniformName, sizeof(uniformName), "lights[%zu].color", i);
-		glUniform4f(
-			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			lightsList[i]->m_lightColor.x, lightsList[i]->m_lightColor.y,
-			lightsList[i]->m_lightColor.z, lightsList[i]->m_lightColor.w
-		);
-
-		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
-		glUniform3f(
-			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			lightsList[i]->translation.x, lightsList[i]->translation.y, lightsList[i]->translation.z
-		);
-
-	}
 
 
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
@@ -105,4 +85,27 @@ void Engine::UpdateCameraSize(unsigned int width, unsigned int height)
 	m_width = width;
 	m_height = height;
 	m_camera->SetDimensions(width, height);
+}
+
+void Engine::UpdateLighting(std::vector<Light*> lights)
+{
+	glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, "numLights"), static_cast<int>(lights.size()));
+
+	for (size_t i = 0; i < lights.size(); i++) {
+		char uniformName[128];
+
+		snprintf(uniformName, sizeof(uniformName), "lights[%zu].color", i);
+		glUniform4f(
+			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
+			lights[i]->m_lightColor.x, lights[i]->m_lightColor.y,
+			lights[i]->m_lightColor.z, lights[i]->m_lightColor.w
+		);
+
+		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
+		glUniform3f(
+			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
+			lights[i]->translation.x, lights[i]->translation.y, lights[i]->translation.z
+		);
+
+	}
 }

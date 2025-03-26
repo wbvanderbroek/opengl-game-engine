@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Camera.h>
+#include <Light.h>
 #include <ObjectStorage.h>
 #include <Shader.h>
 
@@ -25,11 +26,7 @@ public:
 	void UpdateInternal();
 	void QuitInternal();
 	void UpdateCameraSize(unsigned int width, unsigned int height);
-
-protected:
-	virtual void Start() {}
-	virtual void Update(float deltaTime) {}
-	virtual void Quit() {}
+	void UpdateLighting(std::vector<Light*> lights);
 
 private:
 	unsigned int m_width;
