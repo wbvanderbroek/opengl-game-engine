@@ -68,7 +68,7 @@ public:
 		component->Awake();
 	}
 
-	glm::mat4 GetModelMatrix() {
+	glm::mat4 GetObjectMatrix() {
 		const float c3 = glm::cos(rotationInRads.z);
 		const float s3 = glm::sin(rotationInRads.z);
 		const float c2 = glm::cos(rotationInRads.x);

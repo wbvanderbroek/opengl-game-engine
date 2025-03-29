@@ -79,7 +79,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 void Model::Draw(Shader& shader, Camera& camera)
 {
-	glm::mat4 modelMatrix = GetModelMatrix();
+	glm::mat4 modelMatrix = m_gameObject->GetObjectMatrix();
 
 	for (auto& mesh : meshes)
 	{
@@ -89,7 +89,7 @@ void Model::Draw(Shader& shader, Camera& camera)
 
 void Model::LateUpdate(float deltaTime)
 {
-	Draw(m_storage->m_engine->m_shaderProgram, *m_storage->m_engine->m_camera);
+	Draw(m_gameObject->m_storage->m_engine->m_shaderProgram, *m_gameObject->m_storage->m_engine->m_camera);
 }
 
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)

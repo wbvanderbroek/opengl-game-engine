@@ -7,11 +7,10 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-#include <GameObject.h>
 #include <Mesh.h>
 #include <Shader.h>
 
-class Model : public GameObject
+class Model : public Component
 {
 public:
 	Model(const std::string& path);
