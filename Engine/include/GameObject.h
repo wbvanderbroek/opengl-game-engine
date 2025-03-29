@@ -16,15 +16,15 @@
 #include <ObjectStorage.h>
 
 class ObjectStorage;
-class GameObject
+class GameObject : public std::enable_shared_from_this<GameObject>
 {
-protected:
+public:
 	ObjectStorage* m_storage = nullptr;
 
-public:
 	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
 	std::vector<std::shared_ptr<Component>> m_components;
 
 	virtual void OnCreate() {}
@@ -60,10 +60,10 @@ public:
 	glm::vec3 GetRotation() const { return glm::degrees(rotationInRads); }
 
 	template<typename T>
-	void AddComponent(T&& component)
+	void AddComponent(T&& componentToAdd)
 	{
-		auto component = std::make_shared<std::decay_t<T>>(std::forward<T>(component));
-		component->SetGameObject(this);
+		auto component = std::make_shared<std::decay_t<T>>(std::forward<T>(componentToAdd));
+		component->SetGameObject(shared_from_this());
 		m_components.push_back(component);
 		component->Awake();
 	}

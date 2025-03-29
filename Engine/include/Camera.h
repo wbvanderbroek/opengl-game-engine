@@ -11,7 +11,7 @@
 #include <GameObject.h>
 #include <Shader.h>
 
-class Camera : public GameObject, public std::enable_shared_from_this<Camera>
+class Camera : public Component, public std::enable_shared_from_this<Camera>
 {
 public:
 	Camera();
@@ -37,7 +37,7 @@ public:
 	void Inputs(float deltaTime);
 	void SetDimensions(unsigned int width, unsigned int height);
 
-	void OnCreate() override;
+	void Awake() override;
 	void Update(float deltaTime) override;
 
 };
