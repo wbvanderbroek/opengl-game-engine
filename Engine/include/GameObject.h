@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,6 +12,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
+#include <Component.h>
 #include <ObjectStorage.h>
 
 class ObjectStorage;
@@ -23,18 +25,48 @@ public:
 	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	std::vector<std::shared_ptr<Component>> m_components;
 
 	virtual void OnCreate() {}
-	virtual void Start() {}
-	virtual void Update(float deltaTime) {}
-	virtual void LateUpdate(float deltaTime) {}
-	virtual void OnDestroy() {}
-	virtual void OnQuit() {}
+	virtual void Start()
+	{
+		for (auto& component : m_components)
+			component->Start();
+	}
+	virtual void Update(float deltaTime)
+	{
+		for (auto& component : m_components)
+			component->Update(deltaTime);
+	}
+	virtual void LateUpdate(float deltaTime)
+	{
+		for (auto& component : m_components)
+			component->LateUpdate(deltaTime);
+	}
+	virtual void OnDestroy()
+	{
+		for (auto& component : m_components)
+			component->OnDestroy();
+	}
+	virtual void OnQuit()
+	{
+		for (auto& component : m_components)
+			component->OnQuit();
+	}
 
 	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
 	void Destroy() { if (m_storage) m_storage->RemoveGameObject(std::shared_ptr<GameObject>(this, [](GameObject*) {})); }
 	void SetRotation(const glm::vec3& degrees) { rotationInRads = glm::radians(degrees); }
 	glm::vec3 GetRotation() const { return glm::degrees(rotationInRads); }
+
+	template<typename T>
+	void AddComponent(T&& component)
+	{
+		auto component = std::make_shared<std::decay_t<T>>(std::forward<T>(component));
+		component->SetGameObject(this);
+		m_components.push_back(component);
+		component->Awake();
+	}
 
 	glm::mat4 GetModelMatrix() {
 		const float c3 = glm::cos(rotationInRads.z);

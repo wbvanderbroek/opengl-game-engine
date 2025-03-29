@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\source\Camera.cpp" />
+    <ClCompile Include="Engine\source\Component.cpp" />
     <ClCompile Include="Engine\source\EBO.cpp" />
     <ClCompile Include="Engine\source\Engine.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\include\Camera.h" />
+    <ClInclude Include="Engine\include\Component.h" />
     <ClInclude Include="Engine\include\EBO.h" />
     <ClInclude Include="Engine\include\Engine.h" />
     <ClInclude Include="Engine\include\GameObject.h" />
