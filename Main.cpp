@@ -49,7 +49,7 @@ int main()
 	glViewport(0, 0, width, height);
 
 
-	Engine engine(width, height, window);
+	Engine engine(window);
 
 	glfwSetWindowUserPointer(window, &engine);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

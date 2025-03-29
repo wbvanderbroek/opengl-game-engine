@@ -18,5 +18,5 @@ public:
 
 	VAO Vao;
 
-	void Draw(Shader& shader, Camera& camera, glm::mat4 matrix = glm::mat4(1.0f));
+	void Draw(Shader& shader, Camera* camera, glm::mat4 matrix = glm::mat4(1.0f));
 };

@@ -21,15 +21,15 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 	EBO.Unbind();
 }
 
-void Mesh::Draw
-(
-	Shader& shader,
-	Camera& camera,
-	glm::mat4 matrix
-)
+void Mesh::Draw(Shader& shader, Camera* camera, glm::mat4 matrix)
 {
-	Vao.Bind();
+	if (camera == nullptr)
+	{
+		std::cerr << "Camera is null" << std::endl;
+		return;
+	}
 
+	Vao.Bind();
 
 	if (textures.size() == 0)
 	{
@@ -69,8 +69,8 @@ void Mesh::Draw
 	}
 
 
-	glUniform3f(glGetUniformLocation(shader.m_id, "camPos"), camera.translation.x, camera.translation.y, camera.translation.z);
-	camera.Matrix(shader, "camMatrix");
+	glUniform3f(glGetUniformLocation(shader.m_id, "camPos"), camera->translation.x, camera->translation.y, camera->translation.z);
+	camera->Matrix(shader, "camMatrix");
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.m_id, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 

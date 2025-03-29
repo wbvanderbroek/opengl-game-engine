@@ -83,7 +83,7 @@ void Model::Draw(Shader& shader, Camera& camera)
 
 	for (auto& mesh : meshes)
 	{
-		mesh.Draw(shader, camera, modelMatrix);
+		mesh.Draw(shader, &camera, modelMatrix);
 	}
 }
 

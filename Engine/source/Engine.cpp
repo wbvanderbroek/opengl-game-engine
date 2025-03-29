@@ -1,14 +1,10 @@
 #include <Engine.h>
 
-Engine::Engine(unsigned int width, unsigned int height, GLFWwindow* window)
-	: m_width(width),
-	m_height(height),
-	m_window(window),
+Engine::Engine(GLFWwindow* window)
+	: m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
 	m_storage(this)
 {
-	m_camera = m_storage.Instantiate(Camera(width, height));
-
 	//activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
 

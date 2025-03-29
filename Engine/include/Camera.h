@@ -11,10 +11,10 @@
 #include <GameObject.h>
 #include <Shader.h>
 
-class Camera : public GameObject
+class Camera : public GameObject, public std::enable_shared_from_this<Camera>
 {
 public:
-	Camera(int width, int height);
+	Camera();
 
 	glm::vec3 m_orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 m_upDirection = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -36,6 +36,9 @@ public:
 	void UpdateMatrix();
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(float deltaTime);
-	void Update(float deltaTime) override;
 	void SetDimensions(unsigned int width, unsigned int height);
+
+	void OnCreate() override;
+	void Update(float deltaTime) override;
+
 };

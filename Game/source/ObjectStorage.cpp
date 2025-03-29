@@ -28,6 +28,7 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 	plane->scale = glm::vec3(300, 300, 300);
 	plane->translation = glm::vec3(0, -10, 0);
 
+	Instantiate(Camera());
 
 	Instantiate(Light());
 

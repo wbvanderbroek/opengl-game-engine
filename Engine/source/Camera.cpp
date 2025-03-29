@@ -1,10 +1,11 @@
 #include <Camera.h>
+#include <Engine.h>
 
-Camera::Camera(int width, int height) : m_windowWidth(width), m_windowHeight(height)
+Camera::Camera()
 {
 	m_window = glfwGetCurrentContext();
-	Camera::m_windowWidth = width;
-	Camera::m_windowHeight = height;
+	Camera::m_windowWidth = 800;
+	Camera::m_windowHeight = 800;
 }
 
 void Camera::UpdateMatrix()
@@ -78,6 +79,11 @@ void Camera::Inputs(float deltaTime)
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		m_firstMouseClick = true;
 	}
+}
+
+void Camera::OnCreate()
+{
+	m_storage->m_engine->m_camera = shared_from_this();
 }
 
 void Camera::Update(float deltaTime)

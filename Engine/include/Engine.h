@@ -12,12 +12,10 @@
 #include <ObjectStorage.h>
 #include <Shader.h>
 
-class Model;
-class GameObject;
 class Engine
 {
 public:
-	Engine(unsigned int width, unsigned int height, GLFWwindow* window);
+	Engine(GLFWwindow* window);
 
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
