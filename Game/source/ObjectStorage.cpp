@@ -32,10 +32,12 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 	auto camera = Instantiate(GameObject());
 	camera->AddComponent(Camera());
 
-	//Instantiate(Light());
+	auto light = Instantiate(GameObject());
+	light->AddComponent(Light());
 
-	//auto light = Instantiate(Light());
-	//light->translation = glm::vec3(30, 0, 30);
+	auto light2 = Instantiate(GameObject());
+	light2->AddComponent(Light());
+	light2->translation = glm::vec3(30, 0, 30);
 }
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)

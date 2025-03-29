@@ -99,7 +99,7 @@ void Engine::UpdateLighting(std::vector<Light*> lights)
 		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
 		glUniform3f(
 			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			lights[i]->translation.x, lights[i]->translation.y, lights[i]->translation.z
+			lights[i]->m_gameObject->translation.x, lights[i]->m_gameObject->translation.y, lights[i]->m_gameObject->translation.z
 		);
 
 	}
