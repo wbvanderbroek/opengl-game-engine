@@ -4,8 +4,10 @@
 Camera::Camera()
 {
 	m_window = glfwGetCurrentContext();
-	Camera::m_windowWidth = 800;
-	Camera::m_windowHeight = 800;
+
+	// Set the aspect ratio to the current window's aspect ratio
+	// (getWindowSize actually sets the variables you pass in)
+	glfwGetWindowSize(m_window, &m_windowWidth, &m_windowHeight);
 }
 
 void Camera::UpdateMatrix()

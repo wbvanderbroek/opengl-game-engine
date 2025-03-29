@@ -27,8 +27,6 @@ public:
 	void UpdateLighting(std::vector<Light*> lights);
 
 private:
-	unsigned int m_width;
-	unsigned int m_height;
 	GLFWwindow* m_window;
 	ObjectStorage m_storage;
 	std::chrono::system_clock::time_point m_previousTime;

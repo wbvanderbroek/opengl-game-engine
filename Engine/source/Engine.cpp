@@ -78,9 +78,8 @@ void Engine::QuitInternal()
 
 void Engine::UpdateCameraSize(unsigned int width, unsigned int height)
 {
-	m_width = width;
-	m_height = height;
-	m_camera->SetDimensions(width, height);
+	if (m_camera != nullptr)
+		m_camera->SetDimensions(width, height);
 }
 
 void Engine::UpdateLighting(std::vector<Light*> lights)
