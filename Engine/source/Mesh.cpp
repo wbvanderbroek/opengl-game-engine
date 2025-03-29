@@ -74,5 +74,5 @@ void Mesh::Draw(Shader& shader, Camera* camera, glm::mat4 matrix)
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.m_id, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 }

@@ -20,7 +20,7 @@ private:
 	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
 
 protected:
-	ObjectStorage* m_storage;
+	ObjectStorage* m_storage = nullptr;
 
 public:
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
