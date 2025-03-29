@@ -20,11 +20,14 @@ public:
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
 
+	//the lights add themselves to this list each frame
+	std::vector<Light*> m_activeLights;
+
 	void StartInternal();
 	void UpdateInternal();
 	void QuitInternal();
 	void UpdateCameraSize(unsigned int width, unsigned int height);
-	void UpdateLighting(std::vector<Light*> lights);
+	void UpdateLighting();
 
 private:
 	GLFWwindow* m_window;

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glm/glm.hpp>
+#include <memory>
+
 class GameObject;
 class Component
 {

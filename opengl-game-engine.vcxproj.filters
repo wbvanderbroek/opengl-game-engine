@@ -60,6 +60,12 @@
     <ClCompile Include="Libraries\include\glad\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\source\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\source\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\default.vert">
@@ -107,6 +113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\include\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\include\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,26 +21,17 @@ void Engine::StartInternal()
 
 void Engine::UpdateInternal()
 {
+	m_activeLights.clear();
 	static auto lastTime = std::chrono::high_resolution_clock::now();
 	static int frameCount = 0;
 
 	float deltaTime = CalculateDeltaTime();
 
-	std::vector<Light*> lightsList;
 
 	for (auto& obj : m_storage.m_objects)
-	{
 		obj->Update(deltaTime);
 
-		if (Light* lightObj = dynamic_cast<Light*>(obj.get()))
-		{
-			lightsList.push_back(lightObj);
-		}
-	}
-
-	UpdateLighting(lightsList);
-
-
+	UpdateLighting();
 
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -82,24 +73,24 @@ void Engine::UpdateCameraSize(unsigned int width, unsigned int height)
 		m_camera->SetDimensions(width, height);
 }
 
-void Engine::UpdateLighting(std::vector<Light*> lights)
+void Engine::UpdateLighting()
 {
-	glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, "numLights"), static_cast<int>(lights.size()));
+	glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, "numLights"), static_cast<int>(m_activeLights.size()));
 
-	for (size_t i = 0; i < lights.size(); i++) {
+	for (size_t i = 0; i < m_activeLights.size(); i++) {
 		char uniformName[128];
 
 		snprintf(uniformName, sizeof(uniformName), "lights[%zu].color", i);
 		glUniform4f(
 			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			lights[i]->m_lightColor.x, lights[i]->m_lightColor.y,
-			lights[i]->m_lightColor.z, lights[i]->m_lightColor.w
+			m_activeLights[i]->m_lightColor.x, m_activeLights[i]->m_lightColor.y,
+			m_activeLights[i]->m_lightColor.z, m_activeLights[i]->m_lightColor.w
 		);
 
 		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
 		glUniform3f(
 			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			lights[i]->m_gameObject->translation.x, lights[i]->m_gameObject->translation.y, lights[i]->m_gameObject->translation.z
+			m_activeLights[i]->m_gameObject->translation.x, m_activeLights[i]->m_gameObject->translation.y, m_activeLights[i]->m_gameObject->translation.z
 		);
 
 	}

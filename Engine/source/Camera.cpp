@@ -32,8 +32,6 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 
 void Camera::Inputs(float deltaTime)
 {
-	std::cout << m_gameObject->translation.x << " " << m_gameObject->translation.y << " " << m_gameObject->translation.z << std::endl;
-
 	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), m_gameObject->rotationInRads.x), m_gameObject->rotationInRads.y), m_gameObject->rotationInRads.z);
 	glm::vec3 right = glm::normalize(glm::cross(forward, m_upDirection));
 
