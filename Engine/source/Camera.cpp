@@ -15,7 +15,11 @@ void Camera::UpdateMatrix()
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
-	view = glm::lookAt(translation, translation + m_orientation, m_upDirection);
+	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), rotationInRads.x), rotationInRads.y), rotationInRads.z);
+
+	glm::vec3 right = glm::normalize(glm::cross(forward, m_upDirection));
+
+	view = glm::lookAt(translation, translation + forward, m_upDirection);
 	projection = glm::perspective(glm::radians(m_fieldOfView), static_cast<float>(m_windowWidth) / static_cast<float>(m_windowHeight), m_nearPlane, m_farPlane);
 
 	m_cameraMatrix = projection * view;
@@ -28,23 +32,26 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 
 void Camera::Inputs(float deltaTime)
 {
-	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		translation += deltaTime * m_movementSpeed * m_orientation;
-	if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		translation += deltaTime * m_movementSpeed * -glm::normalize(glm::cross(m_orientation, m_upDirection));
-	if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-		translation += deltaTime * m_movementSpeed * -m_orientation;
-	if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-		translation += deltaTime * m_movementSpeed * glm::normalize(glm::cross(m_orientation, m_upDirection));;
+	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), rotationInRads.x), rotationInRads.y), rotationInRads.z);
+	glm::vec3 right = glm::normalize(glm::cross(forward, m_upDirection));
 
+	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
+		translation += deltaTime * m_movementSpeed * forward;
+	if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
+		translation -= deltaTime * m_movementSpeed * right;
+	if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
+		translation -= deltaTime * m_movementSpeed * forward;
+	if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
+		translation += deltaTime * m_movementSpeed * right;
 
 	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		translation += deltaTime * m_movementSpeed * m_upDirection;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		translation += deltaTime * m_movementSpeed * -m_upDirection;
+		translation -= deltaTime * m_movementSpeed * m_upDirection;
+
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		m_movementSpeed = 30;
-	else if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+	else
 		m_movementSpeed = 15;
 
 	if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
@@ -57,26 +64,18 @@ void Camera::Inputs(float deltaTime)
 			m_firstMouseClick = false;
 		}
 
-		double mouseX;
-		double mouseY;
-
+		double mouseX, mouseY;
 		glfwGetCursorPos(m_window, &mouseX, &mouseY);
 
-		float rotX = m_mouseSensitivity * (float)(mouseY - (m_windowHeight / 2)) / m_windowHeight;
-		float rotY = m_mouseSensitivity * (float)(mouseX - (m_windowWidth / 2)) / m_windowWidth;
+		float rotX = m_mouseSensitivity * static_cast<float>(mouseY - (m_windowHeight / 2)) / m_windowHeight;
+		float rotY = m_mouseSensitivity * static_cast<float>(mouseX - (m_windowWidth / 2)) / m_windowWidth;
 
-		glm::vec3 newOrientation = glm::rotate(m_orientation, glm::radians(-rotX), glm::normalize(glm::cross(m_orientation, m_upDirection)));
-
-		if (abs(glm::angle(newOrientation, m_upDirection) - glm::radians(90.0f)) <= glm::radians(85.0f))
-		{
-			m_orientation = newOrientation;
-		}
-
-		m_orientation = glm::rotate(m_orientation, glm::radians(-rotY), m_upDirection);
+		rotationInRads.x += glm::radians(-rotX);
+		rotationInRads.y += glm::radians(-rotY);
 
 		glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
 	}
-	else if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+	else
 	{
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		m_firstMouseClick = true;

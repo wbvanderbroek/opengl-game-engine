@@ -16,13 +16,11 @@
 class ObjectStorage;
 class GameObject
 {
-private:
-	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
-
 protected:
 	ObjectStorage* m_storage = nullptr;
 
 public:
+	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
