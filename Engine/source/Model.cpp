@@ -5,11 +5,6 @@
 #include <Engine.h>
 #include <Model.h>
 
-Model::Model(const std::string& path)
-{
-	LoadModel(path);
-}
-
 void Model::LoadModel(const std::string& path)
 {
 	Assimp::Importer importer;
@@ -21,7 +16,7 @@ void Model::LoadModel(const std::string& path)
 		return;
 	}
 
-	directory = path.substr(0, path.find_last_of('/'));
+	m_modelPath = path.substr(0, path.find_last_of('/'));
 
 	ProcessNode(scene->mRootNode, scene);
 }
@@ -108,11 +103,11 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 			size_t lastSlash = texturePath.find_last_of("/\\");
 			std::string filenameOnly = (lastSlash != std::string::npos) ? texturePath.substr(lastSlash + 1) : texturePath;
 
-			texturePath = directory + "/" + filenameOnly;
+			texturePath = m_modelPath + "/" + filenameOnly;
 		}
 		else
 		{
-			texturePath = directory + "/" + texturePath;
+			texturePath = m_modelPath + "/" + texturePath;
 		}
 
 		textures.push_back(Texture(texturePath.c_str(), typeName.c_str(), 0));

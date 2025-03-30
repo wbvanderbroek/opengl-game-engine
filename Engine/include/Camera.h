@@ -40,4 +40,13 @@ public:
 	void Awake() override;
 	void Update(float deltaTime) override;
 
+	inline void SetFOV(float fov) { m_fieldOfView = fov; UpdateMatrix(); }
+	inline void SetNearClip(float nearClip) { m_nearPlane = nearClip; UpdateMatrix(); }
+	inline void SetFarClip(float farClip) { m_farPlane = farClip; UpdateMatrix(); }
+
+	inline float GetFOV() const { return m_fieldOfView; }
+	inline float GetNearClip() const { return m_nearPlane; }
+	inline float GetFarClip() const { return m_farPlane; }
+
+
 };

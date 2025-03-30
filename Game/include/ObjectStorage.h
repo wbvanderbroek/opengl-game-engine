@@ -10,6 +10,7 @@ class ObjectStorage
 public:
 	ObjectStorage(Engine* engine);
 	void RemoveGameObject(std::shared_ptr<GameObject> object);
+	void CreateDefaultScene();
 
 	template<typename T>
 	std::shared_ptr<T> Instantiate(T&& obj)

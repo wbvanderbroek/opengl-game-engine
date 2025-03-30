@@ -13,14 +13,17 @@
 class Model : public Component
 {
 public:
-	Model(const std::string& path);
+	Model(const std::string& path) : m_modelPath(path)
+	{
+		LoadModel(path);
+	}
+	std::string m_modelPath;
 
 	void Draw(Shader& shader, Camera& camera);
 	void LateUpdate(float deltaTime) override;
 
 private:
 	std::vector<Mesh> meshes;
-	std::string directory;
 
 	void LoadModel(const std::string& path);
 	void ProcessNode(aiNode* node, const aiScene* scene);

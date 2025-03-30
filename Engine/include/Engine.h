@@ -11,6 +11,7 @@
 #include <Light.h>
 #include <ObjectStorage.h>
 #include <Shader.h>
+#include <EditorUI.h>
 
 class Engine
 {
@@ -19,8 +20,10 @@ public:
 
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
+	ObjectStorage m_storage;
+	EditorUI m_editorUI;
 
-	//the lights add themselves to this list each frame
+	// the lights add themselves to this list each frame
 	std::vector<Light*> m_activeLights;
 
 	void StartInternal();
@@ -31,8 +34,8 @@ public:
 
 private:
 	GLFWwindow* m_window;
-	ObjectStorage m_storage;
 	std::chrono::system_clock::time_point m_previousTime;
+	bool m_isEditorMode = true;
 
 	float CalculateDeltaTime()
 	{

@@ -75,7 +75,7 @@
     <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Game\source;Game\include;Engine\source;Engine\include;Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>imgui;Game\source;Game\include;Engine\source;Engine\include;Libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,7 +152,15 @@
     <ClCompile Include="Engine\source\Camera.cpp" />
     <ClCompile Include="Engine\source\Component.cpp" />
     <ClCompile Include="Engine\source\EBO.cpp" />
+    <ClCompile Include="Engine\source\EditorUI.cpp" />
     <ClCompile Include="Engine\source\Engine.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\source\Light.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Main.cpp" />
@@ -172,8 +181,18 @@
     <ClInclude Include="Engine\include\Camera.h" />
     <ClInclude Include="Engine\include\Component.h" />
     <ClInclude Include="Engine\include\EBO.h" />
+    <ClInclude Include="Engine\include\EditorUI.h" />
     <ClInclude Include="Engine\include\Engine.h" />
     <ClInclude Include="Engine\include\GameObject.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\include\Mesh.h" />
     <ClInclude Include="Engine\include\Model.h" />
     <ClInclude Include="Game\include\ObjectStorage.h" />

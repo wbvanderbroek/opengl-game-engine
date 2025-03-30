@@ -6,43 +6,9 @@
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
-	auto building = Instantiate(GameObject());
-	building->AddComponent(Model("Assets/models/building/MetalMineBuilding.fbx"));
-	building->SetRotation(glm::vec3(270, 0, 180));
-	building->translation = glm::vec3(0, 0, -35);
-	building->scale = glm::vec3(1.5, 1.5, 1.5);
-
-	auto building2 = Instantiate(GameObject());
-	building2->AddComponent(Model("Assets/models/building/MetalMineBuilding.fbx"));
-	building2->SetRotation(glm::vec3(270, 0, 135));
-	building2->translation = glm::vec3(35, 0, -20);
-
-	auto building3 = Instantiate(GameObject());
-	building3->AddComponent(Model("Assets/models/building/MetalMineBuilding.fbx"));
-	building3->SetRotation(glm::vec3(270, 0, 225));
-	building3->translation = glm::vec3(-35, 0, -20);
-
-	auto character = Instantiate(GameObject());
-	character->AddComponent(Model("Assets/models/character/char.fbx"));
-	character->SetRotation(glm::vec3(270, 0, 0));
-	character->scale = glm::vec3(3, 3, 3);
-
-	auto plane = Instantiate(GameObject());
-	plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
-	plane->SetRotation(glm::vec3(270, 0, 0));
-	plane->scale = glm::vec3(300, 300, 300);
-	plane->translation = glm::vec3(0, -10, 0);
-
-
-	auto camera = Instantiate(GameObject());
-	camera->AddComponent(Camera());
-
-	auto light = Instantiate(GameObject());
-	light->AddComponent(Light());
-
-	auto light2 = Instantiate(GameObject());
-	light2->AddComponent(Light());
-	light2->translation = glm::vec3(30, 0, 30);
+	// Initialize with a default scene
+	// This can be removed if you want to start with an empty scene
+	CreateDefaultScene();
 }
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
@@ -53,4 +19,25 @@ void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
 		(*it)->OnDestroy();
 		m_objects.erase(it);
 	}
+}
+
+// Create a default scene with some objects
+// This is optional and can be removed if you want to start with an empty scene
+void ObjectStorage::CreateDefaultScene()
+{
+	// Add a camera (this is essential)
+	auto camera = Instantiate(GameObject());
+	camera->AddComponent(Camera());
+
+	// Add a default light
+	auto light = Instantiate(GameObject());
+	light->AddComponent(Light());
+	light->translation = glm::vec3(0, 10, 0);
+
+	// Add a ground plane
+	auto plane = Instantiate(GameObject());
+	plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
+	plane->SetRotation(glm::vec3(270, 0, 0));
+	plane->scale = glm::vec3(100, 100, 100);
+	plane->translation = glm::vec3(0, -10, 0);
 }
