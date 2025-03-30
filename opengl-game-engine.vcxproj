@@ -153,6 +153,7 @@
     <ClCompile Include="Engine\source\EBO.cpp" />
     <ClCompile Include="Engine\source\EditorUI.cpp" />
     <ClCompile Include="Engine\source\Engine.cpp" />
+    <ClCompile Include="Game\source\temp.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Engine\include\EditorUI.h" />
     <ClInclude Include="Engine\include\Engine.h" />
     <ClInclude Include="Engine\include\GameObject.h" />
+    <ClInclude Include="Game\include\temp.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />

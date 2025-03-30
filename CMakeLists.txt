@@ -7,19 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(Libraries)
 add_subdirectory(Engine)
 add_subdirectory(Game)
+add_subdirectory(imgui)
 
 add_executable(opengl-game-engine Main.cpp)
 
 if(APPLE)
     find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
-    target_link_libraries(opengl-game-engine PRIVATE Engine glfw OpenGL::GL assimp)
+    target_link_libraries(opengl-game-engine PRIVATE Engine imgui glfw OpenGL::GL assimp)
 elseif(LINUX)
     find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
     target_link_libraries(opengl-game-engine PRIVATE Engine glfw OpenGL::GL assimp)
 elseif(WIN32)
-    target_link_libraries(opengl-game-engine PRIVATE Engine assimp)
+    target_link_libraries(opengl-game-engine PRIVATE Engine imgui assimp)
 endif()
 
 add_custom_command(TARGET opengl-game-engine POST_BUILD

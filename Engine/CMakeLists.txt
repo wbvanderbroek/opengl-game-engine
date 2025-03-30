@@ -6,6 +6,8 @@ target_include_directories(Engine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/Libraries/include
     ${PROJECT_SOURCE_DIR}/Game/include
+    ${PROJECT_SOURCE_DIR}/Imgui
+
 )
 
 target_link_libraries(Engine PUBLIC
