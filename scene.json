@@ -30,8 +30,8 @@
                 {
                     "color": [
                         1.0,
-                        1.0,
-                        1.0,
+                        0.0,
+                        0.0,
                         1.0
                     ],
                     "type": "Light"
@@ -56,7 +56,7 @@
         {
             "components": [
                 {
-                    "modelPath": "Assets/models/plane",
+                    "modelPath": "Assets/models/character/char.fbx",
                     "type": "Model"
                 }
             ],
@@ -81,8 +81,35 @@
                 {
                     "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
                     "type": "Model"
+                },
+                {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Light"
                 }
             ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "components": [],
             "rotation": [
                 0.0,
                 0.0,

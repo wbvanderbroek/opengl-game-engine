@@ -37,30 +37,43 @@ void EditorUI::Initialize(GLFWwindow* window)
 	ImGui_ImplOpenGL3_Init("#version 330 core");
 }
 
-// Render UI
 void EditorUI::Render()
 {
-	// Start the ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	// Render different UI elements
 	RenderMainMenuBar();
 
-	if (m_showHierarchy)
-		RenderHierarchyWindow();
+	// Get viewport size for manual layout
+	ImVec2 viewportSize = ImGui::GetIO().DisplaySize;
 
-	if (m_showInspector)
-		RenderInspectorWindow();
+	float panelWidth = viewportSize.x * 0.2f;
+	float inspectorWidth = viewportSize.x * 0.25f;
 
+	// Hierarchy Window (left)
+	ImGui::SetNextWindowPos(ImVec2(0, 20)); // below menu bar
+	ImGui::SetNextWindowSize(ImVec2(panelWidth, viewportSize.y - 20));
+	if (m_showHierarchy) RenderHierarchyWindow();
+
+	// Game View (middle)
+	ImGui::SetNextWindowPos(ImVec2(panelWidth, 20));
+	ImGui::SetNextWindowSize(ImVec2(viewportSize.x - panelWidth - inspectorWidth, viewportSize.y - 20));
+
+	// Inspector (right)
+	ImGui::SetNextWindowPos(ImVec2(viewportSize.x - inspectorWidth, 20));
+	ImGui::SetNextWindowSize(ImVec2(inspectorWidth, viewportSize.y - 20));
+	if (m_showInspector) RenderInspectorWindow();
+
+	// Optional floating menu
 	if (m_showComponentMenu)
 		RenderComponentMenu();
 
-	// Render ImGui
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+
 
 // Shutdown ImGui
 void EditorUI::Shutdown()
@@ -259,6 +272,7 @@ void EditorUI::RenderInspectorWindow()
 // Render the component selection menu
 void EditorUI::RenderComponentMenu()
 {
+	ImGui::SetNextWindowSize(ImVec2(300, 0)); // set width, height auto
 	ImGui::Begin("Add Component", &m_showComponentMenu, ImGuiWindowFlags_AlwaysAutoResize);
 
 	if (ImGui::Button("Model", ImVec2(-1, 0)))

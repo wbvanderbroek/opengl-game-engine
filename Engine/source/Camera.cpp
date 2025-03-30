@@ -91,7 +91,7 @@ void Camera::Awake()
 
 void Camera::Update(float deltaTime)
 {
-	Inputs(deltaTime);
+	//Inputs(deltaTime);
 	UpdateMatrix();
 }
 
