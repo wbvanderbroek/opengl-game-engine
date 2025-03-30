@@ -16,7 +16,8 @@ void Model::LoadModel(const std::string& path)
 		return;
 	}
 
-	m_modelPath = path.substr(0, path.find_last_of('/'));
+	m_modelPath = path;
+	m_directory = path.substr(0, path.find_last_of('/'));
 
 	ProcessNode(scene->mRootNode, scene);
 }
@@ -97,6 +98,7 @@ void Model::Reload()
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
 {
 	std::vector<Texture> textures;
+
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -106,20 +108,18 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 
 		if (texturePath.find(":") != std::string::npos || texturePath.find("/") == 0)
 		{
-
 			size_t lastSlash = texturePath.find_last_of("/\\");
 			std::string filenameOnly = (lastSlash != std::string::npos) ? texturePath.substr(lastSlash + 1) : texturePath;
 
-			texturePath = m_modelPath + "/" + filenameOnly;
+			texturePath = m_directory + "/" + filenameOnly;
 		}
 		else
 		{
-			texturePath = m_modelPath + "/" + texturePath;
+			texturePath = m_directory + "/" + texturePath;
 		}
 
 		textures.push_back(Texture(texturePath.c_str(), typeName.c_str(), 0));
-
-
 	}
+
 	return textures;
 }

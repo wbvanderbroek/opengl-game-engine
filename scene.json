@@ -56,7 +56,7 @@
         {
             "components": [
                 {
-                    "modelPath": "Assets/models/plane",
+                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
                     "type": "Model"
                 }
             ],

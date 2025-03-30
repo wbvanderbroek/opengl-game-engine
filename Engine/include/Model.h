@@ -18,6 +18,7 @@ public:
 		LoadModel(path);
 	}
 	std::string m_modelPath;
+	std::string m_directory;
 
 	void Draw(Shader& shader, Camera& camera);
 	void LateUpdate(float deltaTime) override;
