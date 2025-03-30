@@ -21,6 +21,7 @@ public:
 
 	void Draw(Shader& shader, Camera& camera);
 	void LateUpdate(float deltaTime) override;
+	void Reload();
 
 private:
 	std::vector<Mesh> meshes;

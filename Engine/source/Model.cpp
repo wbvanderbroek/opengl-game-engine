@@ -87,6 +87,13 @@ void Model::LateUpdate(float deltaTime)
 	Draw(m_gameObject->m_storage->m_engine->m_shaderProgram, *m_gameObject->m_storage->m_engine->m_camera);
 }
 
+void Model::Reload()
+{
+	meshes.clear();
+	if (m_modelPath.empty()) return;
+	LoadModel(m_modelPath);
+}
+
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
 {
 	std::vector<Texture> textures;

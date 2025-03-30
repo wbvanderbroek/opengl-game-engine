@@ -429,7 +429,7 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 
 				modelIndex = (modelIndex + 1) % 3;
 				modelComponent->m_modelPath = models[modelIndex];
-				// Would need to reload the model here
+				modelComponent->Reload();
 			}
 		}
 	}
@@ -708,8 +708,8 @@ void EditorUI::DeserializeComponent(std::shared_ptr<GameObject> gameObject, cons
 
 		if (type == "Model" && data.contains("modelPath") && data["modelPath"].is_string())
 		{
-			std::string modelPath = data["modelPath"];
-			gameObject->AddComponent(Model(modelPath));
+			std::string model = data["modelPath"];
+			gameObject->AddComponent(Model(model));
 		}
 		else if (type == "Light")
 		{
