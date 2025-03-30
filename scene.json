@@ -1,0 +1,104 @@
+{
+    "gameObjects": [
+        {
+            "components": [
+                {
+                    "farClip": 500.0,
+                    "fov": 45.0,
+                    "nearClip": 0.10000000149011612,
+                    "type": "Camera"
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "components": [
+                {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Light"
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "components": [
+                {
+                    "modelPath": "Assets/models/plane",
+                    "type": "Model"
+                }
+            ],
+            "rotation": [
+                270.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                100.0,
+                100.0,
+                100.0
+            ],
+            "translation": [
+                0.0,
+                -10.0,
+                0.0
+            ]
+        },
+        {
+            "components": [
+                {
+                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
+                    "type": "Model"
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
+    "version": 1
+}
