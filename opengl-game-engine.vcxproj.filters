@@ -54,13 +54,10 @@
     <ClCompile Include="Engine\source\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\ObjectStorage.cpp">
+    <ClCompile Include="Engine\source\ObjectStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\include\glad\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\source\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\source\Light.cpp">
@@ -133,7 +130,7 @@
     <ClInclude Include="Engine\include\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\ObjectStorage.h">
+    <ClInclude Include="Engine\include\ObjectStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\include\Light.h">

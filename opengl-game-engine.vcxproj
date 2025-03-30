@@ -150,7 +150,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\source\Camera.cpp" />
-    <ClCompile Include="Engine\source\Component.cpp" />
     <ClCompile Include="Engine\source\EBO.cpp" />
     <ClCompile Include="Engine\source\EditorUI.cpp" />
     <ClCompile Include="Engine\source\Engine.cpp" />
@@ -166,7 +165,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\source\Mesh.cpp" />
     <ClCompile Include="Engine\source\Model.cpp" />
-    <ClCompile Include="Game\source\ObjectStorage.cpp" />
+    <ClCompile Include="Engine\source\ObjectStorage.cpp" />
     <ClCompile Include="Engine\source\Shader.cpp" />
     <ClCompile Include="Engine\source\stb.cpp" />
     <ClCompile Include="Engine\source\Texture.cpp" />
@@ -195,7 +194,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\include\Mesh.h" />
     <ClInclude Include="Engine\include\Model.h" />
-    <ClInclude Include="Game\include\ObjectStorage.h" />
+    <ClInclude Include="Engine\include\ObjectStorage.h" />
     <ClInclude Include="Engine\include\resource.h" />
     <ClInclude Include="Engine\include\Shader.h" />
     <ClInclude Include="Engine\include\Texture.h" />

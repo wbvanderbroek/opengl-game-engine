@@ -19,21 +19,18 @@ public:
 	EditorUI(Engine* engine);
 	~EditorUI();
 
+	std::shared_ptr<GameObject> m_selectedObject;
+
 	void Initialize(GLFWwindow* window);
 	void Render();
 	void Shutdown();
 
-	void SaveScene(const std::string& filename);
-	void LoadScene(const std::string& filename);
-
 private:
 	Engine* m_engine;
-	std::shared_ptr<GameObject> m_selectedObject;
 	bool m_showHierarchy = true;
 	bool m_showInspector = true;
 	bool m_showComponentMenu = false;
 	std::string m_newGameObjectName = "New GameObject";
-	std::string m_currentScenePath = "";
 
 	void RenderMainMenuBar();
 	void RenderHierarchyWindow();
@@ -45,16 +42,4 @@ private:
 	void DisplayComponent(std::shared_ptr<Component> component);
 
 	bool ButtonCenteredOnLine(const char* label);
-
-	// Serialization helpers
-	nlohmann::json SerializeScene();
-	nlohmann::json SerializeGameObject(std::shared_ptr<GameObject> gameObject);
-	nlohmann::json SerializeComponent(std::shared_ptr<Component> component);
-
-	void DeserializeScene(const nlohmann::json& data);
-	std::shared_ptr<GameObject> DeserializeGameObject(const nlohmann::json& data);
-	void DeserializeComponent(std::shared_ptr<GameObject> gameObject, const nlohmann::json& data);
-
-	// Component factory
-	std::shared_ptr<Component> CreateComponentByType(const std::string& type);
 };
