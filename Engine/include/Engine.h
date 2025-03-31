@@ -8,20 +8,21 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Camera.h>
+#include <EditorUI.h>
 #include <Light.h>
 #include <ObjectStorage.h>
 #include <Shader.h>
-#include <EditorUI.h>
 
 class Engine
 {
 public:
-	Engine(GLFWwindow* window);
+	Engine(GLFWwindow* window, int argc, char* argv[]);
 
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
 	ObjectStorage m_storage;
-	EditorUI m_editorUI;
+	std::unique_ptr<EditorUI> m_editorUI;
+	bool editorMode = false;
 
 	// the lights add themselves to this list each frame
 	std::vector<Light*> m_activeLights;

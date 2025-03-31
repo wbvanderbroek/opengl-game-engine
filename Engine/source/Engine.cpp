@@ -1,16 +1,29 @@
 #include <Engine.h>
 
-Engine::Engine(GLFWwindow* window)
+Engine::Engine(GLFWwindow* window, int argc, char* argv[])
 	: m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
-	m_storage(this),
-	m_editorUI(this)
+	m_storage(this)
 {
 	// activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
 
-	// Initialize the editor UI
-	m_editorUI.Initialize(window);
+
+	for (int i = 0; i < argc; ++i)
+	{
+		if (std::string(argv[i]) == "--editor")
+		{
+			std::cout << "Editor mode enabled" << std::endl;
+			editorMode = true;
+			break;
+		}
+	}
+
+	if (editorMode)
+	{
+		m_editorUI = std::make_unique<EditorUI>(this);
+		m_editorUI->Initialize(window);
+	}
 
 	glEnable(GL_DEPTH_TEST);
 }
@@ -43,7 +56,8 @@ void Engine::UpdateInternal()
 		obj->LateUpdate(deltaTime);
 
 	// Render ImGui UI
-	m_editorUI.Render();
+	if (editorMode)
+		m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
@@ -67,7 +81,9 @@ void Engine::QuitInternal()
 		obj->OnQuit();
 
 	m_shaderProgram.Delete();
-	m_editorUI.Shutdown();
+
+	if (editorMode)
+		m_editorUI->Shutdown();
 
 	glfwDestroyWindow(m_window);
 	glfwTerminate();

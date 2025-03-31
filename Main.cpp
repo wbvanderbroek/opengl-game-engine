@@ -21,8 +21,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	}
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+	std::cout << "Number of arguments: " << argc << std::endl;
+	for (int i = 0; i < argc; ++i)
+	{
+		std::cout << "Argument " << i << ": " << argv[i] << std::endl;
+	}
 	glfwInit();
 
 	// OpenGL version 3.3
@@ -49,7 +54,7 @@ int main()
 	glViewport(0, 0, width, height);
 
 
-	Engine engine(window);
+	Engine engine(window, argc, argv);
 
 	glfwSetWindowUserPointer(window, &engine);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

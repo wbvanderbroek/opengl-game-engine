@@ -66,7 +66,8 @@ void ObjectStorage::LoadScene(const std::string& filename)
 
 			// Clear existing scene
 			m_objects.clear();
-			m_engine->m_editorUI.m_selectedObject = nullptr;
+			if (m_engine->editorMode)
+				m_engine->m_editorUI->m_selectedObject = nullptr;
 
 			// Load scene data
 			DeserializeScene(sceneData);
