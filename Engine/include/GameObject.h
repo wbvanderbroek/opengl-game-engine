@@ -36,6 +36,9 @@ public:
 			if (component->m_runInEditor)
 				component->Awake();
 		}
+
+		for (auto& child : m_children)
+			child->OnCreate();
 	}
 
 	virtual void Start()
@@ -45,6 +48,9 @@ public:
 			if (component->m_runInEditor)
 				component->Start();
 		}
+
+		for (auto& child : m_children)
+			child->Start();
 	}
 
 	virtual void Update(float deltaTime)
@@ -54,6 +60,9 @@ public:
 			if (component->m_runInEditor)
 				component->Update(deltaTime);
 		}
+
+		for (auto& child : m_children)
+			child->Update(deltaTime);
 	}
 
 	virtual void LateUpdate(float deltaTime)
@@ -63,6 +72,9 @@ public:
 			if (component->m_runInEditor)
 				component->LateUpdate(deltaTime);
 		}
+
+		for (auto& child : m_children)
+			child->LateUpdate(deltaTime);
 	}
 
 	virtual void OnDestroy()
@@ -72,6 +84,9 @@ public:
 			if (component->m_runInEditor)
 				component->OnDestroy();
 		}
+
+		for (auto& child : m_children)
+			child->OnDestroy();
 	}
 
 	virtual void OnQuit()
@@ -81,6 +96,9 @@ public:
 			if (component->m_runInEditor)
 				component->OnQuit();
 		}
+
+		for (auto& child : m_children)
+			child->OnQuit();
 	}
 
 	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
