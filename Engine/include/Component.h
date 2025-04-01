@@ -8,7 +8,7 @@ class Component
 {
 public:
 	std::shared_ptr<GameObject> m_gameObject;
-
+	bool m_runInEditor = false;
 	void SetGameObject(std::shared_ptr<GameObject> gameObject) { m_gameObject = gameObject; }
 
 	virtual void Awake() {}

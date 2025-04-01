@@ -1,3 +1,4 @@
+#include <Config.h>
 #include <Engine.h>
 
 Engine::Engine(GLFWwindow* window, int argc, char* argv[])
@@ -14,12 +15,12 @@ Engine::Engine(GLFWwindow* window, int argc, char* argv[])
 		if (std::string(argv[i]) == "--editor")
 		{
 			std::cout << "Editor mode enabled" << std::endl;
-			editorMode = true;
+			Config::Instance().m_editorMode = true;
 			break;
 		}
 	}
 
-	if (editorMode)
+	if (Config::Instance().m_editorMode)
 	{
 		m_editorUI = std::make_unique<EditorUI>(this);
 		m_editorUI->Initialize(window);
@@ -56,7 +57,7 @@ void Engine::UpdateInternal()
 		obj->LateUpdate(deltaTime);
 
 	// Render ImGui UI
-	if (editorMode)
+	if (Config::Instance().m_editorMode)
 		m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
@@ -82,7 +83,7 @@ void Engine::QuitInternal()
 
 	m_shaderProgram.Delete();
 
-	if (editorMode)
+	if (Config::Instance().m_editorMode)
 		m_editorUI->Shutdown();
 
 	glfwDestroyWindow(m_window);

@@ -175,6 +175,9 @@
     <ClInclude Include="Game\include\temp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\include\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc">

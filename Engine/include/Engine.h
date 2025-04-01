@@ -22,7 +22,6 @@ public:
 	std::shared_ptr<Camera> m_camera;
 	ObjectStorage m_storage;
 	std::unique_ptr<EditorUI> m_editorUI;
-	bool editorMode = false;
 
 	// the lights add themselves to this list each frame
 	std::vector<Light*> m_activeLights;

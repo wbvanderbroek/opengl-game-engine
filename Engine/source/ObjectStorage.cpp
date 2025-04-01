@@ -1,4 +1,6 @@
 #include <algorithm> 
+
+#include <Config.h>
 #include <Engine.h>
 #include <GameObject.h>
 #include <Light.h>
@@ -66,7 +68,7 @@ void ObjectStorage::LoadScene(const std::string& filename)
 
 			// Clear existing scene
 			m_objects.clear();
-			if (m_engine->editorMode)
+			if (Config::Instance().m_editorMode)
 				m_engine->m_editorUI->m_selectedObject = nullptr;
 
 			// Load scene data

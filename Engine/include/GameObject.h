@@ -27,31 +27,53 @@ public:
 
 	std::vector<std::shared_ptr<Component>> m_components;
 
-	virtual void OnCreate() {}
+	virtual void OnCreate()
+	{
+		for (auto& component : m_components)
+		{
+			if (component->m_runInEditor)
+				component->Awake();
+		}
+	}
 	virtual void Start()
 	{
 		for (auto& component : m_components)
-			component->Start();
+		{
+			if (component->m_runInEditor)
+				component->Start();
+		}
 	}
 	virtual void Update(float deltaTime)
 	{
 		for (auto& component : m_components)
-			component->Update(deltaTime);
+		{
+			if (component->m_runInEditor)
+				component->Update(deltaTime);
+		}
 	}
 	virtual void LateUpdate(float deltaTime)
 	{
 		for (auto& component : m_components)
-			component->LateUpdate(deltaTime);
+		{
+			if (component->m_runInEditor)
+				component->LateUpdate(deltaTime);
+		}
 	}
 	virtual void OnDestroy()
 	{
 		for (auto& component : m_components)
-			component->OnDestroy();
+		{
+			if (component->m_runInEditor)
+				component->OnDestroy();
+		}
 	}
 	virtual void OnQuit()
 	{
 		for (auto& component : m_components)
-			component->OnQuit();
+		{
+			if (component->m_runInEditor)
+				component->OnQuit();
+		}
 	}
 
 	void SetStorage(ObjectStorage* storage) { m_storage = storage; }

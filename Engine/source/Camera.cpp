@@ -3,6 +3,7 @@
 
 Camera::Camera()
 {
+	m_runInEditor = true;
 	m_window = glfwGetCurrentContext();
 
 	// Set the aspect ratio to the current window's aspect ratio

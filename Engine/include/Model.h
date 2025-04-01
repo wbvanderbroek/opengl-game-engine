@@ -15,6 +15,7 @@ class Model : public Component
 public:
 	Model(const std::string& path) : m_modelPath(path)
 	{
+		m_runInEditor = true;
 		LoadModel(path);
 	}
 	std::string m_modelPath;

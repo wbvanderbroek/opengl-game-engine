@@ -184,6 +184,7 @@
     <ClInclude Include="Engine\include\EditorUI.h" />
     <ClInclude Include="Engine\include\Engine.h" />
     <ClInclude Include="Engine\include\GameObject.h" />
+    <ClInclude Include="Engine\include\Config.h" />
     <ClInclude Include="Game\include\temp.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
