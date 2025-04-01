@@ -25,6 +25,8 @@ public:
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
+	std::vector<std::shared_ptr<GameObject>> m_children;
+	std::weak_ptr<GameObject> m_parent;
 	std::vector<std::shared_ptr<Component>> m_components;
 
 	virtual void OnCreate()
@@ -35,6 +37,7 @@ public:
 				component->Awake();
 		}
 	}
+
 	virtual void Start()
 	{
 		for (auto& component : m_components)
@@ -43,6 +46,7 @@ public:
 				component->Start();
 		}
 	}
+
 	virtual void Update(float deltaTime)
 	{
 		for (auto& component : m_components)
@@ -51,6 +55,7 @@ public:
 				component->Update(deltaTime);
 		}
 	}
+
 	virtual void LateUpdate(float deltaTime)
 	{
 		for (auto& component : m_components)
@@ -59,6 +64,7 @@ public:
 				component->LateUpdate(deltaTime);
 		}
 	}
+
 	virtual void OnDestroy()
 	{
 		for (auto& component : m_components)
@@ -67,6 +73,7 @@ public:
 				component->OnDestroy();
 		}
 	}
+
 	virtual void OnQuit()
 	{
 		for (auto& component : m_components)
@@ -77,8 +84,18 @@ public:
 	}
 
 	void SetStorage(ObjectStorage* storage) { m_storage = storage; }
-	void Destroy() { if (m_storage) m_storage->RemoveGameObject(std::shared_ptr<GameObject>(this, [](GameObject*) {})); }
+
+	void Destroy()
+	{
+		for (auto& child : m_children)
+			child->Destroy();
+
+		if (m_storage)
+			m_storage->RemoveGameObject(shared_from_this());
+	}
+
 	void SetRotation(const glm::vec3& degrees) { rotationInRads = glm::radians(degrees); }
+
 	glm::vec3 GetRotation() const { return glm::degrees(rotationInRads); }
 
 	template<typename T>
@@ -88,6 +105,13 @@ public:
 		component->SetGameObject(shared_from_this());
 		m_components.push_back(component);
 		component->Awake();
+	}
+
+	void AddChild(std::shared_ptr<GameObject> child)
+	{
+		child->m_parent = shared_from_this();
+		child->m_storage = m_storage;
+		m_children.push_back(child);
 	}
 
 	glm::mat4 GetObjectMatrix() {

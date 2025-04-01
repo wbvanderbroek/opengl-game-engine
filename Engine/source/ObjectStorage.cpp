@@ -115,36 +115,27 @@ nlohmann::json ObjectStorage::SerializeGameObject(std::shared_ptr<GameObject> ga
 {
 	nlohmann::json objectData;
 
-	// Serialize transform
-	objectData["translation"] = {
-		gameObject->translation.x,
-		gameObject->translation.y,
-		gameObject->translation.z
-	};
+	// Transform
+	objectData["translation"] = { gameObject->translation.x, gameObject->translation.y, gameObject->translation.z };
+	objectData["rotation"] = { gameObject->GetRotation().x, gameObject->GetRotation().y, gameObject->GetRotation().z };
+	objectData["scale"] = { gameObject->scale.x, gameObject->scale.y, gameObject->scale.z };
 
-	objectData["rotation"] = {
-		gameObject->GetRotation().x,
-		gameObject->GetRotation().y,
-		gameObject->GetRotation().z
-	};
-
-	objectData["scale"] = {
-		gameObject->scale.x,
-		gameObject->scale.y,
-		gameObject->scale.z
-	};
-
-	// Serialize components
+	// Components
 	nlohmann::json componentsArray = nlohmann::json::array();
-
 	for (auto& component : gameObject->m_components)
-	{
 		componentsArray.push_back(SerializeComponent(component));
-	}
 
 	objectData["components"] = componentsArray;
+
+	// Children
+	nlohmann::json childrenArray = nlohmann::json::array();
+	for (auto& child : gameObject->m_children)
+		childrenArray.push_back(SerializeGameObject(child));
+	objectData["children"] = childrenArray;
+
 	return objectData;
 }
+
 
 nlohmann::json ObjectStorage::SerializeComponent(std::shared_ptr<Component> component)
 {
@@ -196,7 +187,6 @@ std::shared_ptr<GameObject> ObjectStorage::DeserializeGameObject(const nlohmann:
 {
 	auto gameObject = Instantiate(GameObject());
 
-	// Deserialize transform
 	if (data.contains("translation") && data["translation"].is_array() && data["translation"].size() == 3)
 	{
 		gameObject->translation = glm::vec3(
@@ -224,12 +214,20 @@ std::shared_ptr<GameObject> ObjectStorage::DeserializeGameObject(const nlohmann:
 		);
 	}
 
-	// Deserialize components
 	if (data.contains("components") && data["components"].is_array())
 	{
 		for (const auto& componentData : data["components"])
 		{
 			DeserializeComponent(gameObject, componentData);
+		}
+	}
+
+	if (data.contains("children") && data["children"].is_array())
+	{
+		for (const auto& childData : data["children"])
+		{
+			auto child = DeserializeGameObject(childData);
+			gameObject->AddChild(child);
 		}
 	}
 
