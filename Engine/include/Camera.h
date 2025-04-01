@@ -13,6 +13,9 @@
 
 class Camera : public Component, public std::enable_shared_from_this<Camera>
 {
+private:
+	bool m_mouseLocked = false;
+
 public:
 	Camera();
 

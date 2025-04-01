@@ -56,10 +56,27 @@ void Camera::Inputs(float deltaTime)
 	else
 		m_movementSpeed = 15;
 
-	if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-	{
-		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	static bool lastAltState = false;
+	bool currentAltState = glfwGetKey(m_window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS;
 
+	if (currentAltState && !lastAltState)
+	{
+		m_mouseLocked = !m_mouseLocked;
+		if (m_mouseLocked)
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			m_firstMouseClick = true;
+		}
+		else
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+	}
+	lastAltState = currentAltState;
+
+	if (m_mouseLocked)
+	{
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		if (m_firstMouseClick)
 		{
 			glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
@@ -77,11 +94,6 @@ void Camera::Inputs(float deltaTime)
 
 		glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
 	}
-	else
-	{
-		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		m_firstMouseClick = true;
-	}
 }
 
 void Camera::Awake()
@@ -91,7 +103,7 @@ void Camera::Awake()
 
 void Camera::Update(float deltaTime)
 {
-	//Inputs(deltaTime);
+	Inputs(deltaTime);
 	UpdateMatrix();
 }
 
