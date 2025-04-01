@@ -1,24 +1,13 @@
 #include <Config.h>
 #include <Engine.h>
 
-Engine::Engine(GLFWwindow* window, int argc, char* argv[])
+Engine::Engine(GLFWwindow* window)
 	: m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
 	m_storage(this)
 {
 	// activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
-
-
-	for (int i = 0; i < argc; ++i)
-	{
-		if (std::string(argv[i]) == "--editor")
-		{
-			std::cout << "Editor mode enabled" << std::endl;
-			Config::Instance().m_editorMode = true;
-			break;
-		}
-	}
 
 	if (Config::Instance().m_editorMode)
 	{

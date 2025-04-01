@@ -9,7 +9,14 @@
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
-	CreateDefaultScene();
+	if (Config::Instance().m_editorMode)
+	{
+		CreateDefaultScene();
+	}
+	else
+	{
+		LoadScene("Assets/Scenes/scene.json");
+	}
 }
 
 void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)

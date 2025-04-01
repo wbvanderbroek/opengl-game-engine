@@ -102,13 +102,13 @@ void EditorUI::RenderMainMenuBar()
 			{
 				// This would typically open a file dialog
 				// For now, let's use a fixed filename
-				m_engine->m_storage.LoadScene("scene.json");
+				m_engine->m_storage.LoadScene("Assets/Scenes/scene.json");
 			}
 
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
 			{
 				if (m_engine->m_storage.m_currentScenePath.empty())
-					m_engine->m_storage.SaveScene("scene.json");
+					m_engine->m_storage.SaveScene("Assets/Scenes/scene.json");
 				else
 					m_engine->m_storage.SaveScene(m_engine->m_storage.m_currentScenePath);
 			}
@@ -117,7 +117,7 @@ void EditorUI::RenderMainMenuBar()
 			{
 				// This would typically open a file dialog
 				// For now, let's use a fixed filename
-				m_engine->m_storage.SaveScene("scene.json");
+				m_engine->m_storage.SaveScene("Assets/Scenes/scene.json");
 			}
 
 			ImGui::Separator();

@@ -16,7 +16,7 @@
 class Engine
 {
 public:
-	Engine(GLFWwindow* window, int argc, char* argv[]);
+	Engine(GLFWwindow* window);
 
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;

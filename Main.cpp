@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <Config.h>
 #include <Model.h>
 
 const unsigned int width = 800;
@@ -53,8 +54,17 @@ int main(int argc, char* argv[])
 	// Tell opengl the size of the rendering window
 	glViewport(0, 0, width, height);
 
+	for (int i = 0; i < argc; ++i)
+	{
+		if (std::string(argv[i]) == "--editor")
+		{
+			std::cout << "Editor mode enabled" << std::endl;
+			Config::Instance().m_editorMode = true;
+			break;
+		}
+	}
 
-	Engine engine(window, argc, argv);
+	Engine engine(window);
 
 	glfwSetWindowUserPointer(window, &engine);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
