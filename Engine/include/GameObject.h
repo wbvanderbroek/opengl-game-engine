@@ -109,6 +109,9 @@ public:
 
 	void AddChild(std::shared_ptr<GameObject> child)
 	{
+		auto& roots = m_storage->m_objects;
+		roots.erase(std::remove(roots.begin(), roots.end(), child), roots.end());
+
 		child->m_parent = shared_from_this();
 		child->m_storage = m_storage;
 		m_children.push_back(child);

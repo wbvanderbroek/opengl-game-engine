@@ -1,6 +1,47 @@
 {
     "gameObjects": [
         {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "components": [],
+                            "rotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "scale": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "translation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ]
+                        }
+                    ],
+                    "components": [],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
             "components": [
                 {
                     "farClip": 500.0,
@@ -26,6 +67,7 @@
             ]
         },
         {
+            "children": [],
             "components": [
                 {
                     "color": [
@@ -54,6 +96,7 @@
             ]
         },
         {
+            "children": [],
             "components": [
                 {
                     "modelPath": "Assets/models/plane/plane.fbx",
@@ -74,38 +117,6 @@
                 0.0,
                 -10.0,
                 0.0
-            ]
-        },
-        {
-            "components": [
-                {
-                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
-                    "type": "Model"
-                },
-                {
-                    "color": [
-                        0.6960784196853638,
-                        0.6141868233680725,
-                        0.6141868233680725,
-                        1.0
-                    ],
-                    "type": "Light"
-                }
-            ],
-            "rotation": [
-                -91.0,
-                179.0,
-                0.0
-            ],
-            "scale": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "translation": [
-                -4.5,
-                -4.099999904632568,
-                -45.29999923706055
             ]
         }
     ],

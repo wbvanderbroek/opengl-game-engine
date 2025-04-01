@@ -313,11 +313,17 @@ void EditorUI::RenderComponentMenu()
 // Display a game object in the hierarchy
 void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 {
+	if (!gameObject) return;
+
 	// Create a unique ID for ImGui
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 	if (m_selectedObject == gameObject)
 		flags |= ImGuiTreeNodeFlags_Selected;
+
+	if (gameObject->m_children.empty())
+		flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
 
 	// You would ideally have a name property in GameObject
 	std::string name = "GameObject";
@@ -353,6 +359,13 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 	// Right-click context menu
 	if (ImGui::BeginPopupContextItem())
 	{
+		if (ImGui::MenuItem("Create Child"))
+		{
+			auto child = m_engine->m_storage.Instantiate(GameObject());
+			gameObject->AddChild(child);
+			m_selectedObject = child;
+		}
+
 		if (ImGui::MenuItem("Delete"))
 		{
 			if (m_selectedObject == gameObject)
@@ -366,14 +379,19 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 
 			return;
 		}
+
 		ImGui::EndPopup();
 	}
 
-	if (nodeOpen)
+	if (nodeOpen && !(flags & ImGuiTreeNodeFlags_Leaf))
 	{
-		// You could render child objects here if you implement parent-child relationships
+		for (auto& child : gameObject->m_children)
+		{
+			DisplayGameObject(child);
+		}
 		ImGui::TreePop();
 	}
+
 }
 
 // Display the transform component
