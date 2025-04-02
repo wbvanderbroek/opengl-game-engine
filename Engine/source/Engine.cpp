@@ -102,7 +102,7 @@ void Engine::UpdateLighting()
 		snprintf(uniformName, sizeof(uniformName), "lights[%zu].pos", i);
 		glUniform3f(
 			glGetUniformLocation(m_shaderProgram.m_id, uniformName),
-			m_activeLights[i]->m_gameObject->translation.x, m_activeLights[i]->m_gameObject->translation.y, m_activeLights[i]->m_gameObject->translation.z
+			m_activeLights[i]->m_gameObject->GetGlobalPosition().x, m_activeLights[i]->m_gameObject->GetGlobalPosition().y, m_activeLights[i]->m_gameObject->GetGlobalPosition().z
 		);
 
 	}

@@ -18,11 +18,11 @@ void Camera::UpdateMatrix()
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
-	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), m_gameObject->rotationInRads.x), m_gameObject->rotationInRads.y), m_gameObject->rotationInRads.z);
+	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), m_gameObject->localRotation.x), m_gameObject->localRotation.y), m_gameObject->localRotation.z);
 
 	glm::vec3 right = glm::normalize(glm::cross(forward, m_upDirection));
 
-	view = glm::lookAt(m_gameObject->translation, m_gameObject->translation + forward, m_upDirection);
+	view = glm::lookAt(m_gameObject->localPosition, m_gameObject->localPosition + forward, m_upDirection);
 	projection = glm::perspective(glm::radians(m_fieldOfView), static_cast<float>(m_windowWidth) / static_cast<float>(m_windowHeight), m_nearPlane, m_farPlane);
 
 	m_cameraMatrix = projection * view;
@@ -35,22 +35,22 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 
 void Camera::Inputs(float deltaTime)
 {
-	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), m_gameObject->rotationInRads.x), m_gameObject->rotationInRads.y), m_gameObject->rotationInRads.z);
+	glm::vec3 forward = glm::rotateZ(glm::rotateY(glm::rotateX(glm::vec3(0.0f, 0.0f, -1.0f), m_gameObject->localRotation.x), m_gameObject->localRotation.y), m_gameObject->localRotation.z);
 	glm::vec3 right = glm::normalize(glm::cross(forward, m_upDirection));
 
 	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		m_gameObject->translation += deltaTime * m_movementSpeed * forward;
+		m_gameObject->localPosition += deltaTime * m_movementSpeed * forward;
 	if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		m_gameObject->translation -= deltaTime * m_movementSpeed * right;
+		m_gameObject->localPosition -= deltaTime * m_movementSpeed * right;
 	if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-		m_gameObject->translation -= deltaTime * m_movementSpeed * forward;
+		m_gameObject->localPosition -= deltaTime * m_movementSpeed * forward;
 	if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-		m_gameObject->translation += deltaTime * m_movementSpeed * right;
+		m_gameObject->localPosition += deltaTime * m_movementSpeed * right;
 
 	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		m_gameObject->translation += deltaTime * m_movementSpeed * m_upDirection;
+		m_gameObject->localPosition += deltaTime * m_movementSpeed * m_upDirection;
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		m_gameObject->translation -= deltaTime * m_movementSpeed * m_upDirection;
+		m_gameObject->localPosition -= deltaTime * m_movementSpeed * m_upDirection;
 
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		m_movementSpeed = 30;
@@ -90,8 +90,8 @@ void Camera::Inputs(float deltaTime)
 		float rotX = m_mouseSensitivity * static_cast<float>(mouseY - (m_windowHeight / 2)) / m_windowHeight;
 		float rotY = m_mouseSensitivity * static_cast<float>(mouseX - (m_windowWidth / 2)) / m_windowWidth;
 
-		m_gameObject->rotationInRads.x += glm::radians(-rotX);
-		m_gameObject->rotationInRads.y += glm::radians(-rotY);
+		m_gameObject->localRotation.x += glm::radians(-rotX);
+		m_gameObject->localRotation.y += glm::radians(-rotY);
 
 		glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
 	}

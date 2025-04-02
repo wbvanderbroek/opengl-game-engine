@@ -153,7 +153,7 @@ void EditorUI::RenderMainMenuBar()
 				{
 					auto plane = m_engine->m_storage.Instantiate(GameObject());
 					plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
-					plane->SetRotation(glm::vec3(270, 0, 0));
+					plane->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = plane;
 				}
 
@@ -161,7 +161,7 @@ void EditorUI::RenderMainMenuBar()
 				{
 					auto building = m_engine->m_storage.Instantiate(GameObject());
 					building->AddComponent(Model("Assets/models/building/MetalMineBuilding.fbx"));
-					building->SetRotation(glm::vec3(270, 0, 180));
+					building->SetLocalRotation(glm::vec3(270, 0, 180));
 					m_selectedObject = building;
 				}
 
@@ -169,7 +169,7 @@ void EditorUI::RenderMainMenuBar()
 				{
 					auto character = m_engine->m_storage.Instantiate(GameObject());
 					character->AddComponent(Model("Assets/models/character/char.fbx"));
-					character->SetRotation(glm::vec3(270, 0, 0));
+					character->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = character;
 				}
 
@@ -400,24 +400,24 @@ void EditorUI::DisplayTransformComponent(std::shared_ptr<GameObject> gameObject)
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		// Position
-		glm::vec3 position = gameObject->translation;
+		glm::vec3 position = gameObject->localPosition;
 		if (ImGui::DragFloat3("Position", glm::value_ptr(position), 0.1f))
 		{
-			gameObject->translation = position;
+			gameObject->localPosition = position;
 		}
 
 		// Rotation
-		glm::vec3 rotation = gameObject->GetRotation();
-		if (ImGui::DragFloat3("Rotation", glm::value_ptr(rotation), 1.0f))
+		glm::vec3 localRotation = gameObject->GetLocalRotation();
+		if (ImGui::DragFloat3("Rotation", glm::value_ptr(localRotation), 1.0f))
 		{
-			gameObject->SetRotation(rotation);
+			gameObject->SetLocalRotation(localRotation);
 		}
 
 		// Scale
-		glm::vec3 scale = gameObject->scale;
-		if (ImGui::DragFloat3("Scale", glm::value_ptr(scale), 0.1f, 0.01f))
+		glm::vec3 localScale = gameObject->localScale;
+		if (ImGui::DragFloat3("Scale", glm::value_ptr(localScale), 0.1f, 0.01f))
 		{
-			gameObject->scale = scale;
+			gameObject->localScale = localScale;
 		}
 	}
 }

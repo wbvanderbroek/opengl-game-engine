@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -7,23 +8,23 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/euler_angles.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 #include <Component.h>
 #include <ObjectStorage.h>
 
 class ObjectStorage;
+
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	ObjectStorage* m_storage = nullptr;
 
-	glm::vec3 rotationInRads = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	// Local transform properties
+	glm::vec3 localPosition = glm::vec3(0.0f);
+	glm::vec3 localRotation = glm::vec3(0.0f); // In radians
+	glm::vec3 localScale = glm::vec3(1.0f);
 
 	std::vector<std::shared_ptr<GameObject>> m_children;
 	std::weak_ptr<GameObject> m_parent;
@@ -36,7 +37,6 @@ public:
 			if (component->m_runInEditor)
 				component->Awake();
 		}
-
 		for (auto& child : m_children)
 			child->OnCreate();
 	}
@@ -48,7 +48,6 @@ public:
 			if (component->m_runInEditor)
 				component->Start();
 		}
-
 		for (auto& child : m_children)
 			child->Start();
 	}
@@ -60,7 +59,6 @@ public:
 			if (component->m_runInEditor)
 				component->Update(deltaTime);
 		}
-
 		for (auto& child : m_children)
 			child->Update(deltaTime);
 	}
@@ -72,7 +70,6 @@ public:
 			if (component->m_runInEditor)
 				component->LateUpdate(deltaTime);
 		}
-
 		for (auto& child : m_children)
 			child->LateUpdate(deltaTime);
 	}
@@ -84,7 +81,6 @@ public:
 			if (component->m_runInEditor)
 				component->OnDestroy();
 		}
-
 		for (auto& child : m_children)
 			child->OnDestroy();
 	}
@@ -96,7 +92,6 @@ public:
 			if (component->m_runInEditor)
 				component->OnQuit();
 		}
-
 		for (auto& child : m_children)
 			child->OnQuit();
 	}
@@ -111,10 +106,6 @@ public:
 		if (m_storage)
 			m_storage->RemoveGameObject(shared_from_this());
 	}
-
-	void SetRotation(const glm::vec3& degrees) { rotationInRads = glm::radians(degrees); }
-
-	glm::vec3 GetRotation() const { return glm::degrees(rotationInRads); }
 
 	template<typename T>
 	void AddComponent(T&& componentToAdd)
@@ -135,32 +126,73 @@ public:
 		m_children.push_back(child);
 	}
 
-	glm::mat4 GetObjectMatrix() {
-		const float c3 = glm::cos(rotationInRads.z);
-		const float s3 = glm::sin(rotationInRads.z);
-		const float c2 = glm::cos(rotationInRads.x);
-		const float s2 = glm::sin(rotationInRads.x);
-		const float c1 = glm::cos(rotationInRads.y);
-		const float s1 = glm::sin(rotationInRads.y);
-		return glm::mat4{
-			{
-				scale.x * (c1 * c3 + s1 * s2 * s3),
-				scale.x * (c2 * s3),
-				scale.x * (c1 * s2 * s3 - c3 * s1),
-				0.0f,
-			},
-			{
-				scale.y * (c3 * s1 * s2 - c1 * s3),
-				scale.y * (c2 * c3),
-				scale.y * (c1 * c3 * s2 + s1 * s3),
-				0.0f,
-			},
-			{
-				scale.z * (c2 * s1),
-				scale.z * (-s2),
-				scale.z * (c1 * c2),
-				0.0f,
-			},
-			{translation.x, translation.y, translation.z, 1.0f} };
+	// -------------------------------
+	// Transform Matrix Utilities
+	// -------------------------------
+
+	glm::mat4 GetLocalMatrix() const
+	{
+		glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), localPosition);
+		glm::mat4 rotationMat = glm::yawPitchRoll(localRotation.y, localRotation.x, localRotation.z); // YXZ order
+		glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), localScale);
+		return translationMat * rotationMat * scaleMat;
 	}
+
+
+	glm::mat4 GetGlobalMatrix() const
+	{
+		if (auto parent = m_parent.lock()) {
+			return parent->GetGlobalMatrix() * GetLocalMatrix();
+		}
+		return GetLocalMatrix();
+	}
+
+	// -------------------------------
+	// Global Position Get/Set
+	// -------------------------------
+
+	glm::vec3 GetGlobalPosition() const {
+		glm::mat4 global = GetGlobalMatrix();
+		return glm::vec3(global[3]);
+	}
+
+	void SetGlobalPosition(const glm::vec3& worldPos) {
+		if (auto parent = m_parent.lock()) {
+			glm::mat4 parentGlobal = parent->GetGlobalMatrix();
+			glm::mat4 invParent = glm::inverse(parentGlobal);
+			glm::vec4 local = invParent * glm::vec4(worldPos, 1.0f);
+			localPosition = glm::vec3(local);
+		}
+		else {
+			localPosition = worldPos;
+		}
+	}
+
+	// -------------------------------
+	// Local Getters/Setters
+	// -------------------------------
+
+	void SetLocalPosition(const glm::vec3& pos) { localPosition = pos; }
+	void SetLocalRotation(const glm::vec3& deg) { localRotation = glm::radians(deg); }
+	void SetLocalScale(const glm::vec3& scl) { localScale = scl; }
+
+	glm::vec3 GetLocalPosition() const { return localPosition; }
+	glm::vec3 GetLocalRotation() const { return glm::degrees(localRotation); }
+	glm::vec3 GetLocalScale() const { return localScale; }
+
+	// -------------------------------
+	// Global Rotation (Optional TODO)
+	// -------------------------------
+
+	// Decomposing the matrix to extract global rotation
+	glm::vec3 GetGlobalRotationDegrees() const {
+		glm::mat4 global = GetGlobalMatrix();
+		glm::vec3 localScale, localPosition, skew;
+		glm::vec4 perspective;
+		glm::quat localRotation;
+		glm::decompose(global, localScale, localRotation, localPosition, skew, perspective);
+		return glm::degrees(glm::eulerAngles(localRotation));
+	}
+
+	// Optional: SetGlobalRotation with decomposition could be added
 };

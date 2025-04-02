@@ -1,47 +1,7 @@
 {
     "gameObjects": [
         {
-            "children": [
-                {
-                    "children": [
-                        {
-                            "children": [],
-                            "components": [],
-                            "rotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "scale": [
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "translation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ]
-                        }
-                    ],
-                    "components": [],
-                    "rotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "translation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ]
-                }
-            ],
+            "children": [],
             "components": [
                 {
                     "farClip": 500.0,
@@ -50,20 +10,20 @@
                     "type": "Camera"
                 }
             ],
-            "rotation": [
-                0.0,
-                0.0,
+            "localPosition": [
+                -49.066349029541016,
+                20.258913040161133,
+                -25.69143295288086
+            ],
+            "localRotation": [
+                -23.384302139282227,
+                -81.21066284179688,
                 0.0
             ],
-            "scale": [
+            "localScale": [
                 1.0,
                 1.0,
                 1.0
-            ],
-            "translation": [
-                0.0,
-                0.0,
-                0.0
             ]
         },
         {
@@ -79,20 +39,20 @@
                     "type": "Light"
                 }
             ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "translation": [
+            "localPosition": [
                 0.0,
                 10.0,
                 0.0
+            ],
+            "localRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
             ]
         },
         {
@@ -103,20 +63,78 @@
                     "type": "Model"
                 }
             ],
-            "rotation": [
+            "localPosition": [
+                0.0,
+                -10.0,
+                0.0
+            ],
+            "localRotation": [
                 270.0,
                 0.0,
                 0.0
             ],
-            "scale": [
+            "localScale": [
                 100.0,
                 100.0,
                 100.0
+            ]
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "components": [
+                        {
+                            "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
+                            "type": "Model"
+                        },
+                        {
+                            "color": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                            ],
+                            "type": "Light"
+                        }
+                    ],
+                    "localPosition": [
+                        1.399999976158142,
+                        -18.899999618530273,
+                        -2.0999999046325684
+                    ],
+                    "localRotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "localScale": [
+                        1.0,
+                        -0.20000000298023224,
+                        1.0
+                    ]
+                }
             ],
-            "translation": [
+            "components": [
+                {
+                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
+                    "type": "Model"
+                }
+            ],
+            "localPosition": [
+                4.800000190734863,
+                -0.6000000238418579,
+                -52.099998474121094
+            ],
+            "localRotation": [
+                -76.0,
                 0.0,
-                -10.0,
                 0.0
+            ],
+            "localScale": [
+                1.0,
+                0.800000011920929,
+                2.0999999046325684
             ]
         }
     ],

@@ -36,13 +36,13 @@ void ObjectStorage::CreateDefaultScene()
 
 	auto light = Instantiate(GameObject());
 	light->AddComponent(Light());
-	light->translation = glm::vec3(0, 10, 0);
+	light->localPosition = glm::vec3(0, 10, 0);
 
 	auto plane = Instantiate(GameObject());
 	plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
-	plane->SetRotation(glm::vec3(270, 0, 0));
-	plane->scale = glm::vec3(100, 100, 100);
-	plane->translation = glm::vec3(0, -10, 0);
+	plane->SetLocalRotation(glm::vec3(270, 0, 0));
+	plane->localScale = glm::vec3(100, 100, 100);
+	plane->localPosition = glm::vec3(0, -10, 0);
 }
 
 void ObjectStorage::SaveScene(const std::string& filename)
@@ -116,9 +116,9 @@ nlohmann::json ObjectStorage::SerializeGameObject(std::shared_ptr<GameObject> ga
 	nlohmann::json objectData;
 
 	// Transform
-	objectData["translation"] = { gameObject->translation.x, gameObject->translation.y, gameObject->translation.z };
-	objectData["rotation"] = { gameObject->GetRotation().x, gameObject->GetRotation().y, gameObject->GetRotation().z };
-	objectData["scale"] = { gameObject->scale.x, gameObject->scale.y, gameObject->scale.z };
+	objectData["localPosition"] = { gameObject->localPosition.x, gameObject->localPosition.y, gameObject->localPosition.z };
+	objectData["localRotation"] = { gameObject->GetLocalRotation().x, gameObject->GetLocalRotation().y, gameObject->GetLocalRotation().z };
+	objectData["localScale"] = { gameObject->localScale.x, gameObject->localScale.y, gameObject->localScale.z };
 
 	// Components
 	nlohmann::json componentsArray = nlohmann::json::array();
@@ -187,30 +187,30 @@ std::shared_ptr<GameObject> ObjectStorage::DeserializeGameObject(const nlohmann:
 {
 	auto gameObject = Instantiate(GameObject());
 
-	if (data.contains("translation") && data["translation"].is_array() && data["translation"].size() == 3)
+	if (data.contains("localPosition") && data["localPosition"].is_array() && data["localPosition"].size() == 3)
 	{
-		gameObject->translation = glm::vec3(
-			data["translation"][0],
-			data["translation"][1],
-			data["translation"][2]
+		gameObject->localPosition = glm::vec3(
+			data["localPosition"][0],
+			data["localPosition"][1],
+			data["localPosition"][2]
 		);
 	}
 
-	if (data.contains("rotation") && data["rotation"].is_array() && data["rotation"].size() == 3)
+	if (data.contains("localRotation") && data["localRotation"].is_array() && data["localRotation"].size() == 3)
 	{
-		gameObject->SetRotation(glm::vec3(
-			data["rotation"][0],
-			data["rotation"][1],
-			data["rotation"][2]
+		gameObject->SetLocalRotation(glm::vec3(
+			data["localRotation"][0],
+			data["localRotation"][1],
+			data["localRotation"][2]
 		));
 	}
 
-	if (data.contains("scale") && data["scale"].is_array() && data["scale"].size() == 3)
+	if (data.contains("localScale") && data["localScale"].is_array() && data["localScale"].size() == 3)
 	{
-		gameObject->scale = glm::vec3(
-			data["scale"][0],
-			data["scale"][1],
-			data["scale"][2]
+		gameObject->localScale = glm::vec3(
+			data["localScale"][0],
+			data["localScale"][1],
+			data["localScale"][2]
 		);
 	}
 

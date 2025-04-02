@@ -75,7 +75,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 void Model::Draw(Shader& shader, Camera& camera)
 {
-	glm::mat4 modelMatrix = m_gameObject->GetObjectMatrix();
+	glm::mat4 modelMatrix = m_gameObject->GetGlobalMatrix();
 
 	for (auto& mesh : meshes)
 	{
