@@ -117,6 +117,15 @@ public:
 		component->Awake();
 	}
 
+	void RemoveComponent(const std::shared_ptr<Component>& componentToRemove)
+	{
+		auto it = std::find(m_components.begin(), m_components.end(), componentToRemove);
+		if (it != m_components.end())
+		{
+			m_components.erase(it);
+		}
+	}
+
 	void AddChild(std::shared_ptr<GameObject> child)
 	{
 		auto& roots = m_storage->m_objects;

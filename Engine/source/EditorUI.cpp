@@ -418,20 +418,10 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 		}
 	}
 
-	// Right-click context menu for component
-	if (ImGui::BeginPopupContextItem())
+	if (ImGui::Button("Remove Component"))
 	{
-		if (ImGui::MenuItem("Remove Component"))
-		{
-			// m_selectedObject->RemoveComponent(component);
-			auto& components = m_selectedObject->m_components;
-			auto it = std::find(components.begin(), components.end(), component);
-			if (it != components.end())
-			{
-				components.erase(it);
-			}
-		}
-		ImGui::EndPopup();
+		m_selectedObject->RemoveComponent(component);
+		return;
 	}
 }
 
