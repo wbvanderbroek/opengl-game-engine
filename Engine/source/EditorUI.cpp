@@ -305,9 +305,6 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 			gameObject->Destroy();
 			ImGui::EndPopup();
 
-			if (nodeOpen)
-				ImGui::TreePop();
-
 			return;
 		}
 
