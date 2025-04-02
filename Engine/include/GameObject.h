@@ -21,7 +21,6 @@ class GameObject : public std::enable_shared_from_this<GameObject>
 public:
 	ObjectStorage* m_storage = nullptr;
 
-	// Local transform properties
 	glm::vec3 localPosition = glm::vec3(0.0f);
 	glm::vec3 localRotation = glm::vec3(0.0f); // In radians
 	glm::vec3 localScale = glm::vec3(1.0f);
@@ -126,14 +125,10 @@ public:
 		m_children.push_back(child);
 	}
 
-	// -------------------------------
-	// Transform Matrix Utilities
-	// -------------------------------
-
 	glm::mat4 GetLocalMatrix() const
 	{
 		glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), localPosition);
-		glm::mat4 rotationMat = glm::yawPitchRoll(localRotation.y, localRotation.x, localRotation.z); // YXZ order
+		glm::mat4 rotationMat = glm::yawPitchRoll(localRotation.y, localRotation.x, localRotation.z);
 		glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), localScale);
 		return translationMat * rotationMat * scaleMat;
 	}
@@ -146,10 +141,6 @@ public:
 		}
 		return GetLocalMatrix();
 	}
-
-	// -------------------------------
-	// Global Position Get/Set
-	// -------------------------------
 
 	glm::vec3 GetGlobalPosition() const {
 		glm::mat4 global = GetGlobalMatrix();
@@ -168,10 +159,6 @@ public:
 		}
 	}
 
-	// -------------------------------
-	// Local Getters/Setters
-	// -------------------------------
-
 	void SetLocalPosition(const glm::vec3& pos) { localPosition = pos; }
 	void SetLocalRotation(const glm::vec3& deg) { localRotation = glm::radians(deg); }
 	void SetLocalScale(const glm::vec3& scl) { localScale = scl; }
@@ -180,11 +167,6 @@ public:
 	glm::vec3 GetLocalRotation() const { return glm::degrees(localRotation); }
 	glm::vec3 GetLocalScale() const { return localScale; }
 
-	// -------------------------------
-	// Global Rotation (Optional TODO)
-	// -------------------------------
-
-	// Decomposing the matrix to extract global rotation
 	glm::vec3 GetGlobalRotationDegrees() const {
 		glm::mat4 global = GetGlobalMatrix();
 		glm::vec3 localScale, localPosition, skew;
@@ -193,6 +175,4 @@ public:
 		glm::decompose(global, localScale, localRotation, localPosition, skew, perspective);
 		return glm::degrees(glm::eulerAngles(localRotation));
 	}
-
-	// Optional: SetGlobalRotation with decomposition could be added
 };

@@ -29,7 +29,6 @@ private:
 	Engine* m_engine;
 	bool m_showHierarchy = true;
 	bool m_showInspector = true;
-	bool m_showComponentMenu = false;
 	std::string m_newGameObjectName = "New GameObject";
 
 	void RenderMainMenuBar();

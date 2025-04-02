@@ -65,10 +65,6 @@ void EditorUI::Render()
 	ImGui::SetNextWindowSize(ImVec2(inspectorWidth, viewportSize.y - 20));
 	if (m_showInspector) RenderInspectorWindow();
 
-	// Optional floating menu
-	if (m_showComponentMenu)
-		RenderComponentMenu();
-
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -250,7 +246,38 @@ void EditorUI::RenderInspectorWindow()
 		// Add Component button
 		if (ImGui::Button("Add Component", ImVec2(-1, 0)))
 		{
-			m_showComponentMenu = true;
+			ImGui::OpenPopup("AddComponentPopup");
+		}
+
+		if (ImGui::BeginPopup("AddComponentPopup"))
+		{
+			if (ImGui::Selectable("Model"))
+			{
+				if (m_selectedObject)
+					m_selectedObject->AddComponent(Model("Assets/models/plane/plane.fbx"));
+				ImGui::CloseCurrentPopup();
+			}
+
+			if (ImGui::Selectable("Light"))
+			{
+				if (m_selectedObject)
+					m_selectedObject->AddComponent(Light());
+				ImGui::CloseCurrentPopup();
+			}
+
+			if (ImGui::Selectable("Camera"))
+			{
+				if (m_selectedObject)
+					m_selectedObject->AddComponent(Camera());
+				ImGui::CloseCurrentPopup();
+			}
+
+			if (ImGui::Selectable("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
 		}
 
 		// Delete GameObject button
@@ -264,47 +291,6 @@ void EditorUI::RenderInspectorWindow()
 	else
 	{
 		ImGui::Text("No GameObject selected");
-	}
-
-	ImGui::End();
-}
-
-// Render the component selection menu
-void EditorUI::RenderComponentMenu()
-{
-	ImGui::SetNextWindowSize(ImVec2(300, 0)); // set width, height auto
-	ImGui::Begin("Add Component", &m_showComponentMenu, ImGuiWindowFlags_AlwaysAutoResize);
-
-	if (ImGui::Button("Model", ImVec2(-1, 0)))
-	{
-		if (m_selectedObject)
-		{
-			m_selectedObject->AddComponent(Model("Assets/models/plane/plane.fbx"));
-			m_showComponentMenu = false;
-		}
-	}
-
-	if (ImGui::Button("Light", ImVec2(-1, 0)))
-	{
-		if (m_selectedObject)
-		{
-			m_selectedObject->AddComponent(Light());
-			m_showComponentMenu = false;
-		}
-	}
-
-	if (ImGui::Button("Camera", ImVec2(-1, 0)))
-	{
-		if (m_selectedObject)
-		{
-			m_selectedObject->AddComponent(Camera());
-			m_showComponentMenu = false;
-		}
-	}
-
-	if (ImGui::Button("Cancel", ImVec2(-1, 0)))
-	{
-		m_showComponentMenu = false;
 	}
 
 	ImGui::End();

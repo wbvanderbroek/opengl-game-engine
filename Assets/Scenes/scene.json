@@ -11,13 +11,13 @@
                 }
             ],
             "localPosition": [
-                -49.066349029541016,
-                20.258913040161133,
-                -25.69143295288086
+                -104.47168731689453,
+                49.55500411987305,
+                -30.973926544189453
             ],
             "localRotation": [
-                -23.384302139282227,
-                -81.21066284179688,
+                -30.25926399230957,
+                -94.46046447753906,
                 0.0
             ],
             "localScale": [
@@ -82,7 +82,32 @@
         {
             "children": [
                 {
-                    "children": [],
+                    "children": [
+                        {
+                            "children": [],
+                            "components": [
+                                {
+                                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
+                                    "type": "Model"
+                                }
+                            ],
+                            "localPosition": [
+                                19.600000381469727,
+                                134.39999389648438,
+                                4.5
+                            ],
+                            "localRotation": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            "localScale": [
+                                1.0,
+                                4.0,
+                                1.0
+                            ]
+                        }
+                    ],
                     "components": [
                         {
                             "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
