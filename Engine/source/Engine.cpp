@@ -4,15 +4,16 @@
 Engine::Engine(GLFWwindow* window)
 	: m_window(window),
 	m_shaderProgram("Assets/Shaders/default.vert", "Assets/Shaders/default.frag"),
-	m_storage(this)
+	m_storage(this),
+	m_config(Config::Instance())
 {
 	// activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
 
-	if (Config::Instance().m_editorMode)
+	if (m_config.m_editorMode)
 	{
-		m_editorUI = std::make_unique<EditorUI>(this);
-		m_editorUI->Initialize(window);
+		m_config.m_editorUI = std::make_unique<EditorUI>(this);
+		m_config.m_editorUI->Initialize(window);
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -46,8 +47,8 @@ void Engine::UpdateInternal()
 		obj->LateUpdate(deltaTime);
 
 	// Render ImGui UI
-	if (Config::Instance().m_editorMode)
-		m_editorUI->Render();
+	if (m_config.m_editorMode)
+		m_config.m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
@@ -72,8 +73,8 @@ void Engine::QuitInternal()
 
 	m_shaderProgram.Delete();
 
-	if (Config::Instance().m_editorMode)
-		m_editorUI->Shutdown();
+	if (m_config.m_editorMode)
+		m_config.m_editorUI->Shutdown();
 
 	glfwDestroyWindow(m_window);
 	glfwTerminate();

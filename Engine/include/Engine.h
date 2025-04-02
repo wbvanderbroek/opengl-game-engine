@@ -21,7 +21,6 @@ public:
 	Shader m_shaderProgram;
 	std::shared_ptr<Camera> m_camera;
 	ObjectStorage m_storage;
-	std::unique_ptr<EditorUI> m_editorUI;
 
 	// the lights add themselves to this list each frame
 	std::vector<Light*> m_activeLights;
@@ -35,7 +34,7 @@ public:
 private:
 	GLFWwindow* m_window;
 	std::chrono::system_clock::time_point m_previousTime;
-	bool m_isEditorMode = true;
+	Config& m_config;
 
 	float CalculateDeltaTime()
 	{

@@ -95,7 +95,7 @@ void ObjectStorage::ClearScene()
 {
 	m_objects.clear();
 	if (Config::Instance().m_editorMode)
-		m_engine->m_editorUI->m_selectedObject = nullptr;
+		Config::Instance().m_editorUI->m_selectedObject = nullptr;
 }
 
 nlohmann::json ObjectStorage::SerializeScene()

@@ -248,11 +248,6 @@ void EditorUI::RenderInspectorWindow()
 				ImGui::CloseCurrentPopup();
 			}
 
-			if (ImGui::Selectable("Cancel"))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-
 			ImGui::EndPopup();
 		}
 
@@ -261,7 +256,6 @@ void EditorUI::RenderInspectorWindow()
 		if (ImGui::Button("Delete GameObject", ImVec2(-1, 0)))
 		{
 			m_selectedObject->Destroy();
-			m_selectedObject = nullptr;
 		}
 	}
 	else

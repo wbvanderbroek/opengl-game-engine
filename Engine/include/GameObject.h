@@ -12,6 +12,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 
 #include <Component.h>
+#include <Config.h>
 #include <ObjectStorage.h>
 
 class ObjectStorage;
@@ -106,6 +107,11 @@ public:
 
 		if (m_storage)
 			m_storage->RemoveGameObject(shared_from_this());
+
+
+		if (Config::Instance().m_editorMode)
+			Config::Instance().m_editorUI->m_selectedObject = nullptr;
+
 	}
 
 	template<typename T>
