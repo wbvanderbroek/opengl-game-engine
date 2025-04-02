@@ -303,9 +303,19 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 				m_selectedObject = nullptr;
 
 			gameObject->Destroy();
+
 			ImGui::EndPopup();
 
-			return;
+			if (gameObject->m_children.empty())
+			{
+				return;
+			}
+			else
+			{
+				if (nodeOpen)
+					ImGui::TreePop();
+				return;
+			}
 		}
 
 		ImGui::EndPopup();
