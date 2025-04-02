@@ -72,16 +72,12 @@ void EditorUI::RenderMainMenuBar()
 		{
 			if (ImGui::MenuItem("New Scene", "Ctrl+N"))
 			{
-				// Clear current scene
-				m_engine->m_storage.m_objects.clear();
-				m_selectedObject = nullptr;
+				m_engine->m_storage.ClearScene();
 				m_engine->m_storage.m_currentScenePath = "";
 			}
 
 			if (ImGui::MenuItem("Open Scene", "Ctrl+O"))
 			{
-				// This would typically open a file dialog
-				// For now, let's use a fixed filename
 				m_engine->m_storage.LoadScene("Assets/Scenes/scene.json");
 			}
 
@@ -95,8 +91,6 @@ void EditorUI::RenderMainMenuBar()
 
 			if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
 			{
-				// This would typically open a file dialog
-				// For now, let's use a fixed filename
 				m_engine->m_storage.SaveScene("Assets/Scenes/scene.json");
 			}
 
@@ -374,8 +368,6 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 
 			if (ImGui::Button("Change Model"))
 			{
-				// This would typically open a file dialog
-				// For now, just cycle through some models
 				static int modelIndex = 0;
 				const char* models[] = {
 					"Assets/models/plane/plane.fbx",
@@ -431,7 +423,6 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 	{
 		if (ImGui::MenuItem("Remove Component"))
 		{
-			// Remove component (would need to implement this functionality)
 			// m_selectedObject->RemoveComponent(component);
 			auto& components = m_selectedObject->m_components;
 			auto it = std::find(components.begin(), components.end(), component);

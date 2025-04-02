@@ -41,7 +41,7 @@ public:
 	}
 	void SaveScene(const std::string& filename);
 	void LoadScene(const std::string& filename);
-
+	void ClearScene();
 
 	Engine* m_engine;
 	std::vector<std::shared_ptr<GameObject>> m_objects;

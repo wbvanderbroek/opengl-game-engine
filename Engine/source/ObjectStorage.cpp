@@ -73,10 +73,7 @@ void ObjectStorage::LoadScene(const std::string& filename)
 			nlohmann::json sceneData = nlohmann::json::parse(file);
 			file.close();
 
-			// Clear existing scene
-			m_objects.clear();
-			if (Config::Instance().m_editorMode)
-				m_engine->m_editorUI->m_selectedObject = nullptr;
+			ClearScene();
 
 			// Load scene data from json
 			DeserializeScene(sceneData);
@@ -93,6 +90,12 @@ void ObjectStorage::LoadScene(const std::string& filename)
 	{
 		std::cerr << "Failed to open scene file: " << filename << std::endl;
 	}
+}
+void ObjectStorage::ClearScene()
+{
+	m_objects.clear();
+	if (Config::Instance().m_editorMode)
+		m_engine->m_editorUI->m_selectedObject = nullptr;
 }
 
 nlohmann::json ObjectStorage::SerializeScene()
@@ -186,36 +189,19 @@ std::shared_ptr<GameObject> ObjectStorage::DeserializeGameObject(const nlohmann:
 	auto gameObject = Instantiate(GameObject());
 
 	if (data.contains("name") && data["name"].is_string())
-	{
 		gameObject->m_name = data["name"];
-	}
+
 
 	if (data.contains("localPosition") && data["localPosition"].is_array() && data["localPosition"].size() == 3)
-	{
-		gameObject->localPosition = glm::vec3(
-			data["localPosition"][0],
-			data["localPosition"][1],
-			data["localPosition"][2]
-		);
-	}
+		gameObject->localPosition = glm::vec3(data["localPosition"][0], data["localPosition"][1], data["localPosition"][2]);
 
 	if (data.contains("localRotation") && data["localRotation"].is_array() && data["localRotation"].size() == 3)
-	{
-		gameObject->SetLocalRotation(glm::vec3(
-			data["localRotation"][0],
-			data["localRotation"][1],
-			data["localRotation"][2]
-		));
-	}
 
+		gameObject->SetLocalRotation(glm::vec3(data["localRotation"][0], data["localRotation"][1], data["localRotation"][2]));
 	if (data.contains("localScale") && data["localScale"].is_array() && data["localScale"].size() == 3)
-	{
-		gameObject->localScale = glm::vec3(
-			data["localScale"][0],
-			data["localScale"][1],
-			data["localScale"][2]
-		);
-	}
+
+		gameObject->localScale = glm::vec3(data["localScale"][0], data["localScale"][1], data["localScale"][2]);
+
 
 	if (data.contains("components") && data["components"].is_array())
 	{
