@@ -16,8 +16,9 @@ class Component;
 class EditorUI
 {
 public:
-	EditorUI(Engine* engine);
-	~EditorUI();
+	EditorUI(Engine* engine) : m_engine(engine) {};
+
+	~EditorUI() { Shutdown(); };
 
 	std::shared_ptr<GameObject> m_selectedObject;
 
@@ -34,7 +35,6 @@ private:
 	void RenderMainMenuBar();
 	void RenderHierarchyWindow();
 	void RenderInspectorWindow();
-	void RenderComponentMenu();
 
 	void DisplayGameObject(std::shared_ptr<GameObject> gameObject);
 	void DisplayTransformComponent(std::shared_ptr<GameObject> gameObject);

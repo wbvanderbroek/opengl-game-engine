@@ -9,17 +9,6 @@
 #include <Model.h>
 #include <ObjectStorage.h>
 
-// Constructor
-EditorUI::EditorUI(Engine* engine) : m_engine(engine)
-{
-}
-
-// Destructor
-EditorUI::~EditorUI()
-{
-	Shutdown();
-}
-
 // Initialize ImGui
 void EditorUI::Initialize(GLFWwindow* window)
 {
@@ -45,20 +34,19 @@ void EditorUI::Render()
 
 	RenderMainMenuBar();
 
-	// Get viewport size for manual layout
 	ImVec2 viewportSize = ImGui::GetIO().DisplaySize;
 
 	float panelWidth = viewportSize.x * 0.2f;
 	float inspectorWidth = viewportSize.x * 0.25f;
 
 	// Hierarchy Window (left)
-	ImGui::SetNextWindowPos(ImVec2(0, 20)); // below menu bar
+	ImGui::SetNextWindowPos(ImVec2(0, 20));
 	ImGui::SetNextWindowSize(ImVec2(panelWidth, viewportSize.y - 20));
 	if (m_showHierarchy) RenderHierarchyWindow();
 
-	// Game View (middle)
-	ImGui::SetNextWindowPos(ImVec2(panelWidth, 20));
-	ImGui::SetNextWindowSize(ImVec2(viewportSize.x - panelWidth - inspectorWidth, viewportSize.y - 20));
+	//// Game View (middle)
+	//ImGui::SetNextWindowPos(ImVec2(panelWidth, 20));
+	//ImGui::SetNextWindowSize(ImVec2(viewportSize.x - panelWidth - inspectorWidth, viewportSize.y - 20));
 
 	// Inspector (right)
 	ImGui::SetNextWindowPos(ImVec2(viewportSize.x - inspectorWidth, 20));
@@ -69,9 +57,6 @@ void EditorUI::Render()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-
-
-// Shutdown ImGui
 void EditorUI::Shutdown()
 {
 	ImGui_ImplOpenGL3_Shutdown();
@@ -79,7 +64,6 @@ void EditorUI::Shutdown()
 	ImGui::DestroyContext();
 }
 
-// Render the main menu bar
 void EditorUI::RenderMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
@@ -120,7 +104,6 @@ void EditorUI::RenderMainMenuBar()
 
 			if (ImGui::MenuItem("Exit", "Alt+F4"))
 			{
-				// Request app to close
 				glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
 			}
 
@@ -198,7 +181,6 @@ void EditorUI::RenderMainMenuBar()
 	}
 }
 
-// Render the hierarchy window
 void EditorUI::RenderHierarchyWindow()
 {
 	ImGui::Begin("Hierarchy", &m_showHierarchy);
@@ -206,13 +188,11 @@ void EditorUI::RenderHierarchyWindow()
 	if (ButtonCenteredOnLine("Create Game Object"))
 	{
 		auto newObject = m_engine->m_storage.Instantiate(GameObject());
-		newObject->OnCreate();
 		m_selectedObject = newObject;
 	}
 
 	ImGui::Separator();
 
-	// Display all game objects in the scene
 	for (auto& gameObject : m_engine->m_storage.m_objects)
 	{
 		DisplayGameObject(gameObject);
@@ -221,17 +201,20 @@ void EditorUI::RenderHierarchyWindow()
 	ImGui::End();
 }
 
-// Render the inspector window
 void EditorUI::RenderInspectorWindow()
 {
 	ImGui::Begin("Inspector", &m_showInspector);
 
 	if (m_selectedObject)
 	{
-		// Object name input (would require adding name to GameObject class)
-		// ImGui::InputText("Name", &m_selectedObject->name);
+		char buffer[256];
+		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
-		// Transform component always exists
+		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
+			m_selectedObject->m_name = buffer;
+		}
+
 		DisplayTransformComponent(m_selectedObject);
 
 		ImGui::Separator();
@@ -243,7 +226,6 @@ void EditorUI::RenderInspectorWindow()
 			ImGui::Separator();
 		}
 
-		// Add Component button
 		if (ImGui::Button("Add Component", ImVec2(-1, 0)))
 		{
 			ImGui::OpenPopup("AddComponentPopup");
@@ -280,8 +262,8 @@ void EditorUI::RenderInspectorWindow()
 			ImGui::EndPopup();
 		}
 
-		// Delete GameObject button
 		ImGui::Spacing();
+
 		if (ImGui::Button("Delete GameObject", ImVec2(-1, 0)))
 		{
 			m_selectedObject->Destroy();
@@ -296,7 +278,6 @@ void EditorUI::RenderInspectorWindow()
 	ImGui::End();
 }
 
-// Display a game object in the hierarchy
 void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 {
 	if (!gameObject) return;
@@ -310,31 +291,7 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 	if (gameObject->m_children.empty())
 		flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
-
-	// You would ideally have a name property in GameObject
-	std::string name = "GameObject";
-
-	// Check for components to make the name more descriptive
-	for (auto& component : gameObject->m_components)
-	{
-		if (dynamic_cast<Camera*>(component.get()))
-		{
-			name = "Camera";
-			break;
-		}
-		else if (dynamic_cast<Light*>(component.get()))
-		{
-			name = "Light";
-			break;
-		}
-		else if (dynamic_cast<Model*>(component.get()))
-		{
-			name = "Model";
-			break;
-		}
-	}
-
-	bool nodeOpen = ImGui::TreeNodeEx((void*)(uintptr_t)gameObject.get(), flags, "%s", name.c_str());
+	bool nodeOpen = ImGui::TreeNodeEx((void*)(uintptr_t)gameObject.get(), flags, "%s", gameObject->m_name.c_str());
 
 	// Handle selection
 	if (ImGui::IsItemClicked())
@@ -380,26 +337,22 @@ void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
 
 }
 
-// Display the transform component
 void EditorUI::DisplayTransformComponent(std::shared_ptr<GameObject> gameObject)
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		// Position
 		glm::vec3 position = gameObject->localPosition;
 		if (ImGui::DragFloat3("Position", glm::value_ptr(position), 0.1f))
 		{
 			gameObject->localPosition = position;
 		}
 
-		// Rotation
 		glm::vec3 localRotation = gameObject->GetLocalRotation();
 		if (ImGui::DragFloat3("Rotation", glm::value_ptr(localRotation), 1.0f))
 		{
 			gameObject->SetLocalRotation(localRotation);
 		}
 
-		// Scale
 		glm::vec3 localScale = gameObject->localScale;
 		if (ImGui::DragFloat3("Scale", glm::value_ptr(localScale), 0.1f, 0.01f))
 		{
@@ -408,7 +361,6 @@ void EditorUI::DisplayTransformComponent(std::shared_ptr<GameObject> gameObject)
 	}
 }
 
-// Display a component in the inspector
 void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 {
 	std::string componentName = "Component";
@@ -443,7 +395,6 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 		{
 			ImGui::ColorEdit4("Light Color", glm::value_ptr(lightComponent->m_lightColor));
 
-			// Other light properties could go here
 			float intensity = lightComponent->m_lightColor.w;
 			if (ImGui::SliderFloat("Intensity", &intensity, 0.0f, 1.0f))
 			{
@@ -505,4 +456,3 @@ bool EditorUI::ButtonCenteredOnLine(const char* label)
 
 	return ImGui::Button(label);
 }
-

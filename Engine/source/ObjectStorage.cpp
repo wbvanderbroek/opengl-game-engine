@@ -78,7 +78,7 @@ void ObjectStorage::LoadScene(const std::string& filename)
 			if (Config::Instance().m_editorMode)
 				m_engine->m_editorUI->m_selectedObject = nullptr;
 
-			// Load scene data
+			// Load scene data from json
 			DeserializeScene(sceneData);
 
 			m_currentScenePath = filename;
@@ -115,19 +115,18 @@ nlohmann::json ObjectStorage::SerializeGameObject(std::shared_ptr<GameObject> ga
 {
 	nlohmann::json objectData;
 
-	// Transform
+	objectData["name"] = gameObject->m_name;
+
 	objectData["localPosition"] = { gameObject->localPosition.x, gameObject->localPosition.y, gameObject->localPosition.z };
 	objectData["localRotation"] = { gameObject->GetLocalRotation().x, gameObject->GetLocalRotation().y, gameObject->GetLocalRotation().z };
 	objectData["localScale"] = { gameObject->localScale.x, gameObject->localScale.y, gameObject->localScale.z };
 
-	// Components
 	nlohmann::json componentsArray = nlohmann::json::array();
 	for (auto& component : gameObject->m_components)
 		componentsArray.push_back(SerializeComponent(component));
 
 	objectData["components"] = componentsArray;
 
-	// Children
 	nlohmann::json childrenArray = nlohmann::json::array();
 	for (auto& child : gameObject->m_children)
 		childrenArray.push_back(SerializeGameObject(child));
@@ -178,7 +177,6 @@ void ObjectStorage::DeserializeScene(const nlohmann::json& data)
 		for (const auto& objData : data["gameObjects"])
 		{
 			auto gameObject = DeserializeGameObject(objData);
-			// No need to add to storage, already done in DeserializeGameObject
 		}
 	}
 }
@@ -186,6 +184,11 @@ void ObjectStorage::DeserializeScene(const nlohmann::json& data)
 std::shared_ptr<GameObject> ObjectStorage::DeserializeGameObject(const nlohmann::json& data)
 {
 	auto gameObject = Instantiate(GameObject());
+
+	if (data.contains("name") && data["name"].is_string())
+	{
+		gameObject->m_name = data["name"];
+	}
 
 	if (data.contains("localPosition") && data["localPosition"].is_array() && data["localPosition"].size() == 3)
 	{

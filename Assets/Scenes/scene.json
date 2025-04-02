@@ -11,20 +11,21 @@
                 }
             ],
             "localPosition": [
-                -104.47168731689453,
-                49.55500411987305,
-                -30.973926544189453
+                0.0,
+                0.0,
+                0.0
             ],
             "localRotation": [
-                -30.25926399230957,
-                -94.46046447753906,
+                0.0,
+                0.0,
                 0.0
             ],
             "localScale": [
                 1.0,
                 1.0,
                 1.0
-            ]
+            ],
+            "name": "GameObject"
         },
         {
             "children": [],
@@ -53,7 +54,8 @@
                 1.0,
                 1.0,
                 1.0
-            ]
+            ],
+            "name": "GameObject"
         },
         {
             "children": [],
@@ -77,90 +79,8 @@
                 100.0,
                 100.0,
                 100.0
-            ]
-        },
-        {
-            "children": [
-                {
-                    "children": [
-                        {
-                            "children": [],
-                            "components": [
-                                {
-                                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
-                                    "type": "Model"
-                                }
-                            ],
-                            "localPosition": [
-                                19.600000381469727,
-                                134.39999389648438,
-                                4.5
-                            ],
-                            "localRotation": [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            "localScale": [
-                                1.0,
-                                4.0,
-                                1.0
-                            ]
-                        }
-                    ],
-                    "components": [
-                        {
-                            "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
-                            "type": "Model"
-                        },
-                        {
-                            "color": [
-                                1.0,
-                                1.0,
-                                1.0,
-                                1.0
-                            ],
-                            "type": "Light"
-                        }
-                    ],
-                    "localPosition": [
-                        1.399999976158142,
-                        -18.899999618530273,
-                        -2.0999999046325684
-                    ],
-                    "localRotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "localScale": [
-                        1.0,
-                        -0.20000000298023224,
-                        1.0
-                    ]
-                }
             ],
-            "components": [
-                {
-                    "modelPath": "Assets/models/building/MetalMineBuilding.fbx",
-                    "type": "Model"
-                }
-            ],
-            "localPosition": [
-                4.800000190734863,
-                -0.6000000238418579,
-                -52.099998474121094
-            ],
-            "localRotation": [
-                -76.0,
-                0.0,
-                0.0
-            ],
-            "localScale": [
-                1.0,
-                0.800000011920929,
-                2.0999999046325684
-            ]
+            "name": "1"
         }
     ],
     "version": 1

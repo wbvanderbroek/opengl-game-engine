@@ -29,6 +29,8 @@ public:
 	std::weak_ptr<GameObject> m_parent;
 	std::vector<std::shared_ptr<Component>> m_components;
 
+	std::string m_name = "GameObject";
+
 	virtual void OnCreate()
 	{
 		for (auto& component : m_components)
