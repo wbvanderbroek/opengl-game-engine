@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 		if (std::string(argv[i]) == "--editor")
 		{
 			std::cout << "Editor mode enabled" << std::endl;
-			Config::Instance().m_editorMode = true;
+			Config::Instance().m_mode = Mode::Editor;
 			break;
 		}
 	}

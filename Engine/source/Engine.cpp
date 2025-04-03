@@ -10,7 +10,7 @@ Engine::Engine(GLFWwindow* window)
 	// activate shaders but if lighting is not added to scene everything will still be black
 	m_shaderProgram.Activate();
 
-	if (m_config.m_editorMode)
+	if (m_config.m_mode == Mode::Editor)
 	{
 		m_config.m_editorUI = std::make_unique<EditorUI>(this);
 		m_config.m_editorUI->Initialize(window);
@@ -47,7 +47,7 @@ void Engine::UpdateInternal()
 		obj->LateUpdate(deltaTime);
 
 	// Render ImGui UI
-	if (m_config.m_editorMode)
+	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
@@ -73,7 +73,7 @@ void Engine::QuitInternal()
 
 	m_shaderProgram.Delete();
 
-	if (m_config.m_editorMode)
+	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Shutdown();
 
 	glfwDestroyWindow(m_window);

@@ -19,6 +19,9 @@ class ObjectStorage;
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
+private:
+	Config& m_config;
+
 public:
 	ObjectStorage* m_storage = nullptr;
 
@@ -32,11 +35,13 @@ public:
 
 	std::string m_name = "GameObject";
 
+	GameObject() : m_config(Config::Instance()) {}
+
 	virtual void OnCreate()
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->Awake();
 		}
 		for (auto& child : m_children)
@@ -47,7 +52,7 @@ public:
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->Start();
 		}
 		for (auto& child : m_children)
@@ -58,7 +63,7 @@ public:
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->Update(deltaTime);
 		}
 		for (auto& child : m_children)
@@ -69,7 +74,7 @@ public:
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->LateUpdate(deltaTime);
 		}
 		for (auto& child : m_children)
@@ -80,7 +85,7 @@ public:
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->OnDestroy();
 		}
 		for (auto& child : m_children)
@@ -91,7 +96,7 @@ public:
 	{
 		for (auto& component : m_components)
 		{
-			if (component->m_runInEditor)
+			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
 				component->OnQuit();
 		}
 		for (auto& child : m_children)
@@ -109,8 +114,8 @@ public:
 			m_storage->RemoveGameObject(shared_from_this());
 
 
-		if (Config::Instance().m_editorMode)
-			Config::Instance().m_editorUI->m_selectedObject = nullptr;
+		if (m_config.m_mode == Mode::Editor)
+			m_config.m_editorUI->m_selectedObject = nullptr;
 
 	}
 
