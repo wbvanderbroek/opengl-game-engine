@@ -9,7 +9,7 @@
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
-	if (Config::Instance().m_editorMode)
+	if (Config::Instance().m_mode == Mode::Editor)
 	{
 		CreateDefaultScene();
 	}
@@ -33,16 +33,19 @@ void ObjectStorage::CreateDefaultScene()
 {
 	auto camera = Instantiate(GameObject());
 	camera->AddComponent(Camera());
+	camera->m_name = "Camera";
 
 	auto light = Instantiate(GameObject());
 	light->AddComponent(Light());
 	light->localPosition = glm::vec3(0, 10, 0);
+	light->m_name = "Light";
 
 	auto plane = Instantiate(GameObject());
 	plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
 	plane->SetLocalRotation(glm::vec3(270, 0, 0));
 	plane->localScale = glm::vec3(100, 100, 100);
 	plane->localPosition = glm::vec3(0, -10, 0);
+	plane->m_name = "Plane";
 }
 
 void ObjectStorage::SaveScene(const std::string& filename)
@@ -94,7 +97,7 @@ void ObjectStorage::LoadScene(const std::string& filename)
 void ObjectStorage::ClearScene()
 {
 	m_objects.clear();
-	if (Config::Instance().m_editorMode)
+	if (Config::Instance().m_mode == Mode::Editor)
 		Config::Instance().m_editorUI->m_selectedObject = nullptr;
 }
 

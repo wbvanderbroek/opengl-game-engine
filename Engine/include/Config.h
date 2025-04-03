@@ -3,9 +3,14 @@
 #include <EditorUI.h>
 #include <string>
 
+enum class Mode {
+	Editor,
+	Game
+};
+
 class Config {
 public:
-	bool m_editorMode = false;
+	Mode m_mode = Mode::Game;
 
 	std::unique_ptr<EditorUI> m_editorUI;
 
@@ -21,3 +26,4 @@ public:
 private:
 	Config() = default;
 };
+
