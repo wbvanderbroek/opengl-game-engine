@@ -160,6 +160,7 @@ nlohmann::json ObjectStorage::SerializeComponent(std::shared_ptr<Component> comp
 			lightComponent->m_lightColor.b,
 			lightComponent->m_lightColor.a
 		};
+		componentData["lightType"] = static_cast<int>(lightComponent->m_lightType);
 	}
 	else if (auto cameraComponent = std::dynamic_pointer_cast<Camera>(component))
 	{
@@ -249,6 +250,11 @@ void ObjectStorage::DeserializeComponent(std::shared_ptr<GameObject> gameObject,
 					data["color"][2],
 					data["color"][3]
 				);
+			}
+
+			if (data.contains("lightType") && data["lightType"].is_number())
+			{
+				light.m_lightType = static_cast<LightType>(data["lightType"]);
 			}
 
 			gameObject->AddComponent(light);
