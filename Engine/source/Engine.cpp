@@ -106,5 +106,7 @@ void Engine::UpdateLighting()
 			m_activeLights[i]->m_gameObject->GetGlobalPosition().x, m_activeLights[i]->m_gameObject->GetGlobalPosition().y, m_activeLights[i]->m_gameObject->GetGlobalPosition().z
 		);
 
+		snprintf(uniformName, sizeof(uniformName), "lights[%zu].type", i);
+		glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, uniformName), static_cast<int>(m_activeLights[i]->m_lightType));
 	}
 }

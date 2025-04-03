@@ -17,6 +17,7 @@ uniform vec3 camPos;
 struct Light {
     vec4 color;
     vec3 pos;
+    int type;
 };
 
 uniform int numLights;
@@ -91,8 +92,18 @@ vec4 spotLight(Light light)
 void main()
 {
     vec4 finalColor = vec4(0.0);
-    for (int i = 0; i < numLights; i++) {
-        finalColor += pointLight(lights[i]);
+    for (int i = 0; i < numLights; i++) 
+    {
+        if (lights[i].type == 0)
+        {
+            finalColor += pointLight(lights[i]);
+        } else if (lights[i].type == 1) 
+        {
+            finalColor += directLight(lights[i]);
+        } else if (lights[i].type == 2) 
+        {
+            finalColor += spotLight(lights[i]);
+        }   
     }
     FragColor = finalColor;
 }
