@@ -2,6 +2,7 @@
 #include <Component.h>
 #include <EditorUI.h>
 #include <Engine.h>
+#include <enum/magic_enum.hpp> 
 #include <fstream>
 #include <GameObject.h>
 #include <iostream>
@@ -392,6 +393,23 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 			if (ImGui::SliderFloat("Intensity", &intensity, 0.0f, 1.0f))
 			{
 				lightComponent->m_lightColor.w = intensity;
+			}
+
+			using namespace magic_enum;
+
+			constexpr auto names = enum_names<LightType>();
+			int currentType = static_cast<int>(lightComponent->m_lightType);
+
+			if (ImGui::Combo("Light Type", &currentType,
+				[](void* data, int idx, const char** out_text)
+				{
+					auto& enumNames = *reinterpret_cast<const decltype(names)*>(data);
+					if (idx < 0 || static_cast<size_t>(idx) >= enumNames.size()) return false;
+					*out_text = enumNames[idx].data();
+					return true;
+				}, (void*)&names, static_cast<int>(names.size())))
+			{
+				lightComponent->m_lightType = static_cast<LightType>(currentType);
 			}
 		}
 	}
