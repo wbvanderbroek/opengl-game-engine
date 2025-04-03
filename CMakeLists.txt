@@ -4,32 +4,42 @@ project(opengl-game-engine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(Libraries)
-add_subdirectory(Engine)
-add_subdirectory(Game)
-add_subdirectory(imgui)
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/Libraries/include
+    ${CMAKE_SOURCE_DIR}/imgui
+)
 
-add_executable(opengl-game-engine Main.cpp)
+link_directories(${CMAKE_SOURCE_DIR}/Libraries/lib)
 
-if(APPLE)
-    find_package(glfw3 REQUIRED)
-    find_package(OpenGL REQUIRED)
-    target_link_libraries(opengl-game-engine PRIVATE Engine imgui glfw OpenGL::GL assimp)
-elseif(LINUX)
-    find_package(glfw3 REQUIRED)
-    find_package(OpenGL REQUIRED)
-    target_link_libraries(opengl-game-engine PRIVATE Engine glfw OpenGL::GL assimp)
-elseif(WIN32)
-    target_link_libraries(opengl-game-engine PRIVATE Engine imgui assimp)
-endif()
+file(GLOB_RECURSE ENGINE_SOURCES "source/Engine/*.cpp")
+file(GLOB_RECURSE GAME_SOURCES "source/Game/*.cpp")
+file(GLOB IMGUI_SOURCES "imgui/*.cpp")
+set(GLAD_SOURCE "${CMAKE_SOURCE_DIR}/Libraries/include/glad/glad.c")
+
+add_executable(opengl-game-engine
+    Main.cpp
+    ${ENGINE_SOURCES}
+    ${GAME_SOURCES}
+    ${IMGUI_SOURCES}
+    ${GLAD_SOURCE}
+)
+
+target_link_libraries(opengl-game-engine
+    glfw3
+    assimp-vc143-mt
+)
 
 add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/Assets
         $<TARGET_FILE_DIR:opengl-game-engine>/Assets
 )
-add_custom_command(TARGET opengl-game-engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_SOURCE_DIR}/Libraries/dll/assimp-vc143-mt.dll"
-        "$<TARGET_FILE_DIR:opengl-game-engine>"
-)
+
+if(WIN32)
+    add_custom_command(TARGET opengl-game-engine POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/Libraries/dll/assimp-vc143-mt.dll"
+            "$<TARGET_FILE_DIR:opengl-game-engine>"
+    )
+endif()
