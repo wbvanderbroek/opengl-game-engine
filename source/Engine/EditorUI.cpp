@@ -1,28 +1,26 @@
-#include <Camera.h>
-#include <Component.h>
-#include <EditorUI.h>
-#include <Engine.h>
-#include <enum/magic_enum.hpp> 
 #include <fstream>
-#include <GameObject.h>
 #include <iostream>
-#include <Light.h>
-#include <Model.h>
-#include <ObjectStorage.h>
 
-// Initialize ImGui
+#include <enum/magic_enum.hpp> 
+
+#include <Engine/Camera.h>
+#include <Engine/Component.h>
+#include <Engine/EditorUI.h>
+#include <Engine/Engine.h>
+#include <Engine/GameObject.h>
+#include <Engine/Light.h>
+#include <Engine/Model.h>
+#include <Engine/ObjectStorage.h>
+
 void EditorUI::Initialize(GLFWwindow* window)
 {
-	// Setup ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-	// Setup style
 	ImGui::StyleColorsDark();
 
-	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
 }

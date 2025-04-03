@@ -1,11 +1,11 @@
 #include <algorithm> 
 
-#include <Config.h>
-#include <Engine.h>
-#include <GameObject.h>
-#include <Light.h>
-#include <Model.h>
-#include <ObjectStorage.h>
+#include <Engine/Config.h>
+#include <Engine/Engine.h>
+#include <Engine/GameObject.h>
+#include <Engine/Light.h>
+#include <Engine/Model.h>
+#include <Engine/ObjectStorage.h>
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {

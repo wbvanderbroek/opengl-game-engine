@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include <VBO.h>
+#include <Engine/VBO.h>
 
 class VAO
 {

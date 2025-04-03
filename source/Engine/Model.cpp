@@ -1,9 +1,7 @@
+#include <Engine/Engine.h>
+#include <Engine/Model.h>
 #include <iostream>
-
 #include <stb/stb_image.h>
-
-#include <Engine.h>
-#include <Model.h>
 
 void Model::LoadModel(const std::string& path)
 {

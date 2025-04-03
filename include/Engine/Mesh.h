@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include <Camera.h>
-#include <EBO.h>
-#include <Texture.h>
-#include <VAO.h>
+#include <Engine/Camera.h>
+#include <Engine/EBO.h>
+#include <Engine/Texture.h>
+#include <Engine/VAO.h>
 
 class Mesh
 {

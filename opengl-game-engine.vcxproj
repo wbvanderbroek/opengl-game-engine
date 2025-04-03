@@ -75,7 +75,7 @@
     <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>imgui;Game\source;Game\include;Engine\source;Engine\include;Libraries\include</IncludePath>
+    <IncludePath>Libraries\include;imgui;source;include</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,7 +83,7 @@
     <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>imgui;Game\source;Game\include;Engine\source;Engine\include;Libraries\include</IncludePath>
+    <IncludePath>Libraries\include;imgui;source;include</IncludePath>
     <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -149,11 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\source\Camera.cpp" />
-    <ClCompile Include="Engine\source\EBO.cpp" />
-    <ClCompile Include="Engine\source\EditorUI.cpp" />
-    <ClCompile Include="Engine\source\Engine.cpp" />
-    <ClCompile Include="Game\source\temp.cpp" />
+    <ClCompile Include="source\Engine\Camera.cpp" />
+    <ClCompile Include="source\Engine\EBO.cpp" />
+    <ClCompile Include="source\Engine\EditorUI.cpp" />
+    <ClCompile Include="source\Engine\Engine.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -161,31 +160,30 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Engine\source\Light.cpp" />
+    <ClCompile Include="source\Engine\Light.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Engine\source\Mesh.cpp" />
-    <ClCompile Include="Engine\source\Model.cpp" />
-    <ClCompile Include="Engine\source\ObjectStorage.cpp" />
-    <ClCompile Include="Engine\source\Shader.cpp" />
-    <ClCompile Include="Engine\source\stb.cpp" />
-    <ClCompile Include="Engine\source\Texture.cpp" />
-    <ClCompile Include="Engine\source\VAO.cpp" />
-    <ClCompile Include="Engine\source\VBO.cpp" />
+    <ClCompile Include="source\Engine\Mesh.cpp" />
+    <ClCompile Include="source\Engine\Model.cpp" />
+    <ClCompile Include="source\Engine\ObjectStorage.cpp" />
+    <ClCompile Include="source\Engine\Shader.cpp" />
+    <ClCompile Include="source\Engine\stb.cpp" />
+    <ClCompile Include="source\Engine\Texture.cpp" />
+    <ClCompile Include="source\Engine\VAO.cpp" />
+    <ClCompile Include="source\Engine\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\default.frag" />
     <None Include="Assets\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\include\Camera.h" />
-    <ClInclude Include="Engine\include\Component.h" />
-    <ClInclude Include="Engine\include\EBO.h" />
-    <ClInclude Include="Engine\include\EditorUI.h" />
-    <ClInclude Include="Engine\include\Engine.h" />
-    <ClInclude Include="Engine\include\GameObject.h" />
-    <ClInclude Include="Engine\include\Config.h" />
-    <ClInclude Include="Game\include\temp.h" />
+    <ClInclude Include="include\Engine\Camera.h" />
+    <ClInclude Include="include\Engine\Component.h" />
+    <ClInclude Include="include\Engine\EBO.h" />
+    <ClInclude Include="include\Engine\EditorUI.h" />
+    <ClInclude Include="include\Engine\Engine.h" />
+    <ClInclude Include="include\Engine\GameObject.h" />
+    <ClInclude Include="include\Engine\Config.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -195,15 +193,15 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="Engine\include\Mesh.h" />
-    <ClInclude Include="Engine\include\Model.h" />
-    <ClInclude Include="Engine\include\ObjectStorage.h" />
-    <ClInclude Include="Engine\include\resource.h" />
-    <ClInclude Include="Engine\include\Shader.h" />
-    <ClInclude Include="Engine\include\Texture.h" />
-    <ClInclude Include="Engine\include\VAO.h" />
-    <ClInclude Include="Engine\include\VBO.h" />
-    <ClInclude Include="Engine\include\Light.h" />
+    <ClInclude Include="include\Engine\Mesh.h" />
+    <ClInclude Include="include\Engine\Model.h" />
+    <ClInclude Include="include\Engine\ObjectStorage.h" />
+    <ClInclude Include="include\Engine\resource.h" />
+    <ClInclude Include="include\Engine\Shader.h" />
+    <ClInclude Include="include\Engine\Texture.h" />
+    <ClInclude Include="include\Engine\VAO.h" />
+    <ClInclude Include="include\Engine\VBO.h" />
+    <ClInclude Include="include\Engine\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc" />

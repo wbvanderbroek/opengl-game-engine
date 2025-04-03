@@ -8,8 +8,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include <GameObject.h>
-#include <Shader.h>
+#include <Engine/GameObject.h>
+#include <Engine/Shader.h>
 
 class Camera : public Component, public std::enable_shared_from_this<Camera>
 {
@@ -50,6 +50,4 @@ public:
 	inline float GetFOV() const { return m_fieldOfView; }
 	inline float GetNearClip() const { return m_nearPlane; }
 	inline float GetFarClip() const { return m_farPlane; }
-
-
 };

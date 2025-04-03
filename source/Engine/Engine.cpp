@@ -1,5 +1,5 @@
-#include <Config.h>
-#include <Engine.h>
+#include <Engine/Config.h>
+#include <Engine/Engine.h>
 
 Engine::Engine(GLFWwindow* window)
 	: m_window(window),
@@ -46,7 +46,6 @@ void Engine::UpdateInternal()
 	for (auto& obj : m_storage.m_objects)
 		obj->LateUpdate(deltaTime);
 
-	// Render ImGui UI
 	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Render();
 

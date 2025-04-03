@@ -24,46 +24,46 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Shader.cpp">
+    <ClCompile Include="source\Engine\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\VBO.cpp">
+    <ClCompile Include="source\Engine\VBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\EBO.cpp">
+    <ClCompile Include="source\Engine\EBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\VAO.cpp">
+    <ClCompile Include="source\Engine\VAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\stb.cpp">
+    <ClCompile Include="source\Engine\stb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Texture.cpp">
+    <ClCompile Include="source\Engine\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Camera.cpp">
+    <ClCompile Include="source\Engine\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Mesh.cpp">
+    <ClCompile Include="source\Engine\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Model.cpp">
+    <ClCompile Include="source\Engine\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Engine.cpp">
+    <ClCompile Include="source\Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\ObjectStorage.cpp">
+    <ClCompile Include="source\Engine\ObjectStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\include\glad\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\Light.cpp">
+    <ClCompile Include="source\Engine\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\source\EditorUI.cpp">
+    <ClCompile Include="source\Engine\EditorUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -87,9 +87,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\source\temp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\default.vert">
@@ -100,49 +97,49 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\include\Shader.h">
+    <ClInclude Include="include\Engine\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\VBO.h">
+    <ClInclude Include="include\Engine\VBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\EBO.h">
+    <ClInclude Include="include\Engine\EBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\VAO.h">
+    <ClInclude Include="include\Engine\VAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\resource.h">
+    <ClInclude Include="include\Engine\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Texture.h">
+    <ClInclude Include="include\Engine\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Camera.h">
+    <ClInclude Include="include\Engine\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Mesh.h">
+    <ClInclude Include="include\Engine\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Model.h">
+    <ClInclude Include="include\Engine\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Engine.h">
+    <ClInclude Include="include\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\GameObject.h">
+    <ClInclude Include="include\Engine\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\ObjectStorage.h">
+    <ClInclude Include="include\Engine\ObjectStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Light.h">
+    <ClInclude Include="include\Engine\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\Component.h">
+    <ClInclude Include="include\Engine\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\include\EditorUI.h">
+    <ClInclude Include="include\Engine\EditorUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
@@ -172,10 +169,7 @@
     <ClInclude Include="imgui\imstb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\include\temp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\include\Config.h">
+    <ClInclude Include="include\Engine\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

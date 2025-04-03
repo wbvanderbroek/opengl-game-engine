@@ -7,8 +7,8 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-#include <Mesh.h>
-#include <Shader.h>
+#include <Engine/Mesh.h>
+#include <Engine/Shader.h>
 
 class Model : public Component
 {

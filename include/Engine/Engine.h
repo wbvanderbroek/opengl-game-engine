@@ -7,11 +7,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <Camera.h>
-#include <EditorUI.h>
-#include <Light.h>
-#include <ObjectStorage.h>
-#include <Shader.h>
+#include <Engine/Camera.h>
+#include <Engine/EditorUI.h>
+#include <Engine/Light.h>
+#include <Engine/ObjectStorage.h>
+#include <Engine/Shader.h>
 
 class Engine
 {

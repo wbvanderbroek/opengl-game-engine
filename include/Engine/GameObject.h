@@ -11,9 +11,9 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-#include <Component.h>
-#include <Config.h>
-#include <ObjectStorage.h>
+#include <Engine/Component.h>
+#include <Engine/Config.h>
+#include <Engine/ObjectStorage.h>
 
 class ObjectStorage;
 
