@@ -41,4 +41,9 @@ private:
 	void DisplayComponent(std::shared_ptr<Component> component);
 
 	bool ButtonCenteredOnLine(const char* label);
+
+	inline std::string WithID(const std::string& label, const void* ptr)
+	{
+		return label + "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
+	}
 };

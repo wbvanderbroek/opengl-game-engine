@@ -353,11 +353,11 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 
 	if (auto modelComponent = std::dynamic_pointer_cast<Model>(component))
 	{
-		if (ImGui::CollapsingHeader("Model", flags))
+		if (ImGui::CollapsingHeader(WithID("Model", modelComponent.get()).c_str(), flags))
 		{
 			ImGui::Text("Model Path: %s", modelComponent->m_modelPath.c_str());
 
-			if (ImGui::Button("Change Model"))
+			if (ImGui::Button(WithID("Change Model", modelComponent.get()).c_str()))
 			{
 				static int modelIndex = 0;
 				const char* models[] = {
@@ -374,22 +374,20 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 	}
 	else if (auto lightComponent = std::dynamic_pointer_cast<Light>(component))
 	{
-		if (ImGui::CollapsingHeader("Light", flags))
+		if (ImGui::CollapsingHeader(WithID("Light", lightComponent.get()).c_str(), flags))
 		{
-			ImGui::ColorEdit4("Light Color", glm::value_ptr(lightComponent->m_lightColor));
+			ImGui::ColorEdit4(WithID("Light Color", lightComponent.get()).c_str(), glm::value_ptr(lightComponent->m_lightColor));
 
 			float intensity = lightComponent->m_lightColor.w;
-			if (ImGui::SliderFloat("Intensity", &intensity, 0.0f, 1.0f))
-			{
+			if (ImGui::SliderFloat(WithID("Intensity", lightComponent.get()).c_str(), &intensity, 0.0f, 1.0f))
 				lightComponent->m_lightColor.w = intensity;
-			}
 
 			using namespace magic_enum;
 
 			constexpr auto names = enum_names<LightType>();
 			int currentType = static_cast<int>(lightComponent->m_lightType);
 
-			if (ImGui::Combo("Light Type", &currentType,
+			if (ImGui::Combo(WithID("Light Type", lightComponent.get()).c_str(), &currentType,
 				[](void* data, int idx, const char** out_text)
 				{
 					auto& enumNames = *reinterpret_cast<const decltype(names)*>(data);
@@ -400,33 +398,28 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 			{
 				lightComponent->m_lightType = static_cast<LightType>(currentType);
 			}
+
 		}
 	}
 	else if (auto cameraComponent = std::dynamic_pointer_cast<Camera>(component))
 	{
-		if (ImGui::CollapsingHeader("Camera", flags))
+		if (ImGui::CollapsingHeader(WithID("Camera", cameraComponent.get()).c_str(), flags))
 		{
 			float fov = cameraComponent->GetFOV();
-			if (ImGui::SliderFloat("Field of View", &fov, 10.0f, 120.0f))
-			{
+			if (ImGui::SliderFloat(WithID("Field of View", cameraComponent.get()).c_str(), &fov, 10.0f, 120.0f))
 				cameraComponent->SetFOV(fov);
-			}
 
 			float nearClip = cameraComponent->GetNearClip();
-			if (ImGui::SliderFloat("Near Clip", &nearClip, 0.1f, 10.0f))
-			{
+			if (ImGui::SliderFloat(WithID("Near Clip", cameraComponent.get()).c_str(), &nearClip, 0.1f, 10.0f))
 				cameraComponent->SetNearClip(nearClip);
-			}
 
 			float farClip = cameraComponent->GetFarClip();
-			if (ImGui::SliderFloat("Far Clip", &farClip, 10.0f, 1000.0f))
-			{
+			if (ImGui::SliderFloat(WithID("Far Clip", cameraComponent.get()).c_str(), &farClip, 10.0f, 1000.0f))
 				cameraComponent->SetFarClip(farClip);
-			}
 		}
 	}
 
-	if (ImGui::Button("Remove Component"))
+	if (ImGui::Button(WithID("Remove Component", component.get()).c_str()))
 	{
 		m_selectedObject->RemoveComponent(component);
 		return;
