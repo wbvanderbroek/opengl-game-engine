@@ -13,7 +13,7 @@
 class Model : public Component
 {
 public:
-	Model(const std::string& path) : m_modelPath(path)
+	Model(const std::string& path = "Assets/models/plane/plane.fbx") : m_modelPath(path)
 	{
 		m_runInEditor = true;
 		LoadModel(path);
@@ -34,3 +34,4 @@ private:
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };
 
+REGISTER_COMPONENT(Model)

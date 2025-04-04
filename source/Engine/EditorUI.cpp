@@ -3,14 +3,14 @@
 
 #include <enum/magic_enum.hpp> 
 
-#include <Engine/Camera.h>
-#include <Engine/Component.h>
-#include <Engine/ComponentRegistry.h>
+#include <Engine/Components/Camera.h>
+#include <Engine/Components/Component.h>
+#include <Engine/Components/ComponentRegistry.h>
+#include <Engine/Components/Light.h>
+#include <Engine/Components/Model.h>
 #include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
-#include <Engine/Light.h>
-#include <Engine/Model.h>
 #include <Engine/ObjectStorage.h>
 
 void EditorUI::Initialize(GLFWwindow* window)
