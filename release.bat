@@ -24,25 +24,23 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-echo [INFO] Copying final build to /release folder...
+echo [INFO] Copying final build to build/release folder...
 
-cd ..
-
-REM Optional: clean or recreate release folder
+REM Optional: clean or recreate release folder inside build
 if exist release (
     rmdir /s /q release
 )
 mkdir release
 
 REM Copy built EXE
-copy build\Release\opengl-game-engine.exe release\
+copy Release\opengl-game-engine.exe release\
 
 REM Copy Assets folder
-xcopy Assets release\Assets /E /I /Y >nul
+xcopy ..\Assets release\Assets /E /I /Y >nul
 
 REM Copy DLLs
-copy Libraries\dll\assimp-vc143-mt.dll release\ >nul
+copy ..\Libraries\dll\assimp-vc143-mt.dll release\ >nul
 
-echo [INFO] Release build prepared in /release
+echo [INFO] Release build prepared in build/release
 
 endlocal
