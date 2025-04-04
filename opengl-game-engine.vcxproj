@@ -75,8 +75,8 @@
     <LibraryPath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\include;imgui;source;include</IncludePath>
-    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;Libraries\include;imgui;source;include</IncludePath>
+    <LibraryPath>C:\Program Files\Mono\lib;Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\WalterPC\Documents\GitHub\opengl-game-engine\Libraries\include;$(IncludePath)</IncludePath>
@@ -127,7 +127,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -199,6 +199,7 @@
     <ClInclude Include="include\Engine\Components\Model.h" />
     <ClInclude Include="include\Engine\ObjectStorage.h" />
     <ClInclude Include="include\Engine\resource.h" />
+    <ClInclude Include="include\Engine\ScriptBindings.h" />
     <ClInclude Include="include\Engine\Shader.h" />
     <ClInclude Include="include\Engine\Texture.h" />
     <ClInclude Include="include\Engine\VAO.h" />

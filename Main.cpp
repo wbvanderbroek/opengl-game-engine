@@ -1,109 +1,52 @@
-#include <Engine/Components/Model.h>
-#include <Engine/Config.h>
-#include <Engine/Engine.h>
+// main.cpp
+#include <Engine/ScriptBindings.h>
+#include <iostream>
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/debug-helpers.h>
 
-const unsigned int width = 800;
-const unsigned int height = 800;
-
-bool isFullscreen = false;
-bool f11Pressed = false;
-int windowedX, windowedY, windowedWidth, windowedHeight;
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+int main()
 {
-	if (width == 0 || height == 0)
-		return;
+	// Step 1: Set Mono system paths
+	mono_set_dirs("C:/Program Files/Mono/lib", "C:/Program Files/Mono/etc");
 
-	glViewport(0, 0, width, height);
+	// Step 2: Initialize domain
+	MonoDomain* domain = mono_jit_init("GameScriptDomain");
 
-	Engine* engine = static_cast<Engine*>(glfwGetWindowUserPointer(window));
-	if (engine) {
-		engine->UpdateCameraSize(width, height);
+	// Step 3: Register internal call bindings
+	RegisterScriptBindings();
+
+
+	// Step 4: Load C# Assembly
+	MonoAssembly* assembly = mono_domain_assembly_open(domain, "Assets/Scripts/Scripts.dll");
+	if (!assembly) {
+		std::cerr << "[C++] Failed to load Scripts.dll" << std::endl;
+		return 1;
 	}
-}
+	MonoImage* image = mono_assembly_get_image(assembly);
 
-int main(int argc, char* argv[])
-{
-	std::cout << "Number of arguments: " << argc << std::endl;
-	for (int i = 0; i < argc; ++i)
-	{
-		std::cout << "Argument " << i << ": " << argv[i] << std::endl;
-	}
-	glfwInit();
 
-	// OpenGL version 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	// Core profile, so no deprecated functions
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// Step 5: Create MyScript instance and call Update
+	MonoClass* klass = mono_class_from_name(image, "Engine", "MyScript");
+	MonoObject* obj = mono_object_new(domain, klass);
+	mono_runtime_object_init(obj);
 
-	GLFWwindow* window = glfwCreateWindow(width, height, "OpenGL Game Engine", NULL, NULL);
 
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
+	MonoMethod* updateMethod = mono_class_get_method_from_name(klass, "Update", 0);
+	std::cout << "[C++] Script bindings registered." << std::endl;
 
-	glfwMakeContextCurrent(window);
+	MonoObject* exc = nullptr;
+	mono_runtime_invoke(updateMethod, obj, nullptr, &exc);
 
-	glfwSwapInterval(0); // 0 = Disable VSync, 1 = Enable VSync
-	gladLoadGL();
-
-	// Tell opengl the size of the rendering window
-	glViewport(0, 0, width, height);
-
-	for (int i = 0; i < argc; ++i)
-	{
-		if (std::string(argv[i]) == "--editor")
-		{
-			std::cout << "Editor mode enabled" << std::endl;
-			Config::Instance().m_mode = Mode::Editor;
-			break;
-		}
+	if (exc) {
+		MonoString* msg = mono_object_to_string(exc, nullptr);
+		char* utf8 = mono_string_to_utf8(msg);
+		std::cout << "[C++] Exception in C#: " << utf8 << std::endl;
+		mono_free(utf8);
 	}
 
-	Engine engine(window);
+	std::cout << "[C++] Done executing script." << std::endl;
 
-	glfwSetWindowUserPointer(window, &engine);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-	engine.StartInternal();
-
-	while (!glfwWindowShouldClose(window))
-	{
-		if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
-		{
-			if (!f11Pressed)
-			{
-				f11Pressed = true;
-				if (!isFullscreen)
-				{
-					glfwGetWindowPos(window, &windowedX, &windowedY);
-					glfwGetWindowSize(window, &windowedWidth, &windowedHeight);
-
-					GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-					const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-					glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-				}
-				else
-				{
-					glfwSetWindowMonitor(window, nullptr, windowedX, windowedY, windowedWidth, windowedHeight, 0);
-				}
-				isFullscreen = !isFullscreen;
-			}
-		}
-		else
-		{
-			f11Pressed = false;
-		}
-
-		engine.UpdateInternal();
-	}
-
-	engine.QuitInternal();
-
+	mono_jit_cleanup(domain);
 	return 0;
 }

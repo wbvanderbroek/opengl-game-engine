@@ -181,6 +181,9 @@
     <ClInclude Include="include\Engine\Components\ComponentRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\ScriptBindings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="opengl-game-engine.rc">
