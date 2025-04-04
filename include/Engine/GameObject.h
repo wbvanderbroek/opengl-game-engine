@@ -11,7 +11,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-#include <Engine/Component.h>
+#include <Engine/Components/Component.h>
 #include <Engine/Config.h>
 #include <Engine/ObjectStorage.h>
 
@@ -119,10 +119,8 @@ public:
 
 	}
 
-	template<typename T>
-	void AddComponent(T&& componentToAdd)
+	void AddComponent(const std::shared_ptr<Component>& component)
 	{
-		auto component = std::make_shared<std::decay_t<T>>(std::forward<T>(componentToAdd));
 		component->SetGameObject(shared_from_this());
 		m_components.push_back(component);
 		component->Awake();

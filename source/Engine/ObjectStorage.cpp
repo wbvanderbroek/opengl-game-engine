@@ -1,10 +1,10 @@
 #include <algorithm> 
 
+#include <Engine/Components/Light.h>
+#include <Engine/Components/Model.h>
 #include <Engine/Config.h>
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
-#include <Engine/Light.h>
-#include <Engine/Model.h>
 #include <Engine/ObjectStorage.h>
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
@@ -32,16 +32,16 @@ void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
 void ObjectStorage::CreateDefaultScene()
 {
 	auto camera = Instantiate(GameObject());
-	camera->AddComponent(Camera());
+	camera->AddComponent(std::make_shared<Camera>());
 	camera->m_name = "Camera";
 
 	auto light = Instantiate(GameObject());
-	light->AddComponent(Light());
+	light->AddComponent(std::make_shared<Light>());
 	light->localPosition = glm::vec3(0, 10, 0);
 	light->m_name = "Light";
 
 	auto plane = Instantiate(GameObject());
-	plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
+	plane->AddComponent(std::make_shared<Model>("Assets/models/plane/plane.fbx"));
 	plane->SetLocalRotation(glm::vec3(270, 0, 0));
 	plane->localScale = glm::vec3(100, 100, 100);
 	plane->localPosition = glm::vec3(0, -10, 0);
@@ -235,8 +235,8 @@ void ObjectStorage::DeserializeComponent(std::shared_ptr<GameObject> gameObject,
 
 		if (type == "Model" && data.contains("modelPath") && data["modelPath"].is_string())
 		{
-			std::string model = data["modelPath"];
-			gameObject->AddComponent(Model(model));
+			std::string modelPath = data["modelPath"];
+			gameObject->AddComponent(std::make_shared<Model>(modelPath));
 		}
 		else if (type == "Light")
 		{
@@ -257,7 +257,7 @@ void ObjectStorage::DeserializeComponent(std::shared_ptr<GameObject> gameObject,
 				light.m_lightType = static_cast<LightType>(data["lightType"]);
 			}
 
-			gameObject->AddComponent(light);
+			gameObject->AddComponent(std::make_shared<Light>(light));
 		}
 		else if (type == "Camera")
 		{
@@ -278,7 +278,7 @@ void ObjectStorage::DeserializeComponent(std::shared_ptr<GameObject> gameObject,
 				camera.SetFarClip(data["farClip"]);
 			}
 
-			gameObject->AddComponent(camera);
+			gameObject->AddComponent(std::make_shared<Camera>(camera));
 		}
 	}
 }

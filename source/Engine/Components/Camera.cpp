@@ -1,4 +1,4 @@
-#include <Engine/Camera.h>
+#include <Engine/Components/Camera.h>
 #include <Engine/Engine.h>
 
 Camera::Camera()

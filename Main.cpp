@@ -1,6 +1,6 @@
+#include <Engine/Components/Model.h>
 #include <Engine/Config.h>
 #include <Engine/Engine.h>
-#include <Engine/Model.h>
 
 const unsigned int width = 800;
 const unsigned int height = 800;

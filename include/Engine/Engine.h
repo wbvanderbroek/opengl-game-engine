@@ -7,9 +7,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <Engine/Camera.h>
+#include <Engine/Components/Camera.h>
+#include <Engine/Components/Light.h>
 #include <Engine/EditorUI.h>
-#include <Engine/Light.h>
 #include <Engine/ObjectStorage.h>
 #include <Engine/Shader.h>
 

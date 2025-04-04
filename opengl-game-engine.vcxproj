@@ -149,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\Engine\Camera.cpp" />
+    <ClCompile Include="source\Engine\Components\Camera.cpp" />
     <ClCompile Include="source\Engine\EBO.cpp" />
     <ClCompile Include="source\Engine\EditorUI.cpp" />
     <ClCompile Include="source\Engine\Engine.cpp" />
@@ -160,11 +160,11 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\Engine\Light.cpp" />
+    <ClCompile Include="source\Engine\Components\Light.cpp" />
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="source\Engine\Mesh.cpp" />
-    <ClCompile Include="source\Engine\Model.cpp" />
+    <ClCompile Include="source\Engine\Components\Model.cpp" />
     <ClCompile Include="source\Engine\ObjectStorage.cpp" />
     <ClCompile Include="source\Engine\Shader.cpp" />
     <ClCompile Include="source\Engine\stb.cpp" />
@@ -178,8 +178,9 @@
     <None Include="Assets\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Engine\Camera.h" />
-    <ClInclude Include="include\Engine\Component.h" />
+    <ClInclude Include="include\Engine\Components\Camera.h" />
+    <ClInclude Include="include\Engine\Components\Component.h" />
+    <ClInclude Include="include\Engine\Components\ComponentRegistry.h" />
     <ClInclude Include="include\Engine\EBO.h" />
     <ClInclude Include="include\Engine\EditorUI.h" />
     <ClInclude Include="include\Engine\Engine.h" />
@@ -195,14 +196,14 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="include\Engine\Mesh.h" />
-    <ClInclude Include="include\Engine\Model.h" />
+    <ClInclude Include="include\Engine\Components\Model.h" />
     <ClInclude Include="include\Engine\ObjectStorage.h" />
     <ClInclude Include="include\Engine\resource.h" />
     <ClInclude Include="include\Engine\Shader.h" />
     <ClInclude Include="include\Engine\Texture.h" />
     <ClInclude Include="include\Engine\VAO.h" />
     <ClInclude Include="include\Engine\VBO.h" />
-    <ClInclude Include="include\Engine\Light.h" />
+    <ClInclude Include="include\Engine\Components\Light.h" />
     <ClInclude Include="include\Game\temp.h" />
   </ItemGroup>
   <ItemGroup>

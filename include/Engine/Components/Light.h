@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Component.h>
+#include <Engine/Components/Component.h>
 
 enum LightType
 {
@@ -20,3 +20,5 @@ public:
 
 	void Update(float deltaTime) override;
 };
+
+REGISTER_COMPONENT(Light)

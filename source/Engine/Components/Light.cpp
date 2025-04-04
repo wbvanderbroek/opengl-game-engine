@@ -1,5 +1,5 @@
+#include <Engine/Components/Light.h>
 #include <Engine/Engine.h>
-#include <Engine/Light.h>
 
 void Light::Update(float deltaTime)
 {

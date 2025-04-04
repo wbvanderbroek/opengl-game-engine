@@ -1,5 +1,5 @@
+#include <Engine/Components/Model.h>
 #include <Engine/Engine.h>
-#include <Engine/Model.h>
 #include <iostream>
 #include <stb/stb_image.h>
 

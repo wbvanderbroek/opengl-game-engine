@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/Components/ComponentRegistry.h>
 #include <glm/glm.hpp>
 #include <memory>
 

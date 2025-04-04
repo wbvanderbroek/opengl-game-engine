@@ -51,3 +51,5 @@ public:
 	inline float GetNearClip() const { return m_nearPlane; }
 	inline float GetFarClip() const { return m_farPlane; }
 };
+
+REGISTER_COMPONENT(Camera)

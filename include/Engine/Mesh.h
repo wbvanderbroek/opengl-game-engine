@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <Engine/Camera.h>
+#include <Engine/Components/Camera.h>
 #include <Engine/EBO.h>
 #include <Engine/Texture.h>
 #include <Engine/VAO.h>

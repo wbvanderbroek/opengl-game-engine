@@ -5,6 +5,7 @@
 
 #include <Engine/Camera.h>
 #include <Engine/Component.h>
+#include <Engine/ComponentRegistry.h>
 #include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
@@ -124,7 +125,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Plane"))
 				{
 					auto plane = m_engine->m_storage.Instantiate(GameObject());
-					plane->AddComponent(Model("Assets/models/plane/plane.fbx"));
+					plane->AddComponent(std::make_shared<Model>("Assets/models/plane/plane.fbx"));
 					plane->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = plane;
 				}
@@ -132,7 +133,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Building"))
 				{
 					auto building = m_engine->m_storage.Instantiate(GameObject());
-					building->AddComponent(Model("Assets/models/building/MetalMineBuilding.fbx"));
+					building->AddComponent(std::make_shared<Model>("Assets/models/building/MetalMineBuilding.fbx"));
 					building->SetLocalRotation(glm::vec3(270, 0, 180));
 					m_selectedObject = building;
 				}
@@ -140,7 +141,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Character"))
 				{
 					auto character = m_engine->m_storage.Instantiate(GameObject());
-					character->AddComponent(Model("Assets/models/character/char.fbx"));
+					character->AddComponent(std::make_shared<Model>("Assets/models/character/char.fbx"));
 					character->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = character;
 				}
@@ -153,7 +154,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Point Light"))
 				{
 					auto light = m_engine->m_storage.Instantiate(GameObject());
-					light->AddComponent(Light());
+					light->AddComponent(std::make_shared<Light>());
 					m_selectedObject = light;
 				}
 
@@ -163,7 +164,7 @@ void EditorUI::RenderMainMenuBar()
 			if (ImGui::MenuItem("Camera"))
 			{
 				auto camera = m_engine->m_storage.Instantiate(GameObject());
-				camera->AddComponent(Camera());
+				camera->AddComponent(std::make_shared<Camera>());
 				m_selectedObject = camera;
 			}
 
@@ -226,27 +227,17 @@ void EditorUI::RenderInspectorWindow()
 
 		if (ImGui::BeginPopup("AddComponentPopup"))
 		{
-			if (ImGui::Selectable("Model"))
+			for (const auto& [name, factory] : ComponentRegistry::Instance().GetRegistry())
 			{
-				if (m_selectedObject)
-					m_selectedObject->AddComponent(Model("Assets/models/plane/plane.fbx"));
-				ImGui::CloseCurrentPopup();
+				if (ImGui::Selectable(name.c_str()))
+				{
+					if (m_selectedObject)
+					{
+						m_selectedObject->AddComponent(factory());
+					}
+					ImGui::CloseCurrentPopup();
+				}
 			}
-
-			if (ImGui::Selectable("Light"))
-			{
-				if (m_selectedObject)
-					m_selectedObject->AddComponent(Light());
-				ImGui::CloseCurrentPopup();
-			}
-
-			if (ImGui::Selectable("Camera"))
-			{
-				if (m_selectedObject)
-					m_selectedObject->AddComponent(Camera());
-				ImGui::CloseCurrentPopup();
-			}
-
 			ImGui::EndPopup();
 		}
 
