@@ -1,5 +1,11 @@
 #include <Engine/Config.h>
 #include <Engine/Engine.h>
+#include <Engine/Scripting/ScriptBindings.h>
+#include <Engine/Scripting/ScriptEngine.h>
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/debug-helpers.h>
+#include <mono/metadata/mono-config.h>
 
 Engine::Engine(GLFWwindow* window)
 	: m_window(window),
@@ -7,9 +13,37 @@ Engine::Engine(GLFWwindow* window)
 	m_storage(this),
 	m_config(Config::Instance())
 {
-	// activate shaders but if lighting is not added to scene everything will still be black
+	// Init Mono and scripting system
+	mono_set_dirs("C:/Program Files/Mono/lib", "C:/Program Files/Mono/etc");  // Adjust path if needed
+	mono_config_parse(nullptr);
+
+	MonoDomain* domain = mono_jit_init("GameScriptDomain");
+	if (!domain)
+	{
+		std::cerr << "[Mono] Failed to initialize Mono JIT!" << std::endl;
+		return;
+	}
+
+	// Load C# assembly
+	MonoAssembly* assembly = mono_domain_assembly_open(domain, "Assets/Scripts/Scripts.dll");
+	if (!assembly)
+	{
+		std::cerr << "[Mono] Failed to load Scripts.dll!" << std::endl;
+		return;
+	}
+
+	// Register C++ internal calls for C# (e.g., transform.position)
+	RegisterScriptBindings();
+
+	// Store domain & image if needed globally
+	ScriptEngine::SetMonoDomain(domain);
+	ScriptEngine::SetAssembly(assembly);
+	ScriptEngine::SetImage(mono_assembly_get_image(assembly));
+
+	// Activate shaders
 	m_shaderProgram.Activate();
 
+	// Editor UI
 	if (m_config.m_mode == Mode::Editor)
 	{
 		m_config.m_editorUI = std::make_unique<EditorUI>(this);

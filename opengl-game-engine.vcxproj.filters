@@ -90,6 +90,9 @@
     <ClCompile Include="source\Game\temp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\Scripting\ScriptEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\default.vert">
@@ -181,7 +184,10 @@
     <ClInclude Include="include\Engine\Components\ComponentRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Engine\ScriptBindings.h">
+    <ClInclude Include="include\Engine\Scripting\ScriptBindings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine\Scripting\ScriptEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

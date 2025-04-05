@@ -1,1 +1,1 @@
-csc -target:library -out:Scripts.dll ScriptAPI.cs
+csc -target:library -out:Scripts.dll Vector3.cs Transform.cs
