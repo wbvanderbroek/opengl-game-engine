@@ -19,7 +19,6 @@ extern "C" {
 		}
 
 		glm::vec3 pos = go->GetLocalPosition();
-		std::cout << "[C++] get_position_Injected: " << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
 
 		out->x = pos.x;
 		out->y = pos.y;
@@ -36,7 +35,6 @@ extern "C" {
 		}
 
 		go->SetLocalPosition(glm::vec3(value.x, value.y, value.z));
-		std::cout << "[C++] set_position_Injected: " << value.x << ", " << value.y << ", " << value.z << std::endl;
 	}
 }
 

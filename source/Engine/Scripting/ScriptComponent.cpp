@@ -53,34 +53,43 @@ void ScriptComponent::Awake()
 		}
 	}
 
-	// Cache Update method if it exists
+	m_awakeMethod = mono_class_get_method_from_name(klass, "Awake", 0);
+	m_startMethod = mono_class_get_method_from_name(klass, "Start", 0);
 	m_updateMethod = mono_class_get_method_from_name(klass, "Update", 0);
+	m_lateUpdateMethod = mono_class_get_method_from_name(klass, "LateUpdate", 0);
+	m_onDestroyMethod = mono_class_get_method_from_name(klass, "OnDestroy", 0);
+	m_onQuitMethod = mono_class_get_method_from_name(klass, "OnQuit", 0);
 
-	std::cout << "[ScriptComponent] Script instance created: " << m_instance << std::endl;
-	if (!m_instance)
-	{
-		std::cerr << "[ScriptComponent] mono_object_new failed — m_instance is NULL" << std::endl;
-		return;
-	}
+	if (m_awakeMethod && m_instance)
+		mono_runtime_invoke(m_awakeMethod, m_instance, nullptr, nullptr);
 }
 
 void ScriptComponent::Start()
 {
-	if (!m_instance)
-	{
-		std::cerr << "[ScriptComponent] m_instance is null in Start()\n";
-		return;
-	}
-
-	MonoMethod* startMethod = mono_class_get_method_from_name(
-		mono_object_get_class(m_instance), "Start", 0);
-
-	if (startMethod)
-		mono_runtime_invoke(startMethod, m_instance, nullptr, nullptr);
+	if (m_startMethod && m_instance)
+		mono_runtime_invoke(m_startMethod, m_instance, nullptr, nullptr);
 }
 
 void ScriptComponent::Update(float deltaTime)
 {
 	if (m_updateMethod && m_instance)
 		mono_runtime_invoke(m_updateMethod, m_instance, nullptr, nullptr);
+}
+
+void ScriptComponent::LateUpdate(float deltaTime)
+{
+	if (m_lateUpdateMethod && m_instance)
+		mono_runtime_invoke(m_lateUpdateMethod, m_instance, nullptr, nullptr);
+}
+
+void ScriptComponent::OnDestroy()
+{
+	if (m_onDestroyMethod && m_instance)
+		mono_runtime_invoke(m_onDestroyMethod, m_instance, nullptr, nullptr);
+}
+
+void ScriptComponent::OnQuit()
+{
+	if (m_onQuitMethod && m_instance)
+		mono_runtime_invoke(m_onQuitMethod, m_instance, nullptr, nullptr);
 }

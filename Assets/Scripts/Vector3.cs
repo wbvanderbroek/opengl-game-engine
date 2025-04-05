@@ -13,5 +13,4 @@ namespace GameEngine
             this.z = z;
         }
     }
-
 }
