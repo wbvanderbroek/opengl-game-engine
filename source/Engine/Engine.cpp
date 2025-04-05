@@ -51,6 +51,8 @@ Engine::Engine(GLFWwindow* window)
 	}
 
 	glEnable(GL_DEPTH_TEST);
+
+	m_storage.LoadFirstScene();
 }
 
 void Engine::StartInternal()

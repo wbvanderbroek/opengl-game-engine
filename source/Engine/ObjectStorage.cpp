@@ -8,7 +8,16 @@
 #include <Engine/ObjectStorage.h>
 #include <Engine/Scripting/ScriptComponent.h>
 
-ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
+void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
+{
+	auto it = std::find(m_objects.begin(), m_objects.end(), object);
+	if (it != m_objects.end())
+	{
+		(*it)->OnDestroy();
+		m_objects.erase(it);
+	}
+}
+void ObjectStorage::LoadFirstScene()
 {
 	if (Config::Instance().m_mode == Mode::Editor)
 	{
@@ -19,17 +28,6 @@ ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 		LoadScene("Assets/Scenes/scene.json");
 	}
 }
-
-void ObjectStorage::RemoveGameObject(std::shared_ptr<GameObject> object)
-{
-	auto it = std::find(m_objects.begin(), m_objects.end(), object);
-	if (it != m_objects.end())
-	{
-		(*it)->OnDestroy();
-		m_objects.erase(it);
-	}
-}
-
 void ObjectStorage::CreateDefaultScene()
 {
 	auto camera = Instantiate(GameObject());
@@ -47,6 +45,8 @@ void ObjectStorage::CreateDefaultScene()
 	plane->localScale = glm::vec3(100, 100, 100);
 	plane->localPosition = glm::vec3(0, -10, 0);
 	plane->m_name = "Plane";
+
+	plane->AddComponent(std::make_shared<ScriptComponent>());
 }
 
 void ObjectStorage::SaveScene(const std::string& filename)

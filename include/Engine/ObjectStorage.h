@@ -26,11 +26,12 @@ private:
 	std::shared_ptr<Component> CreateComponentByType(const std::string& type);
 
 public:
-	ObjectStorage(Engine* engine);
+	ObjectStorage(Engine* engine) : m_engine(engine) {}
 
 	std::string m_currentScenePath = "";
 
 	void RemoveGameObject(std::shared_ptr<GameObject> object);
+	void LoadFirstScene();
 	void CreateDefaultScene();
 
 	template<typename T>

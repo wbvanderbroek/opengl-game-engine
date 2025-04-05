@@ -29,6 +29,7 @@ void ScriptComponent::Awake()
 	}
 
 	m_instance = mono_object_new(ScriptEngine::GetDomain(), klass);
+
 	mono_runtime_object_init(m_instance);
 
 	// Inject C++ native ptr into Transform instance
@@ -54,6 +55,13 @@ void ScriptComponent::Awake()
 
 	// Cache Update method if it exists
 	m_updateMethod = mono_class_get_method_from_name(klass, "Update", 0);
+
+	std::cout << "[ScriptComponent] Script instance created: " << m_instance << std::endl;
+	if (!m_instance)
+	{
+		std::cerr << "[ScriptComponent] mono_object_new failed — m_instance is NULL" << std::endl;
+		return;
+	}
 }
 
 void ScriptComponent::Start()

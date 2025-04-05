@@ -116,7 +116,6 @@ void EditorUI::RenderMainMenuBar()
 			if (ImGui::MenuItem("Create Empty", "Ctrl+Shift+N"))
 			{
 				auto newObject = m_engine->m_storage.Instantiate(GameObject());
-				newObject->OnCreate();
 				m_selectedObject = newObject;
 			}
 
