@@ -1,5 +1,5 @@
-#include <Engine/Components/Component.h>
 #include <Engine/GameObject.h>
+#include <Engine/Scripting/ScriptComponent.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <mono/metadata/assembly.h>
@@ -9,38 +9,45 @@ struct CS_Vector3 { float x, y, z; };
 
 extern "C" {
 
-	// INTERNAL CALL: Get Transform.position
 	void GameEngine_Transform_get_position_Injected(void* nativePtr, CS_Vector3* out)
 	{
-		auto* script = static_cast<Component*>(nativePtr);
-		if (!script || !script->m_gameObject) return;
+		auto* go = static_cast<GameObject*>(nativePtr);
+		if (!go)
+		{
+			std::cout << "[C++] GameObject is null in get_position_Injected" << std::endl;
+			return;
+		}
 
-		glm::vec3 pos = script->m_gameObject->GetLocalPosition();
+		glm::vec3 pos = go->GetLocalPosition();
+		std::cout << "[C++] get_position_Injected: " << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
+
 		out->x = pos.x;
 		out->y = pos.y;
 		out->z = pos.z;
-
-		std::cout << "[C++] get_position_Injected: " << out->x << ", " << out->y << ", " << out->z << std::endl;
 	}
 
-	// INTERNAL CALL: Set Transform.position
-	void GameEngine_Transform_set_position_Injected(void* nativePtr, CS_Vector3* value)
+	void GameEngine_Transform_set_position_Injected(void* nativePtr, CS_Vector3 value)
 	{
-		auto* script = static_cast<Component*>(nativePtr);
-		if (!script || !script->m_gameObject) return;
+		auto* go = static_cast<GameObject*>(nativePtr);
+		if (!go)
+		{
+			std::cout << "[C++] GameObject is null in set_position_Injected!" << std::endl;
+			return;
+		}
 
-		glm::vec3 pos(value->x, value->y, value->z);
-		script->m_gameObject->SetLocalPosition(pos);
-
-		std::cout << "[C++] set_position_Injected: " << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
+		go->SetLocalPosition(glm::vec3(value.x, value.y, value.z));
+		std::cout << "[C++] set_position_Injected: " << value.x << ", " << value.y << ", " << value.z << std::endl;
 	}
 }
+
+
 
 void RegisterTransformBindings()
 {
-	mono_add_internal_call("GameEngine.Transform::get_position_Injected", (const void*)GameEngine_Transform_get_position_Injected);
-	mono_add_internal_call("GameEngine.Transform::set_position_Injected", (const void*)GameEngine_Transform_set_position_Injected);
+	mono_add_internal_call("GameEngine.Transform::GameEngine_Transform_get_position_Injected", (const void*)GameEngine_Transform_get_position_Injected);
+	mono_add_internal_call("GameEngine.Transform::GameEngine_Transform_set_position_Injected", (const void*)GameEngine_Transform_set_position_Injected);
 }
+
 
 void RegisterScriptBindings()
 {

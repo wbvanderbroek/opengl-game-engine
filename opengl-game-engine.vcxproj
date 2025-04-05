@@ -166,6 +166,7 @@
     <ClCompile Include="source\Engine\Mesh.cpp" />
     <ClCompile Include="source\Engine\Components\Model.cpp" />
     <ClCompile Include="source\Engine\ObjectStorage.cpp" />
+    <ClCompile Include="source\Engine\Scripting\ScriptComponent.cpp" />
     <ClCompile Include="source\Engine\Scripting\ScriptEngine.cpp" />
     <ClCompile Include="source\Engine\Shader.cpp" />
     <ClCompile Include="source\Engine\stb.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="include\Engine\ObjectStorage.h" />
     <ClInclude Include="include\Engine\resource.h" />
     <ClInclude Include="include\Engine\Scripting\ScriptBindings.h" />
+    <ClInclude Include="include\Engine\Scripting\ScriptComponent.h" />
     <ClInclude Include="include\Engine\Scripting\ScriptEngine.h" />
     <ClInclude Include="include\Engine\Shader.h" />
     <ClInclude Include="include\Engine\Texture.h" />

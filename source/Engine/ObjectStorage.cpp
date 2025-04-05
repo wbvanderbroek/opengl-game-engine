@@ -6,6 +6,7 @@
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
 #include <Engine/ObjectStorage.h>
+#include <Engine/Scripting/ScriptComponent.h>
 
 ObjectStorage::ObjectStorage(Engine* engine) : m_engine(engine)
 {
