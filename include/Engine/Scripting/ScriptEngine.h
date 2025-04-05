@@ -6,6 +6,7 @@
 class ScriptEngine
 {
 public:
+	static void Initialize();
 	static void SetMonoDomain(MonoDomain* domain);
 	static void SetAssembly(MonoAssembly* assembly);
 	static void SetImage(MonoImage* image);
