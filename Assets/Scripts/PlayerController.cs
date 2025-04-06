@@ -4,12 +4,12 @@ public class PlayerController
 {
     public Transform transform { get; set; }
 
-    public void Start()
+    private void Start()
     {
         transform.position = new Vector3(3, 2, 1);
     }
 
-    public void Update()
+    private void Update()
     {
         var pos = transform.position;
         pos.x += 1;
