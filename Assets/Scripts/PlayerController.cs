@@ -1,5 +1,4 @@
 using GameEngine;
-using System;
 
 public class PlayerController
 {
@@ -15,10 +14,5 @@ public class PlayerController
         var pos = transform.position;
         pos.x += 1;
         transform.position = pos;
-    }
-
-    public void LateUpdate()
-    {
-        Console.WriteLine($"[C#] Position is: {transform.position.x}, {transform.position.y}, {transform.position.z}");
     }
 }

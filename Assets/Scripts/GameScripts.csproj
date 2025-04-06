@@ -6,9 +6,4 @@
     <AssemblyName>Scripts</AssemblyName>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="*.cs" />
-  </ItemGroup>
-
 </Project>
