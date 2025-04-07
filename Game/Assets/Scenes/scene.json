@@ -1,0 +1,108 @@
+{
+    "gameObjects": [
+        {
+            "children": [],
+            "components": [
+                {
+                    "farClip": 500.0,
+                    "fov": 45.0,
+                    "nearClip": 0.10000000149011612,
+                    "type": "Camera"
+                }
+            ],
+            "localPosition": [
+                -0.65498286485672,
+                34.04605484008789,
+                27.047531127929688
+            ],
+            "localRotation": [
+                -28.124935150146484,
+                -1.5,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "Camera"
+        },
+        {
+            "children": [],
+            "components": [
+                {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "lightType": 0,
+                    "type": "Light"
+                }
+            ],
+            "localPosition": [
+                0.0,
+                10.0,
+                0.0
+            ],
+            "localRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "Light"
+        },
+        {
+            "children": [],
+            "components": [
+                {
+                    "modelPath": "CoreAssets/models/plane/plane.fbx",
+                    "type": "Model"
+                }
+            ],
+            "localPosition": [
+                0.0,
+                2.0,
+                1.0
+            ],
+            "localRotation": [
+                270.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                100.0,
+                100.0,
+                100.0
+            ],
+            "name": "Plane"
+        },
+        {
+            "children": [],
+            "components": [],
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "GameObject"
+        }
+    ],
+    "version": 1
+}
