@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6079F6D3-1364-437B-AF71-E3827200B3EC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Game</RootNamespace>
+    <AssemblyName>Game</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Assets\models\building\MetalMineBuilding.fbx" />
+    <None Include="Assets\models\character\char.fbx" />
+    <None Include="Assets\models\door2\door.fbx" />
+    <None Include="Assets\models\door\door.bin" />
+    <None Include="Assets\models\door\door.gltf" />
+    <None Include="Assets\models\plane\plane.fbx" />
+    <None Include="Assets\Scenes\scene.json" />
+    <None Include="Assets\Scripts\compile.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\models\building\MetalIconRTS.png" />
+    <Content Include="Assets\models\building\resourcebuilding.png" />
+    <Content Include="Assets\models\building\StoneIconRTS.png" />
+    <Content Include="Assets\models\building\WoodIconRTS.png" />
+    <Content Include="Assets\models\character\VikingWorker.png" />
+    <Content Include="Assets\models\door2\doorTexture_baseColor.png" />
+    <Content Include="Assets\models\door\textures\doorTexture_baseColor.png" />
+    <Content Include="Assets\Scripts\Scripts.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Transform.cs" />
+    <Compile Include="Assets\Scripts\Vector3.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

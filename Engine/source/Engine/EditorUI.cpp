@@ -78,20 +78,20 @@ void EditorUI::RenderMainMenuBar()
 
 			if (ImGui::MenuItem("Open Scene", "Ctrl+O"))
 			{
-				m_engine->m_storage.LoadScene("Assets/Scenes/scene.json");
+				m_engine->m_storage.LoadScene("../Game/Assets/Scenes/scene.json");
 			}
 
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
 			{
 				if (m_engine->m_storage.m_currentScenePath.empty())
-					m_engine->m_storage.SaveScene("Assets/Scenes/scene.json");
+					m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
 				else
 					m_engine->m_storage.SaveScene(m_engine->m_storage.m_currentScenePath);
 			}
 
 			if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
 			{
-				m_engine->m_storage.SaveScene("Assets/Scenes/scene.json");
+				m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
 			}
 
 			ImGui::Separator();
@@ -124,7 +124,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Plane"))
 				{
 					auto plane = m_engine->m_storage.Instantiate(GameObject());
-					plane->AddComponent(std::make_shared<Model>("Assets/models/plane/plane.fbx"));
+					plane->AddComponent(std::make_shared<Model>("CoreAssets/models/plane/plane.fbx"));
 					plane->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = plane;
 				}
@@ -132,7 +132,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Building"))
 				{
 					auto building = m_engine->m_storage.Instantiate(GameObject());
-					building->AddComponent(std::make_shared<Model>("Assets/models/building/MetalMineBuilding.fbx"));
+					building->AddComponent(std::make_shared<Model>("CoreAssets/models/building/MetalMineBuilding.fbx"));
 					building->SetLocalRotation(glm::vec3(270, 0, 180));
 					m_selectedObject = building;
 				}
@@ -140,7 +140,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Character"))
 				{
 					auto character = m_engine->m_storage.Instantiate(GameObject());
-					character->AddComponent(std::make_shared<Model>("Assets/models/character/char.fbx"));
+					character->AddComponent(std::make_shared<Model>("CoreAssets/models/character/char.fbx"));
 					character->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = character;
 				}
@@ -360,9 +360,9 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 			{
 				static int modelIndex = 0;
 				const char* models[] = {
-					"Assets/models/plane/plane.fbx",
-					"Assets/models/building/MetalMineBuilding.fbx",
-					"Assets/models/character/char.fbx"
+					"CoreAssets/models/plane/plane.fbx",
+					"CoreAssets/models/building/MetalMineBuilding.fbx",
+					"CoreAssets/models/character/char.fbx"
 				};
 
 				modelIndex = (modelIndex + 1) % 3;

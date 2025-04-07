@@ -25,7 +25,7 @@ void ObjectStorage::LoadFirstScene()
 	}
 	else
 	{
-		LoadScene("Assets/Scenes/scene.json");
+		LoadScene("../Game/Assets/Scenes/scene.json");
 	}
 }
 void ObjectStorage::CreateDefaultScene()
@@ -40,7 +40,7 @@ void ObjectStorage::CreateDefaultScene()
 	light->m_name = "Light";
 
 	auto plane = Instantiate(GameObject());
-	plane->AddComponent(std::make_shared<Model>("Assets/models/plane/plane.fbx"));
+	plane->AddComponent(std::make_shared<Model>("CoreAssets/models/plane/plane.fbx"));
 	plane->SetLocalRotation(glm::vec3(270, 0, 0));
 	plane->localScale = glm::vec3(100, 100, 100);
 	plane->localPosition = glm::vec3(0, -10, 0);
@@ -288,7 +288,7 @@ std::shared_ptr<Component> ObjectStorage::CreateComponentByType(const std::strin
 {
 	if (type == "Model")
 	{
-		return std::make_shared<Model>("Assets/models/plane/plane.fbx");
+		return std::make_shared<Model>("CoreAssets/models/plane/plane.fbx");
 	}
 	else if (type == "Light")
 	{
