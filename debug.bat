@@ -2,11 +2,11 @@
 setlocal
 
 echo [INFO] Creating build folder (Debug)...
-if not exist build (
-    mkdir build
+if not exist Build (
+    mkdir Build
 )
 
-cd build
+cd Build
 
 echo [INFO] Running CMake configure (Debug mode)...
 cmake -DCMAKE_BUILD_TYPE=Debug ..

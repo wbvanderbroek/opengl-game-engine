@@ -2,11 +2,11 @@
 setlocal
 
 echo [INFO] Creating build folder (Release)...
-if not exist build (
-    mkdir build
+if not exist Build (
+    mkdir Build
 )
 
-cd build
+cd Build
 
 echo [INFO] Running CMake configure (Release mode)...
 cmake -DCMAKE_BUILD_TYPE=Release ..
