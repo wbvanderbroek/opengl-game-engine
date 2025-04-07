@@ -4,15 +4,17 @@ project(opengl-game-engine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(MONO_DIR "${CMAKE_SOURCE_DIR}/Engine/Mono")
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/Engine/include
     ${CMAKE_SOURCE_DIR}/Engine/Libraries/include
     ${CMAKE_SOURCE_DIR}/Engine/imgui
-    "C:/Program Files/Mono/include/mono-2.0"
+    "${MONO_DIR}/include/mono-2.0"
 )
 
 link_directories(${CMAKE_SOURCE_DIR}/Engine/Libraries/lib)
-link_directories("C:/Program Files/Mono/lib")
+link_directories("${MONO_DIR}/lib")
 
 file(GLOB_RECURSE ENGINE_SOURCES "Engine/source/Engine/*.cpp")
 file(GLOB IMGUI_SOURCES "Engine/imgui/*.cpp")
@@ -45,6 +47,15 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_SOURCE_DIR}/Engine/Libraries/dll/assimp-vc143-mt.dll"
         ${ENGINE_DIR}
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Engine/Mono
+        ${ENGINE_DIR}/Mono
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${MONO_DIR}/bin/mono-2.0-sgen.dll"
+        ${ENGINE_DIR}
+    
 
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/Engine/CoreAssets

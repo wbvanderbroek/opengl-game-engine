@@ -9,7 +9,7 @@
 void ScriptEngine::Initialize()
 {
 	// Init Mono and scripting system
-	mono_set_dirs("C:/Program Files/Mono/lib", "C:/Program Files/Mono/etc");  // Adjust path if needed
+	mono_set_dirs("Mono/lib", "Mono/etc");
 	mono_config_parse(nullptr);
 
 	MonoDomain* domain = mono_jit_init("GameScriptDomain");
