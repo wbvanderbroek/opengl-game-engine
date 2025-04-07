@@ -11,13 +11,13 @@
                 }
             ],
             "localPosition": [
-                -44.242774963378906,
-                51.976402282714844,
-                20.35865020751953
+                -0.65498286485672,
+                34.04605484008789,
+                27.047531127929688
             ],
             "localRotation": [
-                -34.24990463256836,
-                -55.99979782104492,
+                -28.124935150146484,
+                -1.5,
                 0.0
             ],
             "localScale": [
@@ -62,7 +62,7 @@
             "children": [],
             "components": [
                 {
-                    "modelPath": "Assets/models/plane/plane.fbx",
+                    "modelPath": "CoreAssets/models/plane/plane.fbx",
                     "type": "Model"
                 }
             ],
@@ -82,6 +82,26 @@
                 100.0
             ],
             "name": "Plane"
+        },
+        {
+            "children": [],
+            "components": [],
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "GameObject"
         }
     ],
     "version": 1

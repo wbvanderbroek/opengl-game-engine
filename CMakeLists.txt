@@ -31,16 +31,34 @@ target_link_libraries(opengl-game-engine
     mono-2.0-sgen
 )
 
-add_custom_command(TARGET opengl-game-engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/Engine/Assets
-        $<TARGET_FILE_DIR:opengl-game-engine>/Assets
-)
+set(OUTPUT_DIR $<TARGET_FILE_DIR:opengl-game-engine>)
+set(ENGINE_DIR ${OUTPUT_DIR}/Engine)
+set(GAME_DIR ${OUTPUT_DIR}/Game)
 
-if(WIN32)
-    add_custom_command(TARGET opengl-game-engine POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_SOURCE_DIR}/Engine/Libraries/dll/assimp-vc143-mt.dll"
-            "$<TARGET_FILE_DIR:opengl-game-engine>"
-    )
-endif()
+add_custom_command(TARGET opengl-game-engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${GAME_DIR}
+
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine.exe
+    COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/Engine/Libraries/dll/assimp-vc143-mt.dll"
+        ${ENGINE_DIR}
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Engine/CoreAssets
+        ${ENGINE_DIR}/CoreAssets
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Game/Assets
+        ${GAME_DIR}/Assets
+
+    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/run-game.bat
+    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/run-game.bat
+    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" >> ${OUTPUT_DIR}/run-game.bat
+
+    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/run-editor.bat
+    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/run-editor.bat
+    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" --editor >> ${OUTPUT_DIR}/run-editor.bat
+)
