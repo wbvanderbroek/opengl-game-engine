@@ -29,11 +29,15 @@ If you wish to run it in editor mode, go to the Engine project's properties > De
 ## Debug build using CMake
 
 Run `debug.bat`
-The build can be found at Build/Debug
+
+The build can be found at `Build/Debug`
+
 Simply run `editor.bat` or `game.bat` depending on what you want to use. 
 
 ## Release build using CMake
 
 Run `release.bat`
-The build can be found at Build/Release
+
+The build can be found at `Build/Release`
+
 Simply run `editor.bat` or `game.bat` depending on what you want to use. 
