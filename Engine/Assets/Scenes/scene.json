@@ -11,13 +11,13 @@
                 }
             ],
             "localPosition": [
-                0.0,
-                -1.8826019763946533,
-                0.0
+                -44.242774963378906,
+                51.976402282714844,
+                20.35865020751953
             ],
             "localRotation": [
-                0.0,
-                0.0,
+                -34.24990463256836,
+                -55.99979782104492,
                 0.0
             ],
             "localScale": [
@@ -68,8 +68,8 @@
             ],
             "localPosition": [
                 0.0,
-                -10.0,
-                0.0
+                2.0,
+                1.0
             ],
             "localRotation": [
                 270.0,
@@ -82,77 +82,6 @@
                 100.0
             ],
             "name": "Plane"
-        },
-        {
-            "children": [],
-            "components": [],
-            "localPosition": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localRotation": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localScale": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "name": "GameObject"
-        },
-        {
-            "children": [],
-            "components": [
-                {
-                    "color": [
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "lightType": 0,
-                    "type": "Light"
-                },
-                {
-                    "color": [
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "lightType": 0,
-                    "type": "Light"
-                },
-                {
-                    "color": [
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "lightType": 0,
-                    "type": "Light"
-                }
-            ],
-            "localPosition": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localRotation": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localScale": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "name": "GameObjec111t"
         }
     ],
     "version": 1

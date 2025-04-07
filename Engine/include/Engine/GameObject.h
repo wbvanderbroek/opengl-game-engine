@@ -39,11 +39,6 @@ public:
 
 	virtual void OnCreate()
 	{
-		for (auto& component : m_components)
-		{
-			if (component->m_runInEditor || m_config.m_mode == Mode::Game)
-				component->Awake();
-		}
 		for (auto& child : m_children)
 			child->OnCreate();
 	}
@@ -123,7 +118,8 @@ public:
 	{
 		component->SetGameObject(shared_from_this());
 		m_components.push_back(component);
-		component->Awake();
+		if (component->m_runInEditor || m_config.m_mode == Mode::Game)
+			component->Awake();
 	}
 
 	void RemoveComponent(const std::shared_ptr<Component>& componentToRemove)
