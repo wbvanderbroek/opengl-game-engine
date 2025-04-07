@@ -65,11 +65,11 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
         ${CMAKE_SOURCE_DIR}/Game/Assets
         ${GAME_DIR}/Assets
 
-    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/run-game.bat
-    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/run-game.bat
-    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" >> ${OUTPUT_DIR}/run-game.bat
+    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/game.bat
+    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/game.bat
+    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" >> ${OUTPUT_DIR}/game.bat
 
-    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/run-editor.bat
-    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/run-editor.bat
-    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" --editor >> ${OUTPUT_DIR}/run-editor.bat
+    COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/editor.bat
+    COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/editor.bat
+    COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" --editor >> ${OUTPUT_DIR}/editor.bat
 )
