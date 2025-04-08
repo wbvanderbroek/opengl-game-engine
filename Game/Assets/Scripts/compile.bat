@@ -1,1 +1,3 @@
-csc -target:library -out:Scripts.dll Vector3.cs Transform.cs PlayerController.cs
+csc -target:library -out:"..\..\..\Engine\CoreAssets\Scripting\Scripts.dll" -reference:"..\..\..\Engine\CoreAssets\Scripting\GameEngine.dll" PlayerController.cs
+
+

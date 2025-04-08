@@ -20,7 +20,7 @@ void ScriptEngine::Initialize()
 	}
 
 	// Load C# assembly
-	MonoAssembly* assembly = mono_domain_assembly_open(domain, "../Game/Assets/Scripts/Scripts.dll");
+	MonoAssembly* assembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/GameEngine.dll");
 	if (!assembly)
 	{
 		std::cerr << "[Mono] Failed to load Scripts.dll!" << std::endl;
