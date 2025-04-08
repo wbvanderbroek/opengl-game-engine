@@ -16,7 +16,13 @@ This engine makes use of a set of libraries:
 
 ## Support
 
-There is currently only support for Windows
+There is currently only support for Windows.
+
+If you wish to get some autocomplete and info in Visual Studio please see the VisualStudioExtension subproject. 
+
+It will build to a VSIX file, this is Visual Studio's extension file format. To install it simply open the VSIX file and follow the installation process. 
+
+Because of this extension it is highly recommended that you use Visual Studio for this project.
 
 ## Install
 
