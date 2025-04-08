@@ -9,8 +9,9 @@ void ScriptComponent::Awake()
 	else
 		std::cout << "[ScriptComponent] GameObject assigned in Awake()" << std::endl;
 
-	MonoImage* image = ScriptEngine::GetImage();
-	if (!image) return;
+	MonoImage* scriptImage = ScriptEngine::GetScriptsImage();       // Scripts.dll
+	MonoImage* engineImage = ScriptEngine::GetEngineImage(); // GameEngine.dll
+	if (!scriptImage || !engineImage) return;
 
 	// Get the script class (e.g., Game.PlayerController)
 	std::string ns = "";
@@ -22,7 +23,7 @@ void ScriptComponent::Awake()
 		className = m_className.substr(dot + 1);
 	}
 
-	MonoClass* klass = mono_class_from_name(image, ns.c_str(), className.c_str());
+	MonoClass* klass = mono_class_from_name(scriptImage, ns.c_str(), className.c_str());
 	if (!klass) {
 		std::cerr << "[ScriptComponent] Could not find class: " << m_className << std::endl;
 		return;
@@ -33,7 +34,7 @@ void ScriptComponent::Awake()
 	mono_runtime_object_init(m_instance);
 
 	// Inject C++ native ptr into Transform instance
-	MonoClass* transformClass = mono_class_from_name(image, "GameEngine", "Transform");
+	MonoClass* transformClass = mono_class_from_name(engineImage, "GameEngine", "Transform");
 	MonoObject* transformInstance = mono_object_new(ScriptEngine::GetDomain(), transformClass);
 	mono_runtime_object_init(transformInstance);
 

@@ -8,8 +8,8 @@
 
 void ScriptEngine::Initialize()
 {
-	// Init Mono and scripting system
 	mono_set_dirs("Mono/lib", "Mono/etc");
+	mono_set_assemblies_path("CoreAssets/Scripting");
 	mono_config_parse(nullptr);
 
 	MonoDomain* domain = mono_jit_init("GameScriptDomain");
@@ -19,21 +19,26 @@ void ScriptEngine::Initialize()
 		return;
 	}
 
-	// Load C# assembly
-	MonoAssembly* assembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/GameEngine.dll");
-	if (!assembly)
+	MonoAssembly* engineAssembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/GameEngine.dll");
+	if (!engineAssembly)
+	{
+		std::cerr << "[Mono] Failed to load GameEngine.dll!" << std::endl;
+		return;
+	}
+
+	MonoAssembly* scriptsAssembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/Scripts.dll");
+	if (!scriptsAssembly)
 	{
 		std::cerr << "[Mono] Failed to load Scripts.dll!" << std::endl;
 		return;
 	}
 
-	// Register C++ internal calls for C# (e.g., transform.position)
 	RegisterScriptBindings();
 
-	// Store domain & image if needed globally
 	ScriptEngine::SetMonoDomain(domain);
-	ScriptEngine::SetAssembly(assembly);
-	ScriptEngine::SetImage(mono_assembly_get_image(assembly));
+	ScriptEngine::SetAssembly(scriptsAssembly); // Scripts will be the "main" assembly
+	ScriptEngine::SetScriptsImage(mono_assembly_get_image(scriptsAssembly));
+	ScriptEngine::SetEngineImage(mono_assembly_get_image(engineAssembly));
 }
 
 void ScriptEngine::SetMonoDomain(MonoDomain* domain)
@@ -46,9 +51,9 @@ void ScriptEngine::SetAssembly(MonoAssembly* assembly)
 	s_assembly = assembly;
 }
 
-void ScriptEngine::SetImage(MonoImage* image)
+void ScriptEngine::SetScriptsImage(MonoImage* image)
 {
-	s_image = image;
+	s_scriptsImage = image;
 }
 
 MonoDomain* ScriptEngine::GetDomain()
@@ -61,7 +66,17 @@ MonoAssembly* ScriptEngine::GetAssembly()
 	return s_assembly;
 }
 
-MonoImage* ScriptEngine::GetImage()
+MonoImage* ScriptEngine::GetScriptsImage()
 {
-	return s_image;
+	return s_scriptsImage;
+}
+
+void ScriptEngine::SetEngineImage(MonoImage* image)
+{
+	s_engineImage = image;
+}
+
+MonoImage* ScriptEngine::GetEngineImage()
+{
+	return s_engineImage;
 }
