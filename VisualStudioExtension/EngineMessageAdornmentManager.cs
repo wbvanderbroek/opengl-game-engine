@@ -52,7 +52,6 @@ namespace VisualStudioExtension
         }
         private bool IsExactEngineMethodDeclaration(string lineText, string method)
         {
-            // Simplify: ignore case, trim extra whitespace
             var text = lineText.Trim();
 
             // Must contain 'void MethodName(' exactly (not preceded/followed by other text)
@@ -68,15 +67,12 @@ namespace VisualStudioExtension
             if (methodIndex == -1)
                 return false;
 
-            // Check that the char after method is a (
             int nameStart = text.IndexOf(method);
             int nameEnd = nameStart + method.Length;
 
-            // Check that next char is (
             if (nameEnd >= text.Length || text[nameEnd] != '(')
                 return false;
 
-            // Optional: check that char before "void" is space or start of line
             return true;
         }
 
@@ -97,7 +93,6 @@ namespace VisualStudioExtension
             var nextPoint = new SnapshotPoint(snapshot, snapshot.GetLineFromLineNumber(methodLine.Start.GetContainingLine().LineNumber + 1).Start.Position);
             var nextLine = _view.GetTextViewLineContainingBufferPosition(nextPoint);
 
-            // Fallback if next line isn’t loaded
             if (nextLine == null)
                 return;
 
@@ -112,7 +107,7 @@ namespace VisualStudioExtension
 
             textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
-            double x = charBounds.Right + 6; // same horizontal alignment
+            double x = charBounds.Right + 6;
             double y = nextLine.Top - nextLine.Height;
 
             Canvas.SetLeft(textBlock, x);
