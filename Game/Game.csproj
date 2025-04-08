@@ -55,5 +55,10 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerController.cs" />
   </ItemGroup>
+  <ItemGroup>
+  <Reference Include="GameEngine">
+    <HintPath>..\Engine\CoreAssets\Scripting\GameEngine.dll</HintPath>
+  </Reference>
+</ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

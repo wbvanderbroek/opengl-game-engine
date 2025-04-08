@@ -1,4 +1,3 @@
-
-csc -target:library -out:GameEngine.dll Transform.cs Vector3.cs
+csc -target:library -out:..\Engine\CoreAssets\Scripting\GameEngine.dll Transform.cs Vector3.cs
 
 
