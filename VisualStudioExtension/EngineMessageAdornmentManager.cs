@@ -25,6 +25,9 @@ namespace VisualStudioExtension
 
         private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
+            if (!ActivationState.IsActive)
+                return;
+
             _layer.RemoveAllAdornments();
 
             foreach (var line in _view.TextViewLines)

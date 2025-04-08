@@ -14,9 +14,6 @@ namespace VisualStudioExtension
     {
         public IAsyncQuickInfoSource TryCreateQuickInfoSource(ITextBuffer textBuffer)
         {
-            if (!ActivationCheck.ShouldActivate())
-                return null;
-
             return new EngineMessageQuickInfoSource(textBuffer);
         }
     }
@@ -32,6 +29,9 @@ namespace VisualStudioExtension
 
         public async Task<QuickInfoItem> GetQuickInfoItemAsync(IAsyncQuickInfoSession session, CancellationToken cancellationToken)
         {
+            if (!ActivationState.IsActive)
+                return null;
+
             var triggerPoint = session.GetTriggerPoint(buffer);
             if (triggerPoint == null)
                 return null;

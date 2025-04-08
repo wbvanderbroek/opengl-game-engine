@@ -11,8 +11,6 @@ namespace VisualStudioExtension
     {
         public void TextViewCreated(IWpfTextView textView)
         {
-            if (!ActivationCheck.ShouldActivate())
-                return;
             _ = new EngineMessageAdornmentManager(textView);
         }
     }

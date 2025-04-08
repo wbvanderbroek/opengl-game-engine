@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion;
 using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion.Data;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
@@ -53,12 +54,61 @@ namespace VisualStudioExtension
         /// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
         /// <param name="progress">A provider for progress updates.</param>
         /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
+        private Events _events;
+        private SolutionEvents _solutionEvents;
+        private DocumentEvents _documentEvents;
+        private WindowEvents _windowEvents;
+
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            Debug.WriteLine("InitializePackage");
-            // When initialized asynchronously, the current thread may be a background thread at this point.
-            // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            _events = dte.Events;
+
+            _documentEvents = _events.DocumentEvents;
+            _solutionEvents = _events.SolutionEvents;
+            _windowEvents = _events.WindowEvents;
+
+            _documentEvents.DocumentOpened += OnDocumentChanged;
+            _documentEvents.DocumentSaved += OnDocumentChanged;
+            _solutionEvents.Opened += OnSolutionOpened;
+            _solutionEvents.ProjectAdded += OnProjectAdded;
+            _solutionEvents.ProjectRemoved += OnProjectRemoved;
+            _solutionEvents.ProjectRenamed += OnProjectRenamed;
+            _windowEvents.WindowActivated += OnWindowActivated;
+
+            ActivationState.Update();
+        }
+
+        private void OnDocumentChanged(Document document)
+        {
+            ActivationState.Update();
+        }
+
+        private void OnSolutionOpened()
+        {
+            ActivationState.Update();
+        }
+
+        private void OnProjectAdded(Project project)
+        {
+            ActivationState.Update();
+        }
+
+        private void OnProjectRemoved(Project project)
+        {
+            ActivationState.Update();
+        }
+
+        private void OnProjectRenamed(Project project, string oldName)
+        {
+            ActivationState.Update();
+        }
+
+        private void OnWindowActivated(Window gotFocus, Window lostFocus)
+        {
+            ActivationState.Update();
         }
 
         #endregion
@@ -71,11 +121,6 @@ namespace VisualStudioExtension
     {
         public IAsyncCompletionSource GetOrCreate(ITextView textView)
         {
-            Debug.WriteLine("InitializePackage2");
-
-            if (!ActivationCheck.ShouldActivate())
-                return null;
-
             return new EngineAsyncCompletionSource();
         }
     }
@@ -89,6 +134,9 @@ namespace VisualStudioExtension
             SnapshotSpan applicableToSpan,
             CancellationToken cancellationToken)
         {
+            if (!ActivationState.IsActive)
+                return null;
+
             string fullText = applicableToSpan.GetText().Trim();
             string[] tokens = fullText.Split(new[] { ' ', '\t', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             string typedText = tokens.Length > 0 ? tokens[tokens.Length - 1] : string.Empty;
