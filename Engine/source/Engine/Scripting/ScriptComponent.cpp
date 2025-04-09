@@ -4,26 +4,20 @@
 
 void ScriptComponent::Awake()
 {
-	if (!m_gameObject)
-		std::cout << "[ScriptComponent] m_gameObject is NULL in Awake()" << std::endl;
-	else
-		std::cout << "[ScriptComponent] GameObject assigned in Awake()" << std::endl;
-
-	MonoImage* scriptImage = ScriptEngine::GetScriptsImage();       // Scripts.dll
+	MonoImage* scriptImage = ScriptEngine::GetScriptsImage(); // Game.dll
 	MonoImage* engineImage = ScriptEngine::GetEngineImage(); // GameEngine.dll
 	if (!scriptImage || !engineImage) return;
 
-	// Get the script class (e.g., Game.PlayerController)
-	std::string ns = "";
+	std::string nameSpace = "";
 	std::string className = m_className;
 
 	auto dot = m_className.find_last_of('.');
 	if (dot != std::string::npos) {
-		ns = m_className.substr(0, dot);
+		nameSpace = m_className.substr(0, dot);
 		className = m_className.substr(dot + 1);
 	}
 
-	MonoClass* klass = mono_class_from_name(scriptImage, ns.c_str(), className.c_str());
+	MonoClass* klass = mono_class_from_name(scriptImage, nameSpace.c_str(), className.c_str());
 	if (!klass) {
 		std::cerr << "[ScriptComponent] Could not find class: " << m_className << std::endl;
 		return;
