@@ -1,9 +1,7 @@
 using GameEngine;
 
-public class PlayerController
+public class PlayerController : Component
 {
-    public Transform transform { get; set; }
-
     private void Start()
     {
         transform.position = new Vector3(3, 2, 1);
