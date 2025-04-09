@@ -27,26 +27,7 @@ void ScriptComponent::Awake()
 
 	mono_runtime_object_init(m_instance);
 
-	// Inject C++ native ptr into Transform instance
-	MonoClass* transformClass = mono_class_from_name(engineImage, "GameEngine", "Transform");
-	MonoObject* transformInstance = mono_object_new(ScriptEngine::GetDomain(), transformClass);
-	mono_runtime_object_init(transformInstance);
-
-	MonoClassField* nativeField = mono_class_get_field_from_name(transformClass, "m_nativePtr");
-	mono_field_set_value(transformInstance, nativeField, &m_gameObject);
-
-	// Assign Transform instance to C# script's 'transform' property
-	MonoProperty* transformProp = mono_class_get_property_from_name(klass, "transform");
-	if (transformProp)
-	{
-		void* args[1] = { transformInstance };
-		MonoMethod* setter = mono_property_get_set_method(transformProp);
-		if (setter)
-		{
-			mono_runtime_invoke(setter, m_instance, args, nullptr);
-			std::cout << "[ScriptComponent] Transform injected into script" << std::endl;
-		}
-	}
+	InsertTransform(*engineImage, *klass);
 
 	m_awakeMethod = mono_class_get_method_from_name(klass, "Awake", 0);
 	m_startMethod = mono_class_get_method_from_name(klass, "Start", 0);
@@ -57,6 +38,30 @@ void ScriptComponent::Awake()
 
 	if (m_awakeMethod && m_instance)
 		mono_runtime_invoke(m_awakeMethod, m_instance, nullptr, nullptr);
+}
+
+void ScriptComponent::InsertTransform(MonoImage& engineImage, MonoClass& klass)
+{
+	// Inject C++ native ptr into Transform instance
+	MonoClass* transformClass = mono_class_from_name(&engineImage, "GameEngine", "Transform");
+	MonoObject* transformInstance = mono_object_new(ScriptEngine::GetDomain(), transformClass);
+	mono_runtime_object_init(transformInstance);
+
+	MonoClassField* nativeField = mono_class_get_field_from_name(transformClass, "m_nativePtr");
+	mono_field_set_value(transformInstance, nativeField, &m_gameObject);
+
+	// Assign Transform instance to C# script's 'transform' property
+	MonoProperty* transformProp = mono_class_get_property_from_name(&klass, "transform");
+	if (transformProp)
+	{
+		void* args[1] = { transformInstance };
+		MonoMethod* setter = mono_property_get_set_method(transformProp);
+		if (setter)
+		{
+			mono_runtime_invoke(setter, m_instance, args, nullptr);
+			std::cout << "[ScriptComponent] Transform injected into script" << std::endl;
+		}
+	}
 }
 
 void ScriptComponent::Start()

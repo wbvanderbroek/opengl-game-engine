@@ -26,6 +26,8 @@ public:
 		m_runInEditor = true;
 	}
 
+	void InsertTransform(MonoImage& engineImage, MonoClass& klass);
+
 	void Awake() override;
 	void Start() override;
 	void Update(float deltaTime) override;
