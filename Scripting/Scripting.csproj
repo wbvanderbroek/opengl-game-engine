@@ -5,9 +5,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{41E20906-E0F4-4A18-8D0A-7A537B6D6697}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Scripting</RootNamespace>
-    <AssemblyName>Scripting</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GameEngine</RootNamespace>
+    <AssemblyName>GameEngine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -36,8 +36,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Vector3.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PostBuild" AfterTargets="Build">
+  <Copy 
+    SourceFiles="$(TargetPath)" 
+    DestinationFolder="$(ProjectDir)..\Engine\CoreAssets\Scripting\" 
+    SkipUnchangedFiles="true" />
+</Target>
 </Project>
