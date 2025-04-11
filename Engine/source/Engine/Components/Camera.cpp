@@ -93,6 +93,9 @@ void Camera::Inputs(float deltaTime)
 		m_gameObject->localRotation.x += glm::radians(-rotX);
 		m_gameObject->localRotation.y += glm::radians(-rotY);
 
+
+		m_gameObject->localRotation.x = glm::clamp(m_gameObject->localRotation.x, m_minPitch, m_maxPitch);
+
 		glfwSetCursorPos(m_window, (m_windowWidth / 2), (m_windowHeight / 2));
 	}
 }

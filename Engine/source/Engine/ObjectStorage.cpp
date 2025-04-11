@@ -45,8 +45,6 @@ void ObjectStorage::CreateDefaultScene()
 	plane->localScale = glm::vec3(100, 100, 100);
 	plane->localPosition = glm::vec3(0, -10, 0);
 	plane->m_name = "Plane";
-
-	plane->AddComponent(std::make_shared<ScriptComponent>());
 }
 
 void ObjectStorage::SaveScene(const std::string& filename)

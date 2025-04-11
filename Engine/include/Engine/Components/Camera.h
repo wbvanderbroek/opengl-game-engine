@@ -26,6 +26,8 @@ public:
 	float m_nearPlane = 0.1f;
 	float m_farPlane = 500.0f;
 	float m_mouseSensitivity = 100.0f;
+	float m_maxPitch = glm::radians(89.9f);
+	float m_minPitch = glm::radians(-89.9f);
 
 	int m_windowWidth;
 	int m_windowHeight;
