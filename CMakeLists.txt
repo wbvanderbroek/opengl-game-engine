@@ -48,9 +48,22 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
         "${CMAKE_SOURCE_DIR}/Engine/Libraries/dll/assimp-vc143-mt.dll"
         ${ENGINE_DIR}
 
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/Engine/Mono
-        ${ENGINE_DIR}/Mono
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}/Mono/bin
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}/Mono/etc
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}/Mono/lib/mono
+
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${MONO_DIR}/bin
+            ${ENGINE_DIR}/Mono/bin
+        
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${MONO_DIR}/etc
+            ${ENGINE_DIR}/Mono/etc
+
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${MONO_DIR}/lib/mono/4.5
+            ${ENGINE_DIR}/Mono/lib/mono/4.5
+        
 
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${MONO_DIR}/bin/mono-2.0-sgen.dll"
