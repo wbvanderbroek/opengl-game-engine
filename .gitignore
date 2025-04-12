@@ -400,4 +400,5 @@ FodyWeavers.xsd
 
 
 Build/
+build/
 !Engine/Mono/bin

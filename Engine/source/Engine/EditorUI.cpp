@@ -201,7 +201,7 @@ void EditorUI::RenderInspectorWindow()
 	if (m_selectedObject)
 	{
 		char buffer[256];
-		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		strncpy(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
 		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
 		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
