@@ -53,6 +53,7 @@ elseif(UNIX)
         /usr/lib/x86_64-linux-gnu
         /usr/local/lib
     )   
+endif()
 
 
 target_link_libraries(opengl-game-engine ${MONO_LIB})
@@ -65,8 +66,7 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GAME_DIR}
 
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine
-    COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
+
 
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/CoreAssets ${ENGINE_DIR}/CoreAssets
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Game/Assets ${GAME_DIR}/Assets
@@ -77,9 +77,13 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${MONO_DIR}/bin/mono-2.0-sgen.dll" ${ENGINE_DIR}
 
     )
-endif()
+if (UNIX)
+    add_custom_command(TARGET opengl-game-engine POST_BUILD
 
-if(WIN32)
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine
+    COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
+    )
+elseif(WIN32)
     add_custom_command(TARGET opengl-game-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine.exe
         COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
