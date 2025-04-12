@@ -201,7 +201,13 @@ void EditorUI::RenderInspectorWindow()
 	if (m_selectedObject)
 	{
 		char buffer[256];
+		//TODO: Apple support
+		#ifdef _WIN32
 		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		#endif
+		#ifdef __linux__
+		strncpy(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		#endif
 		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
 		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
