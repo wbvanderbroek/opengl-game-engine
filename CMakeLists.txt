@@ -66,38 +66,21 @@ add_custom_command(TARGET opengl-game-engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GAME_DIR}
 
-
-
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/CoreAssets ${ENGINE_DIR}/CoreAssets
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Game/Assets ${GAME_DIR}/Assets
     COMMAND ${CMAKE_COMMAND} -E make_directory ${ENGINE_DIR}/Mono/lib/mono
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${MONO_DIR}/bin ${ENGINE_DIR}/Mono/bin
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${MONO_DIR}/etc ${ENGINE_DIR}/Mono/etc
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${MONO_DIR}/lib/mono/4.5 ${ENGINE_DIR}/Mono/lib/mono/4.5
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${MONO_DIR}/bin/mono-2.0-sgen.dll" ${ENGINE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${MONO_DIR}/bin/mono-2.0-sgen.dll" ${OUTPUT_DIR}
 
     )
-if (UNIX)
-    add_custom_command(TARGET opengl-game-engine POST_BUILD
 
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine
-    COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
-    )
-elseif(WIN32)
+if(WIN32)
     add_custom_command(TARGET opengl-game-engine POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:opengl-game-engine> ${ENGINE_DIR}/opengl-game-engine.exe
-        COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE:opengl-game-engine>
 
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${CMAKE_SOURCE_DIR}/Engine/Libraries/dll/assimp-vc143-mt.dll"
-            ${ENGINE_DIR}
-
-        COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/game.bat
-        COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/game.bat
-        COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" >> ${OUTPUT_DIR}/game.bat
-
-        COMMAND ${CMAKE_COMMAND} -E echo @echo off > ${OUTPUT_DIR}/editor.bat
-        COMMAND ${CMAKE_COMMAND} -E echo cd /d %%~dp0Engine >> ${OUTPUT_DIR}/editor.bat
-        COMMAND ${CMAKE_COMMAND} -E echo start \"\" \"opengl-game-engine.exe\" --editor >> ${OUTPUT_DIR}/editor.bat
+            ${OUTPUT_DIR}
     )
 endif()

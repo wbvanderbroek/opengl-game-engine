@@ -8,8 +8,8 @@
 
 void ScriptEngine::Initialize()
 {
-	mono_set_dirs("Mono/lib", "Mono/etc");
-	mono_set_assemblies_path("CoreAssets/Scripting");
+	mono_set_dirs("Engine/Mono/lib", "Engine/Mono/etc");
+	mono_set_assemblies_path("Engine/CoreAssets/Scripting");
 	mono_config_parse(nullptr);
 
 	MonoDomain* domain = mono_jit_init("GameScriptDomain");
@@ -19,14 +19,14 @@ void ScriptEngine::Initialize()
 		return;
 	}
 
-	MonoAssembly* engineAssembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/GameEngine.dll");
+	MonoAssembly* engineAssembly = mono_domain_assembly_open(domain, "Engine/CoreAssets/Scripting/GameEngine.dll");
 	if (!engineAssembly)
 	{
 		std::cerr << "[Mono] Failed to load GameEngine.dll!" << std::endl;
 		return;
 	}
 
-	MonoAssembly* scriptsAssembly = mono_domain_assembly_open(domain, "CoreAssets/Scripting/Game.dll");
+	MonoAssembly* scriptsAssembly = mono_domain_assembly_open(domain, "Engine/CoreAssets/Scripting/Game.dll");
 	if (!scriptsAssembly)
 	{
 		std::cerr << "[Mono] Failed to load Scripts.dll!" << std::endl;
