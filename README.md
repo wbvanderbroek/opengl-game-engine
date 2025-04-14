@@ -26,7 +26,9 @@ Because of this extension it is highly recommended that you use Visual Studio fo
 
 ## Install
 
-If you want to run it in Visual Studio then go to the Engine project's properties > Debugging > Environment and set it to `PATH=%PATH%;$(SolutionDir)\Engine\Libraries\dll`
+If you want to run it in Visual Studio then go to the Engine project's properties > Debugging
+ - Environment > and set it to `PATH=%PATH%;$(SolutionDir)\Engine\Libraries\dll`
+ - Working Directory > and set it to `$(SolutionDir)`
 
 Now you should be able to run it inside of Visual Studio.
 

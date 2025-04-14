@@ -13,7 +13,7 @@
 class Model : public Component
 {
 public:
-	Model(const std::string& path = "CoreAssets/models/plane/plane.fbx") : m_modelPath(path)
+	Model(const std::string& path = "Engine/CoreAssets/Models/plane/plane.fbx") : m_modelPath(path)
 	{
 		m_runInEditor = true;
 		LoadModel(path);

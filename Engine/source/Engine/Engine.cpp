@@ -4,7 +4,7 @@
 
 Engine::Engine(GLFWwindow* window)
 	: m_window(window),
-	m_shaderProgram("CoreAssets/Shaders/default.vert", "CoreAssets/Shaders/default.frag"),
+	m_shaderProgram("Engine/CoreAssets/Shaders/default.vert", "Engine/CoreAssets/Shaders/default.frag"),
 	m_storage(this),
 	m_config(Config::Instance())
 {

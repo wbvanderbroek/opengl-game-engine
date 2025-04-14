@@ -124,7 +124,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Plane"))
 				{
 					auto plane = m_engine->m_storage.Instantiate(GameObject());
-					plane->AddComponent(std::make_shared<Model>("CoreAssets/models/plane/plane.fbx"));
+					plane->AddComponent(std::make_shared<Model>("Engine/CoreAssets/Models/plane/plane.fbx"));
 					plane->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = plane;
 				}
@@ -132,7 +132,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Building"))
 				{
 					auto building = m_engine->m_storage.Instantiate(GameObject());
-					building->AddComponent(std::make_shared<Model>("CoreAssets/models/building/MetalMineBuilding.fbx"));
+					building->AddComponent(std::make_shared<Model>("Engine/CoreAssets/Models/building/MetalMineBuilding.fbx"));
 					building->SetLocalRotation(glm::vec3(270, 0, 180));
 					m_selectedObject = building;
 				}
@@ -140,7 +140,7 @@ void EditorUI::RenderMainMenuBar()
 				if (ImGui::MenuItem("Character"))
 				{
 					auto character = m_engine->m_storage.Instantiate(GameObject());
-					character->AddComponent(std::make_shared<Model>("CoreAssets/models/character/char.fbx"));
+					character->AddComponent(std::make_shared<Model>("Engine/CoreAssets/Models/character/char.fbx"));
 					character->SetLocalRotation(glm::vec3(270, 0, 0));
 					m_selectedObject = character;
 				}
@@ -201,7 +201,13 @@ void EditorUI::RenderInspectorWindow()
 	if (m_selectedObject)
 	{
 		char buffer[256];
+		//TODO: Apple support
+		#ifdef _WIN32
 		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		#endif
+		#ifdef __linux__
+		strncpy(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
+		#endif
 		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
 		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
@@ -360,9 +366,9 @@ void EditorUI::DisplayComponent(std::shared_ptr<Component> component)
 			{
 				static int modelIndex = 0;
 				const char* models[] = {
-					"CoreAssets/models/plane/plane.fbx",
-					"CoreAssets/models/building/MetalMineBuilding.fbx",
-					"CoreAssets/models/character/char.fbx"
+					"Engine/CoreAssets/Models/plane/plane.fbx",
+					"Engine/CoreAssets/Models/building/MetalMineBuilding.fbx",
+					"Engine/CoreAssets/Models/character/char.fbx"
 				};
 
 				modelIndex = (modelIndex + 1) % 3;
