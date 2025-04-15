@@ -25,6 +25,13 @@ public:
 
 	void Initialize(GLFWwindow* window);
 	void Render();
+	ImVec2 GetSceneViewSize();
+	unsigned int GetGameFramebuffer();
+	int GetGameViewWidth();
+	int GetGameViewHeight();
+	unsigned int GetGameFramebuffer() const;
+	unsigned int GetGameTexture() const;
+	unsigned int GetGameDepthBuffer() const;
 	void Shutdown();
 
 	// Framebuffer for Game View
@@ -34,10 +41,6 @@ public:
 
 	ImVec2 m_sceneViewSize = { 1280, 720 };
 	ImVec2 m_sceneViewPos = { 0, 0 };
-
-	GLuint GetGameFramebuffer() const { return m_gameFramebuffer; }
-	int GetGameViewWidth() const { return static_cast<int>(m_sceneViewSize.x); }
-	int GetGameViewHeight() const { return static_cast<int>(m_sceneViewSize.y); }
 
 private:
 	Engine* m_engine;

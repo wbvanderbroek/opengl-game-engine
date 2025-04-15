@@ -55,7 +55,6 @@ void EditorUI::Render()
 
 	RenderMainMenuBar();
 
-
 	static float leftPanelWidth = 300.0f;
 	const float splitterWidth = 6.0f;
 
@@ -64,7 +63,6 @@ void EditorUI::Render()
 	float topOffset = 20.0f;
 	float contentHeight = viewport.y - topOffset;
 
-	// ----------------- Begin full-window invisible layout -----------------
 	ImGui::SetNextWindowPos(ImVec2(0, 20));
 	ImGui::SetNextWindowSize(ImVec2(viewport.x, contentHeight));
 	ImGui::Begin("##EditorRoot", nullptr,
@@ -74,12 +72,12 @@ void EditorUI::Render()
 		ImGuiWindowFlags_NoScrollWithMouse |
 		ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-	// Hierarchy
+	// --- Hierarchy ---
 	ImGui::BeginChild("Hierarchy", ImVec2(leftPanelWidth, contentHeight), true);
 	RenderHierarchyWindow();
 	ImGui::EndChild();
 
-	// Splitter
+	// --- Splitter ---
 	ImGui::SameLine();
 	ImGui::InvisibleButton("##Splitter", ImVec2(splitterWidth, contentHeight));
 	if (ImGui::IsItemActive())
@@ -89,34 +87,25 @@ void EditorUI::Render()
 	}
 	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-
 	ImGui::GetWindowDrawList()->AddRectFilled(
 		ImGui::GetItemRectMin(),
 		ImGui::GetItemRectMax(),
 		IM_COL32(150, 150, 150, 255)
 	);
 
-	// Scene View
+	// --- Scene View ---
 	ImGui::SameLine();
 	ImGui::BeginChild("Scene", ImVec2(viewport.x - leftPanelWidth - splitterWidth - inspectorWidth, contentHeight), true);
 
-	ImVec2 newSize = ImGui::GetContentRegionAvail();
-	if ((int)newSize.x != (int)m_sceneViewSize.x || (int)newSize.y != (int)m_sceneViewSize.y)
-	{
-		m_sceneViewSize = newSize;
-		glBindTexture(GL_TEXTURE_2D, m_gameTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (int)m_sceneViewSize.x, (int)m_sceneViewSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (int)m_sceneViewSize.x, (int)m_sceneViewSize.y);
-	}
-	m_engine->UpdateCameraSize((int)m_sceneViewSize.x, (int)m_sceneViewSize.y);
-	m_sceneViewSize = newSize;
+	m_sceneViewSize = ImGui::GetContentRegionAvail();
 	m_sceneViewPos = ImGui::GetCursorScreenPos();
-	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture, m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture,
+		m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::EndChild();
 
-	// Inspector
+	// --- Inspector ---
 	ImGui::SameLine();
 	ImGui::BeginChild("Inspector", ImVec2(0, contentHeight), true);
 	RenderInspectorWindow();
@@ -124,11 +113,33 @@ void EditorUI::Render()
 
 	ImGui::End(); // ##EditorRoot
 
-
-
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+ImVec2 EditorUI::GetSceneViewSize()
+{
+	return m_sceneViewSize;
+}
+
+unsigned int EditorUI::GetGameFramebuffer()
+{
+	return m_gameFramebuffer;
+}
+
+int EditorUI::GetGameViewWidth()
+{
+	return static_cast<int>(m_sceneViewSize.x);
+}
+
+int EditorUI::GetGameViewHeight()
+{
+	return static_cast<int>(m_sceneViewSize.y);
+}
+
+unsigned int EditorUI::GetGameFramebuffer() const { return m_gameFramebuffer; }
+unsigned int EditorUI::GetGameTexture() const { return m_gameTexture; }
+unsigned int EditorUI::GetGameDepthBuffer() const { return m_gameDepthBuffer; }
 
 
 void EditorUI::Shutdown()
