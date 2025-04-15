@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <glad/glad.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -25,6 +26,18 @@ public:
 	void Initialize(GLFWwindow* window);
 	void Render();
 	void Shutdown();
+
+	// Framebuffer for Game View
+	GLuint m_gameFramebuffer = 0;
+	GLuint m_gameTexture = 0;
+	GLuint m_gameDepthBuffer = 0;
+
+	ImVec2 m_sceneViewSize = { 1280, 720 };
+	ImVec2 m_sceneViewPos = { 0, 0 };
+
+	GLuint GetGameFramebuffer() const { return m_gameFramebuffer; }
+	int GetGameViewWidth() const { return static_cast<int>(m_sceneViewSize.x); }
+	int GetGameViewHeight() const { return static_cast<int>(m_sceneViewSize.y); }
 
 private:
 	Engine* m_engine;

@@ -24,6 +24,27 @@ void EditorUI::Initialize(GLFWwindow* window)
 
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
+
+
+	glGenFramebuffers(1, &m_gameFramebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gameFramebuffer);
+
+	glGenTextures(1, &m_gameTexture);
+	glBindTexture(GL_TEXTURE_2D, m_gameTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_sceneViewSize.x, m_sceneViewSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_gameTexture, 0);
+
+	glGenRenderbuffers(1, &m_gameDepthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_sceneViewSize.x, m_sceneViewSize.y);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_gameDepthBuffer);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cerr << "Game framebuffer is not complete!" << std::endl;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void EditorUI::Render()
@@ -34,28 +55,81 @@ void EditorUI::Render()
 
 	RenderMainMenuBar();
 
-	ImVec2 viewportSize = ImGui::GetIO().DisplaySize;
 
-	float panelWidth = viewportSize.x * 0.2f;
-	float inspectorWidth = viewportSize.x * 0.25f;
+	static float leftPanelWidth = 300.0f;
+	const float splitterWidth = 6.0f;
 
-	// Hierarchy Window (left)
+	ImVec2 viewport = ImGui::GetMainViewport()->Size;
+	float inspectorWidth = viewport.x * 0.25f;
+	float topOffset = 20.0f;
+	float contentHeight = viewport.y - topOffset;
+
+	// ----------------- Begin full-window invisible layout -----------------
 	ImGui::SetNextWindowPos(ImVec2(0, 20));
-	ImGui::SetNextWindowSize(ImVec2(panelWidth, viewportSize.y - 20));
-	if (m_showHierarchy) RenderHierarchyWindow();
+	ImGui::SetNextWindowSize(ImVec2(viewport.x, contentHeight));
+	ImGui::Begin("##EditorRoot", nullptr,
+		ImGuiWindowFlags_NoDecoration |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoScrollWithMouse |
+		ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-	//// Game View (middle)
-	//ImGui::SetNextWindowPos(ImVec2(panelWidth, 20));
-	//ImGui::SetNextWindowSize(ImVec2(viewportSize.x - panelWidth - inspectorWidth, viewportSize.y - 20));
+	// Hierarchy
+	ImGui::BeginChild("Hierarchy", ImVec2(leftPanelWidth, contentHeight), true);
+	RenderHierarchyWindow();
+	ImGui::EndChild();
 
-	// Inspector (right)
-	ImGui::SetNextWindowPos(ImVec2(viewportSize.x - inspectorWidth, 20));
-	ImGui::SetNextWindowSize(ImVec2(inspectorWidth, viewportSize.y - 20));
-	if (m_showInspector) RenderInspectorWindow();
+	// Splitter
+	ImGui::SameLine();
+	ImGui::InvisibleButton("##Splitter", ImVec2(splitterWidth, contentHeight));
+	if (ImGui::IsItemActive())
+	{
+		float delta = ImGui::GetIO().MouseDelta.x;
+		leftPanelWidth = std::clamp(leftPanelWidth + delta, 100.0f, viewport.x - inspectorWidth - 100.0f);
+	}
+	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetItemRectMin(),
+		ImGui::GetItemRectMax(),
+		IM_COL32(150, 150, 150, 255)
+	);
+
+	// Scene View
+	ImGui::SameLine();
+	ImGui::BeginChild("Scene", ImVec2(viewport.x - leftPanelWidth - splitterWidth - inspectorWidth, contentHeight), true);
+
+	ImVec2 newSize = ImGui::GetContentRegionAvail();
+	if ((int)newSize.x != (int)m_sceneViewSize.x || (int)newSize.y != (int)m_sceneViewSize.y)
+	{
+		m_sceneViewSize = newSize;
+		glBindTexture(GL_TEXTURE_2D, m_gameTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (int)m_sceneViewSize.x, (int)m_sceneViewSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (int)m_sceneViewSize.x, (int)m_sceneViewSize.y);
+	}
+	m_engine->UpdateCameraSize((int)m_sceneViewSize.x, (int)m_sceneViewSize.y);
+	m_sceneViewSize = newSize;
+	m_sceneViewPos = ImGui::GetCursorScreenPos();
+	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture, m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	ImGui::EndChild();
+
+	// Inspector
+	ImGui::SameLine();
+	ImGui::BeginChild("Inspector", ImVec2(0, contentHeight), true);
+	RenderInspectorWindow();
+	ImGui::EndChild();
+
+	ImGui::End(); // ##EditorRoot
+
+
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
 
 void EditorUI::Shutdown()
 {
@@ -176,7 +250,7 @@ void EditorUI::RenderMainMenuBar()
 
 void EditorUI::RenderHierarchyWindow()
 {
-	ImGui::Begin("Hierarchy", &m_showHierarchy);
+	if (!m_showHierarchy) return;
 
 	if (ButtonCenteredOnLine("Create Game Object"))
 	{
@@ -190,24 +264,22 @@ void EditorUI::RenderHierarchyWindow()
 	{
 		DisplayGameObject(gameObject);
 	}
-
-	ImGui::End();
 }
 
 void EditorUI::RenderInspectorWindow()
 {
-	ImGui::Begin("Inspector", &m_showInspector);
+	if (!m_showInspector) return;
 
 	if (m_selectedObject)
 	{
 		char buffer[256];
 		//TODO: Apple support
-		#ifdef _WIN32
+#ifdef _WIN32
 		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
-		#endif
-		#ifdef __linux__
+#endif
+#ifdef __linux__
 		strncpy(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
-		#endif
+#endif
 		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
 		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
@@ -258,7 +330,6 @@ void EditorUI::RenderInspectorWindow()
 		ImGui::Text("No GameObject selected");
 	}
 
-	ImGui::End();
 }
 
 void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)

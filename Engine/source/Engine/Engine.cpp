@@ -1,4 +1,5 @@
 #include <Engine/Config.h>
+#include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/Scripting/ScriptEngine.h>
 
@@ -34,6 +35,9 @@ void Engine::StartInternal()
 
 void Engine::UpdateInternal()
 {
+	if (m_config.m_mode == Mode::Editor)
+		UpdateCameraSize(m_config.m_editorUI->GetGameViewWidth(), m_config.m_editorUI->GetGameViewHeight());
+
 	m_activeLights.clear();
 	static auto lastTime = std::chrono::high_resolution_clock::now();
 	static int frameCount = 0;
@@ -45,17 +49,35 @@ void Engine::UpdateInternal()
 
 	UpdateLighting();
 
-	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
+	if (m_config.m_mode == Mode::Editor)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_config.m_editorUI->GetGameFramebuffer());
+		glViewport(0, 0, m_config.m_editorUI->GetGameViewWidth(), m_config.m_editorUI->GetGameViewHeight());
+	}
+
+	glClearColor(0.1f, 0.5f, 0.7f, 1.0f); // blue-ish game background
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// SCENE DRAWING
 	for (auto& obj : m_storage.m_objects)
 		obj->LateUpdate(deltaTime);
 
+	// Unbind framebuffer, back to screen
+	if (m_config.m_mode == Mode::Editor)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		int windowWidth, windowHeight;
+		glfwGetFramebufferSize(m_window, &windowWidth, &windowHeight);
+		glViewport(0, 0, windowWidth, windowHeight);
+	}
+
+	// Now render ImGui to the screen
 	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+
 
 	// Fps calculator
 	frameCount++;
