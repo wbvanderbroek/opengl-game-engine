@@ -2,8 +2,8 @@
 #include <Engine/Config.h>
 #include <Engine/Engine.h>
 
-const unsigned int width = 800;
-const unsigned int height = 800;
+const unsigned int width = 1920;
+const unsigned int height = 1080;
 
 bool isFullscreen = false;
 bool f11Pressed = false;

@@ -150,20 +150,20 @@ void EditorUI::RenderMainMenuBar()
 
 			if (ImGui::MenuItem("Open Scene", "Ctrl+O"))
 			{
-				m_engine->m_storage.LoadScene("../Game/Assets/Scenes/scene.json");
+				m_engine->m_storage.LoadScene("Game/Assets/Scenes/scene.json");
 			}
 
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
 			{
 				if (m_engine->m_storage.m_currentScenePath.empty())
-					m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
+					m_engine->m_storage.SaveScene("Game/Assets/Scenes/scene.json");
 				else
 					m_engine->m_storage.SaveScene(m_engine->m_storage.m_currentScenePath);
 			}
 
 			if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
 			{
-				m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
+				m_engine->m_storage.SaveScene("Game/Assets/Scenes/scene.json");
 			}
 
 			ImGui::Separator();

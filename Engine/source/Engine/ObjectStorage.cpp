@@ -25,7 +25,7 @@ void ObjectStorage::LoadFirstScene()
 	}
 	else
 	{
-		LoadScene("../Game/Assets/Scenes/scene.json");
+		LoadScene("Game/Assets/Scenes/scene.json");
 	}
 }
 void ObjectStorage::CreateDefaultScene()

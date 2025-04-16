@@ -1,5 +1,4 @@
 #include <Engine/Config.h>
-#include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/Scripting/ScriptEngine.h>
 
