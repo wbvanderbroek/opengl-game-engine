@@ -3,46 +3,26 @@
 #include <iostream>
 #include <stb/stb_image.h>
 
-#ifdef __linux__
-#include <unistd.h>  // For getcwd() on Linux
-#include <limits.h>  // For PATH_MAX constant
-#endif
-
 void Model::LoadModel(const std::string& path)
 {
-    // Create platform-independent file path
-    std::string filePath = path;
-    
-    #ifdef __linux__
-        // Debug output to verify the current working directory on Linux
-        char currentDir[PATH_MAX];
-        if (getcwd(currentDir, sizeof(currentDir)) != NULL) {
-            std::cout << "Current working directory: " << currentDir << std::endl;
-        }
-        
-        // You might need to modify the path for Linux
-        // e.g., adding the full path or adjusting relative paths
-    #endif
-    
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
-    
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-    {
-        std::cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
-        std::cerr << "Failed to load file: " << filePath << std::endl;
-        return;
-    }
-    
-    m_modelPath = filePath;
-    
-    // Ensure consistent path separator for directory extraction
-    size_t lastSlash = filePath.find_last_of("/\\");
-    if (lastSlash != std::string::npos) {
-        m_directory = filePath.substr(0, lastSlash);
-    }
-    
-    ProcessNode(scene->mRootNode, scene);
+	m_modelPath = path;
+
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(m_modelPath, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+		std::cerr << "Failed to load file: " << m_modelPath << std::endl;
+		return;
+	}
+
+	size_t lastSlash = m_modelPath.find_last_of("/\\");
+	if (lastSlash != std::string::npos) {
+		m_directory = m_modelPath.substr(0, lastSlash);
+	}
+
+	ProcessNode(scene->mRootNode, scene);
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
