@@ -36,34 +36,7 @@ void Engine::StartInternal()
 void Engine::UpdateInternal()
 {
 	if (m_config.m_mode == Mode::Editor)
-	{
-		ImVec2 sceneSize = m_config.m_editorUI->m_sceneViewSize;
-
-		static int lastW = 0;
-		static int lastH = 0;
-
-		int newW = static_cast<int>(sceneSize.x);
-		int newH = static_cast<int>(sceneSize.y);
-
-		if (newW > 0 && newH > 0 && (newW != lastW || newH != lastH))
-		{
-			lastW = newW;
-			lastH = newH;
-
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-			glBindTexture(GL_TEXTURE_2D, m_config.m_editorUI->m_gameTexture);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newW, newH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-
-			glBindRenderbuffer(GL_RENDERBUFFER, m_config.m_editorUI->m_gameDepthBuffer);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, newW, newH);
-
-			m_camera->SetDimensions(newW, newH);
-		}
-
-		glBindFramebuffer(GL_FRAMEBUFFER, m_config.m_editorUI->m_gameFramebuffer);
-		glViewport(0, 0, newW, newH);
-	}
+		m_config.m_editorUI->PreUpdate();
 
 	m_activeLights.clear();
 	static auto lastTime = std::chrono::high_resolution_clock::now();
@@ -87,10 +60,9 @@ void Engine::UpdateInternal()
 		int windowWidth, windowHeight;
 		glfwGetFramebufferSize(m_window, &windowWidth, &windowHeight);
 		glViewport(0, 0, windowWidth, windowHeight);
-	}
 
-	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Render();
+	}
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();

@@ -24,22 +24,25 @@ public:
 	std::shared_ptr<GameObject> m_selectedObject;
 
 	void Initialize(GLFWwindow* window);
+	void PreUpdate();
 	void Render();
 	void Shutdown();
 
-	// Framebuffer for Game View
+
+
+private:
+	Engine* m_engine;
+
+	bool m_showHierarchy = true;
+	bool m_showInspector = true;
+	std::string m_newGameObjectName = "New GameObject";
+
 	GLuint m_gameFramebuffer = 0;
 	GLuint m_gameTexture = 0;
 	GLuint m_gameDepthBuffer = 0;
 
 	ImVec2 m_sceneViewSize = { 1280, 720 };
 	ImVec2 m_sceneViewPos = { 0, 0 };
-
-private:
-	Engine* m_engine;
-	bool m_showHierarchy = true;
-	bool m_showInspector = true;
-	std::string m_newGameObjectName = "New GameObject";
 
 	void RenderMainMenuBar();
 	void RenderHierarchyWindow();

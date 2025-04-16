@@ -8,6 +8,7 @@
 #include <Engine/Components/ComponentRegistry.h>
 #include <Engine/Components/Light.h>
 #include <Engine/Components/Model.h>
+#include <Engine/Config.h>
 #include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
@@ -45,6 +46,36 @@ void EditorUI::Initialize(GLFWwindow* window)
 		std::cerr << "Game framebuffer is not complete!" << std::endl;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void EditorUI::PreUpdate()
+{
+	ImVec2 sceneSize = m_sceneViewSize;
+
+	static int lastW = 0;
+	static int lastH = 0;
+
+	int newW = static_cast<int>(sceneSize.x);
+	int newH = static_cast<int>(sceneSize.y);
+
+	if (newW > 0 && newH > 0 && (newW != lastW || newH != lastH))
+	{
+		lastW = newW;
+		lastH = newH;
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glBindTexture(GL_TEXTURE_2D, m_gameTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newW, newH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+		glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, newW, newH);
+
+		m_engine->UpdateCameraSize(newW, newH);
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gameFramebuffer);
+	glViewport(0, 0, newW, newH);
 }
 
 void EditorUI::Render()
