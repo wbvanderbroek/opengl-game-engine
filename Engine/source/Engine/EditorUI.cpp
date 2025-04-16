@@ -104,12 +104,12 @@ void EditorUI::Render()
 
 	float minPanelWidth = 100.0f;
 	float maxLeftPanelWidth = viewport.x - m_inspectorWidth - m_splitterWidth - minPanelWidth;
-	RenderSplitter("Left", m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth, contentHeight);
+	RenderSplitter("Left", m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth, contentHeight, false);
 
 	RenderSceneView(contentHeight, m_inspectorWidth, viewport.x);
 
 	float maxInspectorWidth = viewport.x - m_leftPanelWidth - m_splitterWidth - minPanelWidth;
-	RenderSplitter("Right", m_inspectorWidth, minPanelWidth, maxInspectorWidth, contentHeight);
+	RenderSplitter("Right", m_inspectorWidth, minPanelWidth, maxInspectorWidth, contentHeight, true);
 
 	RenderInspectorWindow(contentHeight);
 
@@ -317,17 +317,22 @@ void EditorUI::RenderInspectorWindow(float contentHeight)
 	ImGui::EndChild();
 }
 
-void EditorUI::RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height)
+void EditorUI::RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height, bool invertDelta)
 {
 	ImGui::SameLine();
-	std::string splitterId = std::string("##Splitter") + id;
-	ImGui::InvisibleButton(splitterId.c_str(), ImVec2(m_splitterWidth, height));
+	ImGui::PushID(id);
+
+	ImGui::InvisibleButton("splitter", ImVec2(m_splitterWidth, height));
 
 	if (ImGui::IsItemActive())
 	{
 		float delta = ImGui::GetIO().MouseDelta.x;
+		if (invertDelta)
+			delta = -delta;
+
 		targetWidth = std::clamp(targetWidth + delta, minWidth, maxWidth);
 	}
+
 	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
 
@@ -336,6 +341,8 @@ void EditorUI::RenderSplitter(const char* id, float& targetWidth, float minWidth
 		ImGui::GetItemRectMax(),
 		IM_COL32(150, 150, 150, 255)
 	);
+
+	ImGui::PopID();
 }
 
 void EditorUI::RenderSceneView(float contentHeight, float inspectorWidth, float viewportX)

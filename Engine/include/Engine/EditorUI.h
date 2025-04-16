@@ -47,7 +47,7 @@ private:
 	void RenderMainMenuBar();
 	void RenderHierarchyWindow(float contentHeight);
 	void RenderInspectorWindow(float contentHeight);
-	void RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height);
+	void RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height, bool invertDelta = false);
 	void RenderSceneView(float contentHeight, float inspectorWidth, float viewportX);
 	void DisplayGameObject(std::shared_ptr<GameObject> gameObject);
 	void DisplayTransformComponent(std::shared_ptr<GameObject> gameObject);
