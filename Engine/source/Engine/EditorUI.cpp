@@ -117,31 +117,6 @@ void EditorUI::Render()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-ImVec2 EditorUI::GetSceneViewSize()
-{
-	return m_sceneViewSize;
-}
-
-unsigned int EditorUI::GetGameFramebuffer()
-{
-	return m_gameFramebuffer;
-}
-
-int EditorUI::GetGameViewWidth()
-{
-	return static_cast<int>(m_sceneViewSize.x);
-}
-
-int EditorUI::GetGameViewHeight()
-{
-	return static_cast<int>(m_sceneViewSize.y);
-}
-
-unsigned int EditorUI::GetGameFramebuffer() const { return m_gameFramebuffer; }
-unsigned int EditorUI::GetGameTexture() const { return m_gameTexture; }
-unsigned int EditorUI::GetGameDepthBuffer() const { return m_gameDepthBuffer; }
-
-
 void EditorUI::Shutdown()
 {
 	ImGui_ImplOpenGL3_Shutdown();

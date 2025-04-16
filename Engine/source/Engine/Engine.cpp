@@ -37,8 +37,7 @@ void Engine::UpdateInternal()
 {
 	if (m_config.m_mode == Mode::Editor)
 	{
-		// --- Resize the framebuffer if the Scene View size changed ---
-		ImVec2 sceneSize = m_config.m_editorUI->GetSceneViewSize();
+		ImVec2 sceneSize = m_config.m_editorUI->m_sceneViewSize;
 
 		static int lastW = 0;
 		static int lastH = 0;
@@ -53,40 +52,35 @@ void Engine::UpdateInternal()
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			glBindTexture(GL_TEXTURE_2D, m_config.m_editorUI->GetGameTexture());
+			glBindTexture(GL_TEXTURE_2D, m_config.m_editorUI->m_gameTexture);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newW, newH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 
-			glBindRenderbuffer(GL_RENDERBUFFER, m_config.m_editorUI->GetGameDepthBuffer());
+			glBindRenderbuffer(GL_RENDERBUFFER, m_config.m_editorUI->m_gameDepthBuffer);
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, newW, newH);
 
 			m_camera->SetDimensions(newW, newH);
 		}
 
-		// --- Bind and render to framebuffer ---
-		glBindFramebuffer(GL_FRAMEBUFFER, m_config.m_editorUI->GetGameFramebuffer());
+		glBindFramebuffer(GL_FRAMEBUFFER, m_config.m_editorUI->m_gameFramebuffer);
 		glViewport(0, 0, newW, newH);
 	}
 
-	// --- Timing ---
 	m_activeLights.clear();
 	static auto lastTime = std::chrono::high_resolution_clock::now();
 	static int frameCount = 0;
 	float deltaTime = CalculateDeltaTime();
 
-	// --- Update Logic ---
 	for (auto& obj : m_storage.m_objects)
 		obj->Update(deltaTime);
 
 	UpdateLighting();
 
-	// --- Scene rendering ---
 	glClearColor(0.1f, 0.5f, 0.7f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto& obj : m_storage.m_objects)
 		obj->LateUpdate(deltaTime);
 
-	// --- Unbind framebuffer ---
 	if (m_config.m_mode == Mode::Editor)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -95,14 +89,12 @@ void Engine::UpdateInternal()
 		glViewport(0, 0, windowWidth, windowHeight);
 	}
 
-	// --- Draw UI ---
 	if (m_config.m_mode == Mode::Editor)
 		m_config.m_editorUI->Render();
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
 
-	// --- FPS counter ---
 	frameCount++;
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	float elapsed = std::chrono::duration<float>(currentTime - lastTime).count();

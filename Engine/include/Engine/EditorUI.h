@@ -25,13 +25,6 @@ public:
 
 	void Initialize(GLFWwindow* window);
 	void Render();
-	ImVec2 GetSceneViewSize();
-	unsigned int GetGameFramebuffer();
-	int GetGameViewWidth();
-	int GetGameViewHeight();
-	unsigned int GetGameFramebuffer() const;
-	unsigned int GetGameTexture() const;
-	unsigned int GetGameDepthBuffer() const;
 	void Shutdown();
 
 	// Framebuffer for Game View
