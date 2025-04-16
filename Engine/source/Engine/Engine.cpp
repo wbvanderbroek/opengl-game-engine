@@ -9,10 +9,9 @@ Engine::Engine(GLFWwindow* window)
 	m_config(Config::Instance())
 {
 	ScriptEngine::Initialize();
-	// Activate shaders
+
 	m_shaderProgram.Activate();
 
-	// Editor UI
 	if (m_config.m_mode == Mode::Editor)
 	{
 		m_config.m_editorUI = std::make_unique<EditorUI>(this);
@@ -34,10 +33,12 @@ void Engine::StartInternal()
 
 void Engine::UpdateInternal()
 {
+	if (m_config.m_mode == Mode::Editor)
+		m_config.m_editorUI->PreUpdate();
+
 	m_activeLights.clear();
 	static auto lastTime = std::chrono::high_resolution_clock::now();
 	static int frameCount = 0;
-
 	float deltaTime = CalculateDeltaTime();
 
 	for (auto& obj : m_storage.m_objects)
@@ -60,7 +61,7 @@ void Engine::UpdateInternal()
 	// Fps calculator
 	frameCount++;
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	float elapsedTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - lastTime).count();
+	float elapsedTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
 	if (elapsedTime >= 1.0f)
 	{

@@ -8,6 +8,7 @@
 #include <Engine/Components/ComponentRegistry.h>
 #include <Engine/Components/Light.h>
 #include <Engine/Components/Model.h>
+#include <Engine/Config.h>
 #include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/GameObject.h>
@@ -15,6 +16,7 @@
 
 void EditorUI::Initialize(GLFWwindow* window)
 {
+	m_window = window;
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -24,6 +26,57 @@ void EditorUI::Initialize(GLFWwindow* window)
 
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
+
+
+	glGenFramebuffers(1, &m_gameFramebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gameFramebuffer);
+
+	glGenTextures(1, &m_gameTexture);
+	glBindTexture(GL_TEXTURE_2D, m_gameTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_sceneViewSize.x, m_sceneViewSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_gameTexture, 0);
+
+	glGenRenderbuffers(1, &m_gameDepthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_sceneViewSize.x, m_sceneViewSize.y);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_gameDepthBuffer);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cerr << "Game framebuffer is not complete!" << std::endl;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void EditorUI::PreUpdate()
+{
+	ImVec2 sceneSize = m_sceneViewSize;
+
+	static int lastW = 0;
+	static int lastH = 0;
+
+	int newW = static_cast<int>(sceneSize.x);
+	int newH = static_cast<int>(sceneSize.y);
+
+	if (newW > 0 && newH > 0 && (newW != lastW || newH != lastH))
+	{
+		lastW = newW;
+		lastH = newH;
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glBindTexture(GL_TEXTURE_2D, m_gameTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newW, newH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+		glBindRenderbuffer(GL_RENDERBUFFER, m_gameDepthBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, newW, newH);
+
+		m_engine->UpdateCameraSize(newW, newH);
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_gameFramebuffer);
+	glViewport(0, 0, newW, newH);
 }
 
 void EditorUI::Render()
@@ -34,24 +87,43 @@ void EditorUI::Render()
 
 	RenderMainMenuBar();
 
-	ImVec2 viewportSize = ImGui::GetIO().DisplaySize;
+	ImVec2 viewport = ImGui::GetMainViewport()->Size;
+	float topOffset = 20.0f;
+	float contentHeight = viewport.y - topOffset;
 
-	float panelWidth = viewportSize.x * 0.2f;
-	float inspectorWidth = viewportSize.x * 0.25f;
+	float minPanelWidth = 100.0f;
 
-	// Hierarchy Window (left)
-	ImGui::SetNextWindowPos(ImVec2(0, 20));
-	ImGui::SetNextWindowSize(ImVec2(panelWidth, viewportSize.y - 20));
-	if (m_showHierarchy) RenderHierarchyWindow();
+	float maxLeftPanelWidth = viewport.x - m_inspectorWidth - m_splitterWidth - minPanelWidth;
+	m_leftPanelWidth = std::clamp(m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth);
 
-	//// Game View (middle)
-	//ImGui::SetNextWindowPos(ImVec2(panelWidth, 20));
-	//ImGui::SetNextWindowSize(ImVec2(viewportSize.x - panelWidth - inspectorWidth, viewportSize.y - 20));
+	float maxInspectorWidth = viewport.x - m_leftPanelWidth - m_splitterWidth - minPanelWidth;
+	m_inspectorWidth = std::clamp(m_inspectorWidth, minPanelWidth, maxInspectorWidth);
 
-	// Inspector (right)
-	ImGui::SetNextWindowPos(ImVec2(viewportSize.x - inspectorWidth, 20));
-	ImGui::SetNextWindowSize(ImVec2(inspectorWidth, viewportSize.y - 20));
-	if (m_showInspector) RenderInspectorWindow();
+	float sceneWidth = viewport.x - m_leftPanelWidth - m_inspectorWidth - 2 * m_splitterWidth;
+	sceneWidth = std::max(0.0f, sceneWidth);
+
+	ImGui::SetNextWindowPos(ImVec2(0, topOffset));
+	ImGui::SetNextWindowSize(ImVec2(viewport.x, contentHeight));
+	ImGui::Begin("##EditorRoot", nullptr,
+		ImGuiWindowFlags_NoDecoration |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoScrollWithMouse |
+		ImGuiWindowFlags_NoBringToFrontOnFocus);
+
+
+	RenderHierarchyWindow(contentHeight, m_leftPanelWidth);
+
+	RenderSplitter("Left", m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth, contentHeight, false);
+
+	RenderSceneView(contentHeight, sceneWidth);
+
+	RenderSplitter("Right", m_inspectorWidth, minPanelWidth, maxInspectorWidth, contentHeight, true);
+
+	RenderInspectorWindow(contentHeight, m_inspectorWidth);
+
+
+	ImGui::End(); // ##EditorRoot
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -78,20 +150,20 @@ void EditorUI::RenderMainMenuBar()
 
 			if (ImGui::MenuItem("Open Scene", "Ctrl+O"))
 			{
-				m_engine->m_storage.LoadScene("../Game/Assets/Scenes/scene.json");
+				m_engine->m_storage.LoadScene("Game/Assets/Scenes/scene.json");
 			}
 
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
 			{
 				if (m_engine->m_storage.m_currentScenePath.empty())
-					m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
+					m_engine->m_storage.SaveScene("Game/Assets/Scenes/scene.json");
 				else
 					m_engine->m_storage.SaveScene(m_engine->m_storage.m_currentScenePath);
 			}
 
 			if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
 			{
-				m_engine->m_storage.SaveScene("../Game/Assets/Scenes/scene.json");
+				m_engine->m_storage.SaveScene("Game/Assets/Scenes/scene.json");
 			}
 
 			ImGui::Separator();
@@ -101,13 +173,6 @@ void EditorUI::RenderMainMenuBar()
 				glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
 			}
 
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("View"))
-		{
-			ImGui::MenuItem("Hierarchy", NULL, &m_showHierarchy);
-			ImGui::MenuItem("Inspector", NULL, &m_showInspector);
 			ImGui::EndMenu();
 		}
 
@@ -174,9 +239,9 @@ void EditorUI::RenderMainMenuBar()
 	}
 }
 
-void EditorUI::RenderHierarchyWindow()
+void EditorUI::RenderHierarchyWindow(float contentHeight, float width)
 {
-	ImGui::Begin("Hierarchy", &m_showHierarchy);
+	ImGui::BeginChild("Hierarchy", ImVec2(width, contentHeight), true);
 
 	if (ButtonCenteredOnLine("Create Game Object"))
 	{
@@ -191,23 +256,24 @@ void EditorUI::RenderHierarchyWindow()
 		DisplayGameObject(gameObject);
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
 }
 
-void EditorUI::RenderInspectorWindow()
+void EditorUI::RenderInspectorWindow(float contentHeight, float width)
 {
-	ImGui::Begin("Inspector", &m_showInspector);
+	ImGui::SameLine();
+	ImGui::BeginChild("Inspector", ImVec2(width, contentHeight), true);
 
 	if (m_selectedObject)
 	{
 		char buffer[256];
 		//TODO: Apple support
-		#ifdef _WIN32
+#ifdef _WIN32
 		strncpy_s(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
-		#endif
-		#ifdef __linux__
+#endif
+#ifdef __linux__
 		strncpy(buffer, m_selectedObject->m_name.c_str(), sizeof(buffer));
-		#endif
+#endif
 		buffer[sizeof(buffer) - 1] = '\0'; // Ensure null-termination
 
 		if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
@@ -258,7 +324,54 @@ void EditorUI::RenderInspectorWindow()
 		ImGui::Text("No GameObject selected");
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
+}
+
+void EditorUI::RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height, bool invertDelta)
+{
+	ImGui::SameLine();
+	ImGui::PushID(id);
+
+	ImGui::InvisibleButton("splitter", ImVec2(m_splitterWidth, height));
+
+	if (ImGui::IsItemActive())
+	{
+		float delta = ImGui::GetIO().MouseDelta.x;
+		if (invertDelta)
+			delta = -delta;
+
+		targetWidth = std::clamp(targetWidth + delta, minWidth, maxWidth);
+	}
+
+	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetItemRectMin(),
+		ImGui::GetItemRectMax(),
+		IM_COL32(150, 150, 150, 255)
+	);
+
+	ImGui::PopID();
+}
+
+void EditorUI::RenderSceneView(float contentHeight, float sceneWidth)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	int windowWidth, windowHeight;
+	glfwGetFramebufferSize(m_window, &windowWidth, &windowHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
+
+	ImGui::SameLine();
+
+	ImGui::BeginChild("Scene", ImVec2(sceneWidth, contentHeight), true);
+
+	m_sceneViewSize = ImGui::GetContentRegionAvail();
+
+	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture,
+		m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	ImGui::EndChild();
 }
 
 void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <glad/glad.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -23,19 +24,30 @@ public:
 	std::shared_ptr<GameObject> m_selectedObject;
 
 	void Initialize(GLFWwindow* window);
+	void PreUpdate();
 	void Render();
 	void Shutdown();
 
 private:
 	Engine* m_engine;
-	bool m_showHierarchy = true;
-	bool m_showInspector = true;
+	GLFWwindow* m_window;
 	std::string m_newGameObjectName = "New GameObject";
 
-	void RenderMainMenuBar();
-	void RenderHierarchyWindow();
-	void RenderInspectorWindow();
+	GLuint m_gameFramebuffer = 0;
+	GLuint m_gameTexture = 0;
+	GLuint m_gameDepthBuffer = 0;
 
+	ImVec2 m_sceneViewSize = { 1280, 720 };
+
+	float m_leftPanelWidth = 300.0f;
+	const float m_splitterWidth = 6.0f;
+	float m_inspectorWidth = 300.0f;
+
+	void RenderMainMenuBar();
+	void RenderHierarchyWindow(float contentHeight, float width);
+	void RenderInspectorWindow(float contentHeight, float width);
+	void RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height, bool invertDelta = false);
+	void RenderSceneView(float contentHeight, float sceneWidth);
 	void DisplayGameObject(std::shared_ptr<GameObject> gameObject);
 	void DisplayTransformComponent(std::shared_ptr<GameObject> gameObject);
 	void DisplayComponent(std::shared_ptr<Component> component);
