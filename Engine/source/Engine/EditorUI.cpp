@@ -91,6 +91,17 @@ void EditorUI::Render()
 	float topOffset = 20.0f;
 	float contentHeight = viewport.y - topOffset;
 
+	float minPanelWidth = 100.0f;
+
+	float maxLeftPanelWidth = viewport.x - m_inspectorWidth - m_splitterWidth - minPanelWidth;
+	m_leftPanelWidth = std::clamp(m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth);
+
+	float maxInspectorWidth = viewport.x - m_leftPanelWidth - m_splitterWidth - minPanelWidth;
+	m_inspectorWidth = std::clamp(m_inspectorWidth, minPanelWidth, maxInspectorWidth);
+
+	float sceneWidth = viewport.x - m_leftPanelWidth - m_inspectorWidth - 2 * m_splitterWidth;
+	sceneWidth = std::max(0.0f, sceneWidth);
+
 	ImGui::SetNextWindowPos(ImVec2(0, topOffset));
 	ImGui::SetNextWindowSize(ImVec2(viewport.x, contentHeight));
 	ImGui::Begin("##EditorRoot", nullptr,
@@ -100,18 +111,17 @@ void EditorUI::Render()
 		ImGuiWindowFlags_NoScrollWithMouse |
 		ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-	RenderHierarchyWindow(contentHeight);
 
-	float minPanelWidth = 100.0f;
-	float maxLeftPanelWidth = viewport.x - m_inspectorWidth - m_splitterWidth - minPanelWidth;
+	RenderHierarchyWindow(contentHeight, m_leftPanelWidth);
+
 	RenderSplitter("Left", m_leftPanelWidth, minPanelWidth, maxLeftPanelWidth, contentHeight, false);
 
-	RenderSceneView(contentHeight, m_inspectorWidth, viewport.x);
+	RenderSceneView(contentHeight, sceneWidth);
 
-	float maxInspectorWidth = viewport.x - m_leftPanelWidth - m_splitterWidth - minPanelWidth;
 	RenderSplitter("Right", m_inspectorWidth, minPanelWidth, maxInspectorWidth, contentHeight, true);
 
-	RenderInspectorWindow(contentHeight);
+	RenderInspectorWindow(contentHeight, m_inspectorWidth);
+
 
 	ImGui::End(); // ##EditorRoot
 
@@ -229,9 +239,9 @@ void EditorUI::RenderMainMenuBar()
 	}
 }
 
-void EditorUI::RenderHierarchyWindow(float contentHeight)
+void EditorUI::RenderHierarchyWindow(float contentHeight, float width)
 {
-	ImGui::BeginChild("Hierarchy", ImVec2(m_leftPanelWidth, contentHeight), true);
+	ImGui::BeginChild("Hierarchy", ImVec2(width, contentHeight), true);
 
 	if (ButtonCenteredOnLine("Create Game Object"))
 	{
@@ -249,10 +259,10 @@ void EditorUI::RenderHierarchyWindow(float contentHeight)
 	ImGui::EndChild();
 }
 
-void EditorUI::RenderInspectorWindow(float contentHeight)
+void EditorUI::RenderInspectorWindow(float contentHeight, float width)
 {
 	ImGui::SameLine();
-	ImGui::BeginChild("Inspector", ImVec2(0, contentHeight), true);
+	ImGui::BeginChild("Inspector", ImVec2(width, contentHeight), true);
 
 	if (m_selectedObject)
 	{
@@ -345,7 +355,7 @@ void EditorUI::RenderSplitter(const char* id, float& targetWidth, float minWidth
 	ImGui::PopID();
 }
 
-void EditorUI::RenderSceneView(float contentHeight, float inspectorWidth, float viewportX)
+void EditorUI::RenderSceneView(float contentHeight, float sceneWidth)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	int windowWidth, windowHeight;
@@ -354,15 +364,9 @@ void EditorUI::RenderSceneView(float contentHeight, float inspectorWidth, float 
 
 	ImGui::SameLine();
 
-	ImVec2 sceneSize = ImVec2(
-		viewportX - m_leftPanelWidth - m_splitterWidth * 2 - inspectorWidth,
-		contentHeight
-	);
-
-	ImGui::BeginChild("Scene", sceneSize, true);
+	ImGui::BeginChild("Scene", ImVec2(sceneWidth, contentHeight), true);
 
 	m_sceneViewSize = ImGui::GetContentRegionAvail();
-	m_sceneViewPos = ImGui::GetCursorScreenPos();
 
 	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture,
 		m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));

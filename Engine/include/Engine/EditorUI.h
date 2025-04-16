@@ -38,17 +38,16 @@ private:
 	GLuint m_gameDepthBuffer = 0;
 
 	ImVec2 m_sceneViewSize = { 1280, 720 };
-	ImVec2 m_sceneViewPos = { 0, 0 };
 
 	float m_leftPanelWidth = 300.0f;
 	const float m_splitterWidth = 6.0f;
 	float m_inspectorWidth = 300.0f;
 
 	void RenderMainMenuBar();
-	void RenderHierarchyWindow(float contentHeight);
-	void RenderInspectorWindow(float contentHeight);
+	void RenderHierarchyWindow(float contentHeight, float width);
+	void RenderInspectorWindow(float contentHeight, float width);
 	void RenderSplitter(const char* id, float& targetWidth, float minWidth, float maxWidth, float height, bool invertDelta = false);
-	void RenderSceneView(float contentHeight, float inspectorWidth, float viewportX);
+	void RenderSceneView(float contentHeight, float sceneWidth);
 	void DisplayGameObject(std::shared_ptr<GameObject> gameObject);
 	void DisplayTransformComponent(std::shared_ptr<GameObject> gameObject);
 	void DisplayComponent(std::shared_ptr<Component> component);
