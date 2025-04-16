@@ -10,10 +10,9 @@ Engine::Engine(GLFWwindow* window)
 	m_config(Config::Instance())
 {
 	ScriptEngine::Initialize();
-	// Activate shaders
+
 	m_shaderProgram.Activate();
 
-	// Editor UI
 	if (m_config.m_mode == Mode::Editor)
 	{
 		m_config.m_editorUI = std::make_unique<EditorUI>(this);

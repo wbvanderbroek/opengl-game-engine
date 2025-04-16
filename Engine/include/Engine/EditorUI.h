@@ -28,13 +28,9 @@ public:
 	void Render();
 	void Shutdown();
 
-
-
 private:
 	Engine* m_engine;
 
-	bool m_showHierarchy = true;
-	bool m_showInspector = true;
 	std::string m_newGameObjectName = "New GameObject";
 
 	GLuint m_gameFramebuffer = 0;
@@ -44,9 +40,14 @@ private:
 	ImVec2 m_sceneViewSize = { 1280, 720 };
 	ImVec2 m_sceneViewPos = { 0, 0 };
 
+	float m_leftPanelWidth = 300.0f;
+	const float m_splitterWidth = 6.0f;
+
 	void RenderMainMenuBar();
-	void RenderHierarchyWindow();
-	void RenderInspectorWindow();
+	void RenderHierarchyWindow(float contentHeight);
+	void RenderInspectorWindow(float contentHeight);
+	void RenderSplitter(float splitterWidth, float inspectorWidth, float contentHeight, float viewportX);
+	void RenderSceneView(float contentHeight, float inspectorWidth, float viewportX);
 
 	void DisplayGameObject(std::shared_ptr<GameObject> gameObject);
 	void DisplayTransformComponent(std::shared_ptr<GameObject> gameObject);

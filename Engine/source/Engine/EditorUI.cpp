@@ -86,8 +86,6 @@ void EditorUI::Render()
 
 	RenderMainMenuBar();
 
-	static float leftPanelWidth = 300.0f;
-	const float splitterWidth = 6.0f;
 
 	ImVec2 viewport = ImGui::GetMainViewport()->Size;
 	float inspectorWidth = viewport.x * 0.25f;
@@ -103,44 +101,10 @@ void EditorUI::Render()
 		ImGuiWindowFlags_NoScrollWithMouse |
 		ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-	// --- Hierarchy ---
-	ImGui::BeginChild("Hierarchy", ImVec2(leftPanelWidth, contentHeight), true);
-	RenderHierarchyWindow();
-	ImGui::EndChild();
-
-	// --- Splitter ---
-	ImGui::SameLine();
-	ImGui::InvisibleButton("##Splitter", ImVec2(splitterWidth, contentHeight));
-	if (ImGui::IsItemActive())
-	{
-		float delta = ImGui::GetIO().MouseDelta.x;
-		leftPanelWidth = std::clamp(leftPanelWidth + delta, 100.0f, viewport.x - inspectorWidth - 100.0f);
-	}
-	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
-		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-	ImGui::GetWindowDrawList()->AddRectFilled(
-		ImGui::GetItemRectMin(),
-		ImGui::GetItemRectMax(),
-		IM_COL32(150, 150, 150, 255)
-	);
-
-	// --- Scene View ---
-	ImGui::SameLine();
-	ImGui::BeginChild("Scene", ImVec2(viewport.x - leftPanelWidth - splitterWidth - inspectorWidth, contentHeight), true);
-
-	m_sceneViewSize = ImGui::GetContentRegionAvail();
-	m_sceneViewPos = ImGui::GetCursorScreenPos();
-
-	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture,
-		m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
-
-	ImGui::EndChild();
-
-	// --- Inspector ---
-	ImGui::SameLine();
-	ImGui::BeginChild("Inspector", ImVec2(0, contentHeight), true);
-	RenderInspectorWindow();
-	ImGui::EndChild();
+	RenderHierarchyWindow(contentHeight);
+	RenderSplitter(m_splitterWidth, inspectorWidth, contentHeight, viewport.x);
+	RenderSceneView(contentHeight, inspectorWidth, viewport.x);
+	RenderInspectorWindow(contentHeight);
 
 	ImGui::End(); // ##EditorRoot
 
@@ -192,13 +156,6 @@ void EditorUI::RenderMainMenuBar()
 				glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
 			}
 
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("View"))
-		{
-			ImGui::MenuItem("Hierarchy", NULL, &m_showHierarchy);
-			ImGui::MenuItem("Inspector", NULL, &m_showInspector);
 			ImGui::EndMenu();
 		}
 
@@ -265,9 +222,9 @@ void EditorUI::RenderMainMenuBar()
 	}
 }
 
-void EditorUI::RenderHierarchyWindow()
+void EditorUI::RenderHierarchyWindow(float contentHeight)
 {
-	if (!m_showHierarchy) return;
+	ImGui::BeginChild("Hierarchy", ImVec2(m_leftPanelWidth, contentHeight), true);
 
 	if (ButtonCenteredOnLine("Create Game Object"))
 	{
@@ -281,11 +238,14 @@ void EditorUI::RenderHierarchyWindow()
 	{
 		DisplayGameObject(gameObject);
 	}
+
+	ImGui::EndChild();
 }
 
-void EditorUI::RenderInspectorWindow()
+void EditorUI::RenderInspectorWindow(float contentHeight)
 {
-	if (!m_showInspector) return;
+	ImGui::SameLine();
+	ImGui::BeginChild("Inspector", ImVec2(0, contentHeight), true);
 
 	if (m_selectedObject)
 	{
@@ -347,6 +307,39 @@ void EditorUI::RenderInspectorWindow()
 		ImGui::Text("No GameObject selected");
 	}
 
+	ImGui::EndChild();
+}
+
+void EditorUI::RenderSplitter(float splitterWidth, float inspectorWidth, float contentHeight, float viewportX)
+{
+	ImGui::SameLine();
+	ImGui::InvisibleButton("##Splitter", ImVec2(splitterWidth, contentHeight));
+	if (ImGui::IsItemActive())
+	{
+		float delta = ImGui::GetIO().MouseDelta.x;
+		m_leftPanelWidth = std::clamp(m_leftPanelWidth + delta, 100.0f, viewportX - inspectorWidth - 100.0f);
+	}
+	if (ImGui::IsItemHovered() || ImGui::IsItemActive())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetItemRectMin(),
+		ImGui::GetItemRectMax(),
+		IM_COL32(150, 150, 150, 255)
+	);
+}
+
+void EditorUI::RenderSceneView(float contentHeight, float inspectorWidth, float viewportX)
+{
+	ImGui::SameLine();
+	ImGui::BeginChild("Scene", ImVec2(viewportX - m_leftPanelWidth - m_splitterWidth - inspectorWidth, contentHeight), true);
+
+	m_sceneViewSize = ImGui::GetContentRegionAvail();
+	m_sceneViewPos = ImGui::GetCursorScreenPos();
+
+	ImGui::Image((ImTextureID)(uintptr_t)m_gameTexture,
+		m_sceneViewSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	ImGui::EndChild();
 }
 
 void EditorUI::DisplayGameObject(std::shared_ptr<GameObject> gameObject)
