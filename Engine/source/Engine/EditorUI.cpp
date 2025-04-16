@@ -2,17 +2,11 @@
 #include <iostream>
 
 #include <enum/magic_enum.hpp> 
+#include <glm/gtc/type_ptr.hpp>
 
-#include <Engine/Components/Camera.h>
-#include <Engine/Components/Component.h>
-#include <Engine/Components/ComponentRegistry.h>
-#include <Engine/Components/Light.h>
 #include <Engine/Components/Model.h>
-#include <Engine/Config.h>
 #include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
-#include <Engine/GameObject.h>
-#include <Engine/ObjectStorage.h>
 
 void EditorUI::Initialize()
 {

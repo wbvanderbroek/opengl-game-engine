@@ -1,9 +1,6 @@
 #pragma once
 
 #include <Engine/Components/Component.h>
-#include <iostream>
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
 #include <mono/metadata/debug-helpers.h>
 #include <string>
 

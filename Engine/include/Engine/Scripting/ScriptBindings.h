@@ -38,17 +38,13 @@ extern "C" {
 	}
 }
 
-
-
 void RegisterTransformBindings()
 {
 	mono_add_internal_call("GameEngine.Transform::GameEngine_Transform_get_position_Injected", (const void*)GameEngine_Transform_get_position_Injected);
 	mono_add_internal_call("GameEngine.Transform::GameEngine_Transform_set_position_Injected", (const void*)GameEngine_Transform_set_position_Injected);
 }
 
-
 void RegisterScriptBindings()
 {
 	RegisterTransformBindings();
-	// ... later you'll add Light, Camera, etc.
 }

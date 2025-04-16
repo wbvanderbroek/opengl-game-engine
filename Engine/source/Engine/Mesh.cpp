@@ -1,4 +1,5 @@
 #include <Engine/Mesh.h>
+#include <glm/gtc/type_ptr.hpp>
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures)
 {
