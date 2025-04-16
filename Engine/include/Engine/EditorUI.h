@@ -30,7 +30,7 @@ public:
 
 private:
 	Engine* m_engine;
-
+	GLFWwindow* m_window;
 	std::string m_newGameObjectName = "New GameObject";
 
 	GLuint m_gameFramebuffer = 0;

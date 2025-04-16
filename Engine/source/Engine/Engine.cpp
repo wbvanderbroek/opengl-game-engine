@@ -54,30 +54,23 @@ void Engine::UpdateInternal()
 		obj->LateUpdate(deltaTime);
 
 	if (m_config.m_mode == Mode::Editor)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		int windowWidth, windowHeight;
-		glfwGetFramebufferSize(m_window, &windowWidth, &windowHeight);
-		glViewport(0, 0, windowWidth, windowHeight);
-
 		m_config.m_editorUI->Render();
-	}
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
 
+	// Fps calculator
 	frameCount++;
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	float elapsed = std::chrono::duration<float>(currentTime - lastTime).count();
+	float elapsedTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
-	if (elapsed >= 1.0f)
+	if (elapsedTime >= 1.0f)
 	{
 		std::cout << "FPS: " << frameCount << std::endl;
 		frameCount = 0;
 		lastTime = currentTime;
 	}
 }
-
 
 void Engine::QuitInternal()
 {

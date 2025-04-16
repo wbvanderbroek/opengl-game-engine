@@ -16,6 +16,7 @@
 
 void EditorUI::Initialize(GLFWwindow* window)
 {
+	m_window = window;
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -330,6 +331,11 @@ void EditorUI::RenderSplitter(float splitterWidth, float inspectorWidth, float c
 
 void EditorUI::RenderSceneView(float contentHeight, float inspectorWidth, float viewportX)
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	int windowWidth, windowHeight;
+	glfwGetFramebufferSize(m_window, &windowWidth, &windowHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
+
 	ImGui::SameLine();
 	ImGui::BeginChild("Scene", ImVec2(viewportX - m_leftPanelWidth - m_splitterWidth - inspectorWidth, contentHeight), true);
 
