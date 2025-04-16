@@ -1,6 +1,10 @@
+#include <cerrno>
+#include <sstream>
+#include <string>
+
 #include <Engine/Shader.h>
 
-std::string get_file_contents(const char* filename)
+std::string Shader::GetFileContents(const char* filename)
 {
 	std::ifstream in(filename, std::ios::binary);
 	if (in)
@@ -18,8 +22,8 @@ std::string get_file_contents(const char* filename)
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile)
 {
-	std::string vertexCode = get_file_contents(vertexFile);
-	std::string fragmentCode = get_file_contents(fragmentFile);
+	std::string vertexCode = GetFileContents(vertexFile);
+	std::string fragmentCode = GetFileContents(fragmentFile);
 
 	const char* vertexSource = vertexCode.c_str();
 	const char* fragmentSource = fragmentCode.c_str();

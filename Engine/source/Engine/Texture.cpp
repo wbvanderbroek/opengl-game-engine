@@ -1,4 +1,5 @@
 #include <Engine/Texture.h>
+#include <stb/stb_image.h>
 
 Texture::Texture(const char* image, const char* texType, GLuint slot)
 {

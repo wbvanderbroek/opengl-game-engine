@@ -4,7 +4,6 @@
 #include <Engine/Components/Model.h>
 #include <Engine/Config.h>
 #include <Engine/Engine.h>
-#include <Engine/GameObject.h>
 #include <Engine/ObjectStorage.h>
 #include <Engine/Scripting/ScriptComponent.h>
 

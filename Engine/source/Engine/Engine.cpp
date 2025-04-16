@@ -1,4 +1,6 @@
+#include <chrono>
 #include <Engine/Config.h>
+#include <Engine/EditorUI.h>
 #include <Engine/Engine.h>
 #include <Engine/Scripting/ScriptEngine.h>
 
@@ -14,8 +16,8 @@ Engine::Engine(GLFWwindow* window)
 
 	if (m_config.m_mode == Mode::Editor)
 	{
-		m_config.m_editorUI = std::make_unique<EditorUI>(this);
-		m_config.m_editorUI->Initialize(window);
+		m_config.m_editorUI = std::make_unique<EditorUI>(this, m_window);
+		m_config.m_editorUI->Initialize();
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -114,4 +116,16 @@ void Engine::UpdateLighting()
 		snprintf(uniformName, sizeof(uniformName), "lights[%zu].type", i);
 		glUniform1i(glGetUniformLocation(m_shaderProgram.m_id, uniformName), static_cast<int>(m_activeLights[i]->m_lightType));
 	}
+}
+float Engine::CalculateDeltaTime()
+{
+	auto currentTime = std::chrono::system_clock::now();
+	auto elapsedTime = std::chrono::duration<double>();
+
+	if (m_previousTime.time_since_epoch().count())
+		elapsedTime = currentTime - m_previousTime;
+
+	m_previousTime = currentTime;
+
+	return (float)elapsedTime.count();
 }

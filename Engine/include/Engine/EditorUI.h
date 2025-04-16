@@ -17,13 +17,12 @@ class Component;
 class EditorUI
 {
 public:
-	EditorUI(Engine* engine) : m_engine(engine) {};
-
+	EditorUI(Engine* engine, GLFWwindow* window) : m_engine(engine), m_window(window) {};
 	~EditorUI() { Shutdown(); };
 
 	std::shared_ptr<GameObject> m_selectedObject;
 
-	void Initialize(GLFWwindow* window);
+	void Initialize();
 	void PreUpdate();
 	void Render();
 	void Shutdown();

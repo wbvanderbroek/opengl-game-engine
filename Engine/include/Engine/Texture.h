@@ -1,9 +1,8 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <stb/stb_image.h>
-
 #include <Engine/Shader.h>
+#include <glad/glad.h>
+
 
 class Texture
 {

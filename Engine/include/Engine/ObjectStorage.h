@@ -7,13 +7,9 @@
 
 #include <Engine/GameObject.h>
 
-class Engine;
-class GameObject;
 class ObjectStorage
 {
 private:
-
-	// Serialization helpers
 	nlohmann::json SerializeScene();
 	nlohmann::json SerializeGameObject(std::shared_ptr<GameObject> gameObject);
 	nlohmann::json SerializeComponent(std::shared_ptr<Component> component);
@@ -22,17 +18,14 @@ private:
 	std::shared_ptr<GameObject> DeserializeGameObject(const nlohmann::json& data);
 	void DeserializeComponent(std::shared_ptr<GameObject> gameObject, const nlohmann::json& data);
 
-	// Component factory
 	std::shared_ptr<Component> CreateComponentByType(const std::string& type);
 
 public:
 	ObjectStorage(Engine* engine) : m_engine(engine) {}
 
 	std::string m_currentScenePath = "";
-
-	void RemoveGameObject(std::shared_ptr<GameObject> object);
-	void LoadFirstScene();
-	void CreateDefaultScene();
+	std::vector<std::shared_ptr<GameObject>> m_objects;
+	Engine* m_engine;
 
 	template<typename T>
 	std::shared_ptr<T> Instantiate(T&& obj)
@@ -43,10 +36,11 @@ public:
 		object->OnCreate();
 		return object;
 	}
+
+	void RemoveGameObject(std::shared_ptr<GameObject> object);
+	void LoadFirstScene();
+	void CreateDefaultScene();
 	void SaveScene(const std::string& filename);
 	void LoadScene(const std::string& filename);
 	void ClearScene();
-
-	Engine* m_engine;
-	std::vector<std::shared_ptr<GameObject>> m_objects;
 };

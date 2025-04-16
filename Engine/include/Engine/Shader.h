@@ -1,14 +1,8 @@
 #pragma once
 
-#include <cerrno>
 #include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-
 #include <glad/glad.h>
-
-std::string get_file_contents(const char* filename);
+#include <iostream>
 
 class Shader
 {
@@ -21,5 +15,6 @@ public:
 	void Delete();
 
 private:
+	std::string GetFileContents(const char* filename);
 	void compileErrors(unsigned int shader, const char* type);
 };

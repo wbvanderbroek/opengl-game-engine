@@ -14,9 +14,8 @@
 #include <Engine/GameObject.h>
 #include <Engine/ObjectStorage.h>
 
-void EditorUI::Initialize(GLFWwindow* window)
+void EditorUI::Initialize()
 {
-	m_window = window;
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -24,7 +23,7 @@ void EditorUI::Initialize(GLFWwindow* window)
 
 	ImGui::StyleColorsDark();
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
 
 

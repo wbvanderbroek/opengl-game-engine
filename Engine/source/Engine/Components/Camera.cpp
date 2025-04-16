@@ -6,8 +6,7 @@ Camera::Camera()
 	m_runInEditor = true;
 	m_window = glfwGetCurrentContext();
 
-	// Set the aspect ratio to the current window's aspect ratio
-	// (getWindowSize actually sets the variables you pass in)
+	// glfwGetWindowSize actually sets the variables you pass in
 	glfwGetWindowSize(m_window, &m_windowWidth, &m_windowHeight);
 }
 
