@@ -3,7 +3,6 @@
 #include <string>
 
 #include <Engine/Components/Camera.h>
-#include <Engine/EBO.h>
 #include <Engine/Texture.h>
 #include <Engine/VAO.h>
 

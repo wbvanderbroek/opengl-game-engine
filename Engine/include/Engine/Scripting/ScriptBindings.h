@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Engine/GameObject.h>
 #include <Engine/Scripting/ScriptComponent.h>
 #include <glm/glm.hpp>

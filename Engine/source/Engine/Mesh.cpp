@@ -1,3 +1,4 @@
+#include <Engine/EBO.h>
 #include <Engine/Mesh.h>
 #include <glm/gtc/type_ptr.hpp>
 
